@@ -1,0 +1,326 @@
+/*  REMEMBER only to edit the SCSS file  */
+
+/* RAW COLORS */
+$jet: #423841ff;
+$lapis-lazuli: #2e5c8aff;
+$timberwolf: #d6d6d6ff;
+$forest-green: #248232ff;
+$dartmouth-green: #1A6025; /* darker green */
+$bronze: #c97c18ff;
+$pastel-blue: #5a639e;
+$pure-blue: #0008dd;
+$yellow: #bdf000;
+
+$very-light-gray: #f0f0f0;
+
+
+
+/* COLOR SCHEME 
+        https://coolors.co/423841-2e5c8a-d6d6d6-248232-c97c18
+*/
+
+$white: $very-light-gray;
+$black: #111111;
+
+
+/* CUSTOM FONTS */
+
+
+
+@font-face {
+  font-family: ander-hedge;
+  src: url(../fonts/ander_hedge.ttf);
+}
+
+
+
+@font-face {
+  font-family: nue-gothic-reg;
+  src: url(../fonts/nue-gothic-reg.ttf);
+}
+
+
+@font-face {
+  font-family: nue-gothic-round;
+  src: url(../fonts/nue-gothic-round.ttf);
+}
+
+@font-face {
+  font-family: 'lato';
+  src: url(../fonts/lato-med.woff2);
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'lato';
+  src: url(../fonts/lato-bold.woff2);
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'lato';
+  src: url(../fonts/lato-med-italic.woff2);
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'lato';
+  src: url(../fonts/lato-bold-italic.woff2);
+  font-weight: bold;
+  font-style: italic;
+}
+
+
+
+/* FONT VARIABLES */
+
+$title-font: ander-hedge;
+$header-font: nue-gothic-round;
+$text-font: lato;
+$button-font: lato;
+
+
+
+/* HTML ELEMENT OVERRIDES */
+
+body {
+    font-family: $text-font;
+    background-color: $black;
+    color: $white;
+}
+
+body label {
+    color: $white;
+}
+
+h2, h3, h4, h5, h6 {
+  font-family: $header-font;
+  text-transform: uppercase;
+}
+
+h1{
+  font-family: $title-font;
+  text-transform: uppercase;
+}
+
+
+/* FOUNDATION OVERRIDES */
+
+
+.callout.primary a {
+  color: $pure-blue;
+}
+
+.callout.primary a:hover {
+  color: $bronze;
+}
+
+
+.callout a,
+.callout.primary .callout a {
+  color: $yellow;
+  text-decoration: none;
+}
+
+.callout a:hover,
+.callout.primary .callout a:hover {
+  color: $black;
+}
+
+
+.callout {
+    background-color: $pastel-blue;
+    color: $white;
+}
+
+.callout label {
+    color: $white;
+}
+
+.callout.primary {
+    background-color: $timberwolf;
+    color: $black;
+}
+
+.callout.primary label {
+  color: $black;
+}
+
+
+.button {
+    border: 1px solid $black;
+    border-radius: 5px;
+    background-color: $forest-green;
+    color: $white!important;
+    font-family: $button-font, arial;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.button:hover, .button:focus {
+    background-color: $black;
+    color: $white!important;
+}
+
+.top-bar,
+.top-bar-right,
+.top-bar-left {
+  background-color: transparent!important;
+}
+
+.menu {
+  background-color: transparent!important;
+}
+
+
+
+.menu li
+{
+  background-color: $lapis-lazuli;
+}
+
+#toggle_nav_button {
+  color: $yellow;
+  cursor: pointer;
+}
+
+/* CUSTOM CLASSES */
+
+
+.hidden {
+  display: none;
+}
+
+.menu_button {
+  color: $yellow;
+  padding: 1px 5px 1px 5px;
+  cursor: pointer;
+}
+
+.nav-button {
+  background-color: transparent;
+  border: none;
+  border-radius: 0px;
+}
+
+.italics {
+  font-style: italic;
+}
+
+.red_button {
+  background-color: red;
+  color: $black;
+  border: 1px solid $black;
+}
+
+.red_button:hover {
+  color: red;
+  border: 1px solid $very-light-gray;
+}
+
+
+.dash_data {
+  color: $yellow;
+  padding: 5px;
+  padding-left: 7px;
+  display: inline-block;
+  cursor: default;
+}
+
+/* 
+ * 
+ * 
+ * 
+ * 
+ * ========================
+ * ========================
+ * =====              =====
+ * =====  FRONT PAGE  =====
+ * =====              =====
+ * ========================
+ * ========================
+ * 
+ * 
+ * 
+ * 
+*/
+
+.client_link_callout {
+  width: 100%;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  text-align: center;
+  vertical-align: top;
+}
+
+.grid-x.less-padding > .cell {
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+}
+
+.client_link_desc {
+  max-width: 225px;
+}
+
+.client_link_logo {
+  width: 175px;
+  max-width: 100%;
+}
+
+
+// EDIT CLIENT SITE
+
+
+#confirm_box {
+  width: 400px;
+  max-width: 100%;
+  height: auto;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 700;
+}
+
+#gray_wrapper {
+  display: inline;
+  position: fixed;
+  top: 0%;
+  left: 0%;
+  width: 100%!important;
+  height: 100%!important;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 500;
+}
+
+.no_display {
+  display: none!important;
+}
+
+
+// New blog post
+
+#post_body {
+  width: 50ch;
+  height: 500px;
+}
+
+/*  ADMIN PAGES  */
+
+.client_ref_btn_inactive {
+  color: $white;
+  background-color: rgb(194, 0, 0);
+}
+
+.client_ref_btn_internal {
+  color: $white;
+  background-color: $jet;
+}
+
+.client_ref_btn_active {
+  color: $white;
+  background-color: $forest-green;
+}

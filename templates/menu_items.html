@@ -1,0 +1,20 @@
+<li><a tabindex="0" href="/" class="button small nav-button">{{texts.nav.home}}</a></li>
+<li><a tabindex="0" href="/blog" class="button small nav-button">{{texts.nav.blog}}</a></li>
+{% if user.logged_in %}
+    {% if user.role == "admin" %}
+        <li><a tabindex="0" href="/admin" class="button small nav-button" id="admin_nav_button">
+            {{texts.nav.admin}}
+        </a></li>
+    {% endif %}
+    <li><a tabindex="0" href="/dashboard" class="button small nav-button">{{texts.nav.dashboard}}</a></li>
+    <li><a tabindex="0" class="button small nav-button" id="logout_nav_button">
+        {{texts.nav.logout}}
+    </a></li>
+{% else %}
+    <li><a tabindex="0" href="/auth/login" class="button small nav-button" id="login_nav_button">
+        {{texts.nav.login}}
+    </a></li>
+    <li><a tabindex="0" href="/auth/register" class="button small nav-button" id="register_nav_button">
+        {{texts.nav.register}}
+    </a></li>
+{% endif %}

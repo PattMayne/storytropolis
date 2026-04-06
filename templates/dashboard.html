@@ -1,0 +1,118 @@
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{ texts.title }}</title>
+        <link rel="icon" type="image/x-icon" href="/static/img/favicon.ico">
+        <link rel="stylesheet" href="/static/css/foundation.min.css">
+        <link rel="stylesheet" href="/static/css/app.css?id=2390">
+    </head>
+
+
+    <body>
+    {% include "header.html" %}
+
+    <div class="grid-container">
+        <div class="grid-x grid-padding-x">
+            <div class="large-12 cell">
+                <h1>{{ texts.title }}</h1>
+                <p>{{texts.message}}</p>
+            </div>
+
+            <div class="large-12 cell">
+                <div class="callout">
+
+                    <form>
+                        <div class="grid-x grid-padding-x">
+
+                            <div class="large-12 cell">
+                                <h4>{{ texts.title }}</h4>
+                            </div>
+
+                            <div class="large-4 medium-6 small-12 cell">
+
+                                <label>
+                                    {{ texts.first_name_label }}
+                                    <input
+                                        id="first_name"
+                                        name="first_name"
+                                        type="text"
+                                        value="{{ user_data.get_first_name() }}"
+                                    />
+                                </label>
+
+                                <label>
+                                    {{ texts.last_name_label }}
+                                    <input
+                                        id="last_name"
+                                        name="last_name"
+                                        type="text"
+                                        value="{{ user_data.get_last_name() }}"
+                                    />
+                                </label>
+
+                                <a class="button small" onclick="save_names()">
+                                    {{ texts.update_names_btn }}
+                                </a>
+
+                            </div>
+                            <div class="large-4 medium-6 small-12 cell">
+                                
+                                <label>
+                                    {{ texts.password_label }}
+                                    <input
+                                        id="new_password"
+                                        name="new_password"
+                                        type="password"
+                                    />
+                                </label>
+
+                                <label>
+                                    {{ texts.confirm_password_label }}
+                                    <input
+                                        id="new_password_confirm"
+                                        name="new_password_confirm"
+                                        type="password"
+                                    />
+                                </label>
+
+                                <a class="button small" onclick="save_password()">
+                                    {{ texts.update_password_btn }}
+                                </a>
+                                
+                            </div>
+                            <div class="large-4 medium-3 cell">
+                                <p>Username: <span class="dash_data">{{ user_data.get_username() }}</span></p>
+                                <p>Email: <span class="dash_data">{{ user_data.get_email() }}</span></p>
+                                
+                                    {% if user_data.get_email_verified() %}
+                                        <p>Status: <span class="dash_data">EMAIL VERIFIED</span></p>
+                                    {% else %}
+                                        <p>Status: <span class="dash_data">EMAIL NOT VERIFIED</span></p>
+                                        <p>Email should have been sent. Check your inbox. Or <a href="/auth/request_verification"">request new verification email.</a></p>
+                                    {% endif %}
+                            </div>
+                        </div>
+
+                    </form>
+               </div>
+
+                <div class="callout primary hidden" id="msg_box">
+                </div>
+
+            </div>
+        </div> <!-- end of grid-x -->
+
+    </div><!-- end of grid-container -->
+
+        <script src="/static/js/vendor/jquery.js"></script>
+        <script src="/static/js/vendor/what-input.js"></script>
+        <script src="/static/js/vendor/foundation.min.js"></script>
+        <script type="module" src="/static/js/app.js?id=7"></script>
+        <script type="module" src="/static/js/dashboard.js?id=5"></script>
+    </body>
+
+
+</html>

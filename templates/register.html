@@ -1,0 +1,117 @@
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{ texts.title }}</title>
+        <link rel="icon" type="image/x-icon" href="/static/img/favicon.ico">
+        <link rel="stylesheet" href="/static/css/foundation.min.css?id=7">
+        <link rel="stylesheet" href="/static/css/app.css?id=70">
+    </head>
+
+    <body>
+    {% include "header.html" %}
+
+    <div class="grid-container">
+        <div class="grid-x grid-padding-x">
+            <div class="large-12 cell">
+                <h1>{{ texts.title }}</h1>
+                <p>{{ texts.message }}</p>
+            </div>
+
+            <div class="large-12 cell">
+                <div class="callout">
+                    <form>
+                        <div class="grid-x grid-padding-x">
+                            <div class="large-3 medium-3 cell hide-for-small-only">
+                                &nbsp;
+                            </div>
+                            <div class="large-6 medium-6 small-12 cell">
+                                <h4>{{ texts.title }}</h4>
+
+                                <label>
+                                    {{ texts.sites }}
+                                    <select id="client_id" name="client_id">
+                                        {% for client_ref in client_refs %}
+                                            <option
+                                                value="{{client_ref.client_id}}"
+                                                {% if client_ref.client_id == selected_client_id %}
+                                                    SELECTED
+                                                {% endif %}
+                                            >{{client_ref.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </label>
+
+                                <label>
+                                    {{ texts.username }}
+                                    <input id="username" name="username" type="text" />
+                                </label>
+
+                                <label>
+                                    {{ texts.email }}
+                                    <input id="email" name="email" type="text" />
+                                </label>
+
+
+                                <label>
+                                    {{ texts.password }}
+                                    <input id="password" name="password" type="password" />
+                                </label>
+
+                                <label for="website">
+                                    {{ texts.empty_field }}
+                                    <input id="website" name="website" type="text" placeholder="Leave this empty" />
+                                </label>
+
+                                <!-- AGREEMENTS -->
+
+                                <label for="terms_check">
+                                    <input type="checkbox" id="terms_check" name="terms_check" value="terms" />
+                                    {{ agreements.terms_label | safe }}<a href="/static/terms.html" target="blank">[{{ agreements.terms_link }}]</a>.
+                                </label>
+                                <label for="privacy_check">
+                                    <input type="checkbox" id="privacy_check" name="privacy_check" value="privacy" />
+                                    {{ agreements.privacy_label | safe }}<a href="/static/privacy.html" target="blank">[{{ agreements.privacy_link }}]</a>.
+                                </label>
+                                <label for="email_consent_check">
+                                    <input
+                                        type="checkbox"
+                                        id="email_consent_check"
+                                        name="email_consent_check"
+                                        value="email_consent"
+                                    >
+                                    {{ agreements.email_consent_label }}
+                                </label>
+
+                                <a class="button small"
+                                    onclick="submit_register()">{{ texts.register_btn }}</a>
+
+                                <p>Already registered? <a href="/auth/login{{querystring}}">Login.</a></p>
+                            </div>
+                            <div class="large-3 medium-3 cell hide-for-small-only">
+                                &nbsp;
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+                <div class="callout primary hidden" id="err_msg_box">
+                </div>
+            </div>
+
+        </div> <!-- end of grid-x -->
+
+    </div><!-- end of grid-container -->
+
+        <script src="/static/js/vendor/jquery.js"></script>
+        <script src="/static/js/vendor/what-input.js"></script>
+        <script src="/static/js/vendor/foundation.min.js"></script>
+        <script type="module" src="/static/js/app.js?id=7"></script>
+        <script type="module" src="/static/js/register.js?id=59"></script>
+    </body>
+
+
+</html>

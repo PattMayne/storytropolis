@@ -1,0 +1,39 @@
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{ error_data.title }}</title>
+        <link rel="icon" type="image/x-icon" href="/static/img/favicon.ico">
+        <link rel="stylesheet" href="/static/css/foundation.min.css">
+        <link rel="stylesheet" href="/static/css/app.css?id=41">
+    </head>
+
+
+    <body>
+    {% include "header.html" %}
+    <div class="grid-container">
+        <div class="grid-x grid-padding-x">
+            <div class="large-12 cell">
+                <h1>{{ error_data.code }}: {{ error_data.title }}</h1>
+            </div>
+
+            <div class="large-12 cell">
+                <div class="callout primary">
+                    <p>{{ error_data.message }}</p>
+                </div>
+            </div>
+        </div> <!-- end of grid-x -->
+
+    </div><!-- end of grid-container -->
+            
+
+        <script src="/static/js/vendor/jquery.js"></script>
+        <script src="/static/js/vendor/what-input.js"></script>
+        <script src="/static/js/vendor/foundation.min.js"></script>
+        <script type="module" src="/static/js/app.js?id=7"></script>
+        <script type="module" src="/static/js/error_page.js"></script>
+    </body>
+
+</html>

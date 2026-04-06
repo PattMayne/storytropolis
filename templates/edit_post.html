@@ -1,0 +1,58 @@
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{ texts.title }}</title>
+        <link rel="icon" type="image/x-icon" href="/static/img/favicon.ico">
+        <link rel="stylesheet" href="/static/css/foundation.min.css">
+        <link rel="stylesheet" href="/static/css/app.css?id=1402909">
+    </head>
+
+    <body>
+    {% include "header.html" %}
+
+    <div class="grid-container">
+        <div class="grid-x grid-padding-x">
+            <div class="large-7 medium-10 small-12 cell">
+                <h1>{{ texts.title }}</h1>
+                <input type="text" id="title" cols="50" placeholder="TITLE" value="{{ post.title }}" />
+                <p>Use HTML for formatting of post body.</p>
+                <textarea id="post_body" cols="50">{{ post.body }}</textarea>
+
+                <label for="pin_check">
+                    <input
+                        type="checkbox"
+                        id="pin_check"
+                        name="pin_check"
+                        value="pinned"
+                        {% if post.is_pinned() %} checked {% endif %}
+                    >
+                    Pin to home page?
+                </label>
+
+                <a class="button small" id="submit_button">UPDATE</a>
+
+                <div class="callout primary hidden" id="msg_box">
+                </div>
+
+                <hr/><hr/>
+
+                <a class="button small red_button" id="delete_button">DELETE POST</a>
+            </div>
+
+            <input type="hidden" id="post_id" value="{{ post.id }}" />
+
+        </div> <!-- end of grid-x -->
+
+    </div><!-- end of grid-container -->
+
+        <script src="/static/js/vendor/jquery.js"></script>
+        <script src="/static/js/vendor/what-input.js"></script>
+        <script src="/static/js/vendor/foundation.min.js"></script>
+        <script type="module" src="/static/js/app.js?id=7"></script>
+        <script type="module" src="/static/js/edit_post.js?id=7"></script>
+    </body>
+
+</html>

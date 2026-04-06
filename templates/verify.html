@@ -1,0 +1,90 @@
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{ texts.title }}</title>
+        <link rel="icon" type="image/x-icon" href="/static/img/favicon.ico">
+        <link rel="stylesheet" href="/static/css/foundation.min.css?id=7">
+        <link rel="stylesheet" href="/static/css/app.css?id=70">
+    </head>
+
+    <body>
+    {% include "header.html" %}
+
+    <div class="grid-container">
+        <div class="grid-x grid-padding-x">
+
+            <div class="large-12 cell">
+                <h1>{{ texts.title }}</h1>
+            </div>
+
+            <div class="large-12 cell">
+                <div class="callout primary" id="msg_box">
+                    {{ message }}
+                </div>
+
+                {% if !request_new_code %}
+                <div class="callout">
+                    <form>
+                        <div class="grid-x grid-padding-x">
+                            <div class="large-3 medium-3 cell hide-for-small-only">
+                                &nbsp;
+                            </div>
+                            <div class="large-6 medium-6 small-12 cell">
+                                <h4>{{ texts.title }}</h4>
+
+                                <label for="email">
+                                    {{ texts.email }}
+                                    <input id="email" name="email" type="text"
+                                        placeholder="{{ texts.email }}" />
+                                </label>
+
+                                <label for="v_code">
+                                    {{ texts.code }}
+                                    <input id="v_code" name="v_code" type="text"
+                                        placeholder="{{ texts.code }}" />
+                                </label>
+
+                                <label for="website">
+                                    {{ texts.empty_field }}
+                                    <input id="website" name="website" type="text"
+                                        placeholder="Leave this empty" />
+                                </label>
+
+                                <a class="button small"
+                                    id="submit_verify">{{ texts.submit_btn }}</a>
+
+                            </div>
+                            <div class="large-3 medium-3 cell hide-for-small-only">
+                                &nbsp;
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                {% endif %}
+
+                <div class="callout primary">
+                    <label for="email_req">
+                        {{ texts.email }}
+                        <input id="email_req" name="email_req" type="text"
+                            placeholder="{{ texts.email }}" />
+                    </label>
+                    <a class="button small" id="new_code_req_btn">REQUEST NEW CODE</a>
+                </div>
+            </div>
+
+        </div> <!-- end of grid-x -->
+
+    </div><!-- end of grid-container -->
+
+        <script src="/static/js/vendor/jquery.js"></script>
+        <script src="/static/js/vendor/what-input.js"></script>
+        <script src="/static/js/vendor/foundation.min.js"></script>
+        <script type="module" src="/static/js/app.js?id=7"></script>
+        <script type="module" src="/static/js/verify.js?id=5905"></script>
+    </body>
+
+</html>

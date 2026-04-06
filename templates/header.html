@@ -1,0 +1,18 @@
+<div class="top-bar">
+    <div class="top-bar-right">
+
+        <!-- DESKTOP MENU -->
+        <ul class="menu hide-for-small-only">
+            {% include "menu_items.html" %}
+        </ul>
+
+        <!-- MOBILE MENU -->
+        <ul class="menu show-for-small-only">
+            <li><a href="#" id="toggle_nav_button" tabindex="0">MENU ☰</a></li>
+            <span id="menu_to_toggle" class="hidden">
+                {% include "menu_items.html" %}
+            </span>
+        </ul>
+
+    </div>
+</div>

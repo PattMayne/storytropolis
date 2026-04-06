@@ -1,0 +1,99 @@
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{ texts.title }}</title>
+        <link rel="icon" type="image/x-icon" href="/static/img/favicon.ico">
+        <link rel="stylesheet" href="/static/css/foundation.min.css">
+        <link rel="stylesheet" href="/static/css/app.css?id=149">
+    </head>
+
+    <body>
+    {% include "header.html" %}
+
+    <div class="grid-container">
+        <div class="grid-x grid-padding-x">
+            <div class="large-12 cell">
+                <h1>{{ texts.title }}</h1>
+                <p>{{ texts.message }}</p>
+            </div>
+
+            <div class="large-12 cell">
+                <div class="callout">
+                    <form>
+                        <div class="grid-x grid-padding-x">
+                            <div class="large-4 medium-3 cell hide-for-small-only">
+                                &nbsp;
+                            </div>
+                            <div class="large-4 medium-6 small-12 cell">
+
+                                {% if login_is_available %}
+
+                                    <h4>{{ texts.title }}</h4>
+
+                                    <label for="client_id">
+                                        {{ texts.sites }}
+                                        <select id="client_id" name="client_id">
+                                            {% for client_ref in client_refs %}
+                                                <option
+                                                    value="{{client_ref.client_id}}"
+                                                    {% if client_ref.client_id == selected_client_id %}
+                                                        SELECTED
+                                                    {% endif %}
+                                                >{{client_ref.name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </label>
+
+                                    <label for="username_or_email">
+                                        {{ texts.username_email }}
+                                        <input
+                                            id="username_or_email"
+                                            name="username_or_email"
+                                            type="text" />
+                                    </label>
+
+                                    <label for="password">
+                                        {{ texts.password }}
+                                        <input id="password" name="password" type="password" />
+                                    </label>
+
+                                    <a class="button small"
+                                        onclick="submit_login()">{{ texts.login_btn }}</a>
+                                <p>Forgot your password? <a href="/auth/request_verification">Request Email Login</a>.</p>
+                                <p>Not a member yet? <a href="/auth/register{{querystring}}">Register.</a></p>
+
+                                {% else %}
+
+                                    <h3>LOGIN UNAVAILABLE</h3>
+
+                                {% endif %}
+
+
+                            </div>
+                            <div class="large-4 medium-3 cell hide-for-small-only">
+                                &nbsp;
+                            </div>
+                        </div>
+
+                    </form>
+               </div>
+
+                <div class="callout primary hidden" id="err_msg_box">
+                </div>
+
+            </div>
+        </div> <!-- end of grid-x -->
+
+    </div><!-- end of grid-container -->            
+
+        <script src="/static/js/vendor/jquery.js"></script>
+        <script src="/static/js/vendor/what-input.js"></script>
+        <script src="/static/js/vendor/foundation.min.js"></script>
+        <script type="module" src="/static/js/app.js?id=7"></script>
+        <script type="module" src="/static/js/login.js?id=5"></script>
+    </body>
+
+</html>

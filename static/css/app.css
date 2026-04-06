@@ -1,0 +1,264 @@
+/*  REMEMBER only to edit the SCSS file  */
+/* RAW COLORS */
+/* darker green */
+/* COLOR SCHEME 
+        https://coolors.co/423841-2e5c8a-d6d6d6-248232-c97c18
+*/
+/* CUSTOM FONTS */
+@font-face {
+  font-family: ander-hedge;
+  src: url(../fonts/ander_hedge.ttf);
+}
+@font-face {
+  font-family: nue-gothic-reg;
+  src: url(../fonts/nue-gothic-reg.ttf);
+}
+@font-face {
+  font-family: nue-gothic-round;
+  src: url(../fonts/nue-gothic-round.ttf);
+}
+@font-face {
+  font-family: "lato";
+  src: url(../fonts/lato-med.woff2);
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "lato";
+  src: url(../fonts/lato-bold.woff2);
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "lato";
+  src: url(../fonts/lato-med-italic.woff2);
+  font-weight: normal;
+  font-style: italic;
+}
+@font-face {
+  font-family: "lato";
+  src: url(../fonts/lato-bold-italic.woff2);
+  font-weight: bold;
+  font-style: italic;
+}
+/* FONT VARIABLES */
+/* HTML ELEMENT OVERRIDES */
+body {
+  font-family: lato;
+  background-color: #111111;
+  color: #f0f0f0;
+}
+
+body label {
+  color: #f0f0f0;
+}
+
+h2, h3, h4, h5, h6 {
+  font-family: nue-gothic-round;
+  text-transform: uppercase;
+}
+
+h1 {
+  font-family: ander-hedge;
+  text-transform: uppercase;
+}
+
+/* FOUNDATION OVERRIDES */
+.callout.primary a {
+  color: #0008dd;
+}
+
+.callout.primary a:hover {
+  color: #c97c18;
+}
+
+.callout a,
+.callout.primary .callout a {
+  color: #bdf000;
+  text-decoration: none;
+}
+
+.callout a:hover,
+.callout.primary .callout a:hover {
+  color: #111111;
+}
+
+.callout {
+  background-color: #5a639e;
+  color: #f0f0f0;
+}
+
+.callout label {
+  color: #f0f0f0;
+}
+
+.callout.primary {
+  background-color: #d6d6d6;
+  color: #111111;
+}
+
+.callout.primary label {
+  color: #111111;
+}
+
+.button {
+  border: 1px solid #111111;
+  border-radius: 5px;
+  background-color: #248232;
+  color: #f0f0f0 !important;
+  font-family: lato, arial;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.button:hover, .button:focus {
+  background-color: #111111;
+  color: #f0f0f0 !important;
+}
+
+.top-bar,
+.top-bar-right,
+.top-bar-left {
+  background-color: transparent !important;
+}
+
+.menu {
+  background-color: transparent !important;
+}
+
+.menu li {
+  background-color: #2e5c8a;
+}
+
+#toggle_nav_button {
+  color: #bdf000;
+  cursor: pointer;
+}
+
+/* CUSTOM CLASSES */
+.hidden {
+  display: none;
+}
+
+.menu_button {
+  color: #bdf000;
+  padding: 1px 5px 1px 5px;
+  cursor: pointer;
+}
+
+.nav-button {
+  background-color: transparent;
+  border: none;
+  border-radius: 0px;
+}
+
+.italics {
+  font-style: italic;
+}
+
+.red_button {
+  background-color: red;
+  color: #111111;
+  border: 1px solid #111111;
+}
+
+.red_button:hover {
+  color: red;
+  border: 1px solid #f0f0f0;
+}
+
+.dash_data {
+  color: #bdf000;
+  padding: 5px;
+  padding-left: 7px;
+  display: inline-block;
+  cursor: default;
+}
+
+/* 
+ * 
+ * 
+ * 
+ * 
+ * ========================
+ * ========================
+ * =====              =====
+ * =====  FRONT PAGE  =====
+ * =====              =====
+ * ========================
+ * ========================
+ * 
+ * 
+ * 
+ * 
+*/
+.client_link_callout {
+  width: 100%;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  text-align: center;
+  vertical-align: top;
+}
+
+.grid-x.less-padding > .cell {
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+}
+
+.client_link_desc {
+  max-width: 225px;
+}
+
+.client_link_logo {
+  width: 175px;
+  max-width: 100%;
+}
+
+#confirm_box {
+  width: 400px;
+  max-width: 100%;
+  height: auto;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 700;
+}
+
+#gray_wrapper {
+  display: inline;
+  position: fixed;
+  top: 0%;
+  left: 0%;
+  width: 100% !important;
+  height: 100% !important;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 500;
+}
+
+.no_display {
+  display: none !important;
+}
+
+#post_body {
+  width: 50ch;
+  height: 500px;
+}
+
+/*  ADMIN PAGES  */
+.client_ref_btn_inactive {
+  color: #f0f0f0;
+  background-color: rgb(194, 0, 0);
+}
+
+.client_ref_btn_internal {
+  color: #f0f0f0;
+  background-color: #423841;
+}
+
+.client_ref_btn_active {
+  color: #f0f0f0;
+  background-color: #248232;
+}
+
+/*# sourceMappingURL=app.css.map */

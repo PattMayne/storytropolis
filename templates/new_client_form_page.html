@@ -1,0 +1,118 @@
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{ texts.title }}</title>
+        <link rel="icon" type="image/x-icon" href="/static/img/favicon.ico">
+        <link rel="stylesheet" href="/static/css/foundation.min.css">
+        <link rel="stylesheet" href="/static/css/app.css?id=14">
+    </head>
+
+
+    <body>
+    {% include "header.html" %}
+
+    <div class="grid-container">
+        <div class="grid-x grid-padding-x">
+            <div class="large-12 cell">
+                <h1>{{ texts.title }}</h1>
+                    <p>{{ texts.message }}</p>
+            </div>
+
+            <div class="large-12 cell">
+                <div class="callout">
+
+                    <div class="grid-x grid-padding-x">
+                        <div class="large-12 cell">
+                            <h4>{{ texts.title }}</h4>
+                        </div>
+                        <div class="large-4 medium-4 small-12 cell">
+                            <label>
+                                {{ texts.domain }}
+                                <input id="site_domain" name="site_domain" type="text" />
+                            </label>
+
+                            <label>
+                                {{ texts.name }}
+                                <input id="site_name" name="site_name" type="text" />
+                            </label>
+
+                            <label>
+                                {{ texts.id }}
+                                <input id="client_id" name="client_id" type="text" />
+                            </label>
+
+                        </div>
+                        <div class="large-4 medium-4 small-12 cell">
+                            <label>
+                                {{ texts.red_uri }}
+                                <input id="redirect_uri" name="redirect_uri" type="text" />
+                            </label>
+
+                            <label>
+                                {{ texts.logo_url }}
+                                <input id="logo_url" name="logo_url" type="text" />
+                            </label>
+                            
+                            <label>
+                                {{ texts.cli_type }}
+                                <select id="client_type" name="client_type">
+                                    <option value="confidential" selected>Confidential</option>
+                                    <option value="public">Public</option>
+                                    <option value="native">Native (mobile/desktop)</option>
+                                </select>
+                            </label>
+
+                            <label>
+                                {{ texts.cat }}
+                                <select id="category" name="category">
+                                    <option value="game" selected>Game</option>
+                                    <option value="service">Service</option>
+                                    <option value="tool ">Tool</option>
+                                </select>
+                            </label>
+
+
+                        </div>
+                        <div class="large-4 medium-4 small-12 cell">
+                            <label>
+                                {{ texts.desc }}
+                                <textarea
+                                    id="description"
+                                    name="description"
+                                    style="height: 200px;"
+                                ></textarea>
+                            </label>
+
+                            <label>
+                                {{ texts.is_active }}
+                                <input type="checkbox" id="is_active" name="is_active" checked>
+                            </label>
+                        </div>
+                        <div class="large-12 cell">
+                            <a class="button small" onclick="submit_data()">{{texts.submit_btn}}</a>
+                        </div>
+                    </div>
+               </div>
+
+
+                <div class="callout primary hidden" id="msg_box">
+                </div>
+
+            </div>
+        </div> <!-- end of grid-x -->
+
+    </div><!-- end of grid-container -->
+            
+
+        <script src="/static/js/vendor/jquery.js"></script>
+        <script src="/static/js/vendor/what-input.js"></script>
+        <script src="/static/js/vendor/foundation.min.js"></script>
+        <script type="module" src="/static/js/app.js?id=7"></script>
+        <script type="module" src="/static/js/new_client_form.js?id=5"></script>
+    </body>
+
+
+</html>

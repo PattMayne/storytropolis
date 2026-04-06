@@ -1,0 +1,51 @@
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{ texts.title }}</title>
+        <link rel="icon" type="image/x-icon" href="/static/img/favicon.ico">
+        <link rel="stylesheet" href="/static/css/foundation.min.css">
+        <link rel="stylesheet" href="/static/css/app.css?id=14029">
+    </head>
+
+    <body>
+    {% include "header.html" %}
+
+    <div class="grid-container">
+        <div class="grid-x grid-padding-x">
+            <div class="large-7 medium-10 small-12 cell">
+                <h1>{{ texts.title }}</h1>
+                <input type="text" id="title" placeholder="TITLE" />
+                <p>Use HTML for formatting of post body.</p>
+                <textarea id="post_body" cols="50"></textarea>
+
+                <label for="pin_check">
+                    <input
+                        type="checkbox"
+                        id="pin_check"
+                        name="pin_check"
+                        value="pinned"
+                    >
+                    Pin to home page?
+                </label>
+
+                <a class="button small" id="submit_button">SUBMIT</a>
+
+                <div class="callout primary hidden" id="msg_box">
+                </div>
+            </div>
+
+        </div> <!-- end of grid-x -->
+
+    </div><!-- end of grid-container -->
+
+        <script src="/static/js/vendor/jquery.js"></script>
+        <script src="/static/js/vendor/what-input.js"></script>
+        <script src="/static/js/vendor/foundation.min.js"></script>
+        <script type="module" src="/static/js/app.js?id=7"></script>
+        <script type="module" src="/static/js/new_post_form.js?id=5"></script>
+    </body>
+
+</html>

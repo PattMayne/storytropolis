@@ -123,7 +123,6 @@ pub struct LoginTexts {
     pub username_email: String,
     pub password: String,
     pub login_btn: String,
-    pub sites: String,
     pub nav: NavTexts,
 }
 
@@ -135,7 +134,6 @@ impl LoginTexts {
         let username_email: String = get_translation("login.username.email.label", lang, None);
         let password: String = get_translation("login.password.label", lang, None);
         let login_btn: String = get_translation("login.btn", lang, None);
-        let sites: String = get_translation("login.client_site.label", lang, None);
         let nav: NavTexts = NavTexts::new(lang);
 
         LoginTexts {
@@ -144,7 +142,6 @@ impl LoginTexts {
             username_email,
             password,
             login_btn,
-            sites,
             nav,
         }
     }
@@ -163,7 +160,6 @@ pub struct RegisterTexts {
     pub password: String,
     pub register_btn: String,
     pub empty_field: String,
-    pub sites: String,
     pub nav: NavTexts,
 }
 
@@ -177,7 +173,6 @@ impl RegisterTexts {
         let password: String = get_translation("register.password.label", lang, None);
         let empty_field: String = get_translation("register.empty.label", lang, None);
         let register_btn: String = get_translation("register.btn", lang, None);
-        let sites: String = get_translation("login.client_site.label", lang, None);
         let nav: NavTexts = NavTexts::new(lang);
 
         RegisterTexts {
@@ -188,8 +183,7 @@ impl RegisterTexts {
             password,
             empty_field,
             register_btn,
-            nav,
-            sites
+            nav
         }
     }
 }
@@ -203,8 +197,6 @@ pub struct AdminTexts {
     pub title: String,
     pub message: String,
     pub actions_label: String,
-    pub new_client_btn: String,
-    pub edit_clients_label: String,
     pub nav: NavTexts
 }
 
@@ -214,17 +206,13 @@ impl AdminTexts {
         let title: String = get_translation("admin.title", lang, None);
         let message: String = get_translation("admin.message", lang,None);
         let actions_label: String = get_translation("admin.actions.label", lang,None);
-        let new_client_btn: String = get_translation("admin.newclient.btn", lang,None);
-        let edit_clients_label: String = get_translation("admin.editclients.label", lang,None);
-        let nav = NavTexts::new(lang);
+        let nav: NavTexts = NavTexts::new(lang);
 
         AdminTexts {
             title,
             message,
             nav,
-            actions_label,
-            new_client_btn,
-            edit_clients_label,
+            actions_label
         }
     }
 }
@@ -330,121 +318,6 @@ impl BlogTexts {
 
         BlogTexts {
             title,
-            nav
-        }
-    }
-}
-
-
-
-/**
- * route: get "/admin/new_client"
- */
-pub struct NewClientTexts {
-    pub title: String,
-    pub message: String,
-    pub domain: String,
-    pub name: String,
-    pub id: String,
-    pub red_uri: String,
-    pub logo_url: String,
-    pub cli_type: String,
-    pub cat: String,
-    pub desc: String,
-    pub is_active: String,
-    pub submit_btn: String,
-    pub nav: NavTexts,
-}
-
-impl NewClientTexts {
-    pub fn new(user_req_data: &UserReqData) -> NewClientTexts {
-        let lang: &SupportedLangs = &user_req_data.lang;
-        let title: String = get_translation("new_client.title", &user_req_data.lang, None);
-        let message: String = get_translation("new_client.message",lang,None);
-        let domain: String = get_translation("clientform.domain",lang,None);
-        let name: String = get_translation("clientform.name",lang,None);
-        let id: String = get_translation("clientform.id",lang,None);
-        let red_uri: String = get_translation("clientform.red_uri",lang,None);
-        let logo_url: String = get_translation("clientform.logo_url",lang,None);
-        let cli_type: String = get_translation("clientform.type", lang, None);
-        let cat: String = get_translation("clientform.cat", lang, None);
-        let desc: String = get_translation("clientform.desc", lang, None);
-        let is_active: String = get_translation("clientform.isactive", lang, None);
-        let submit_btn: String = get_translation("clientform.submit", lang, None);
-        let nav: NavTexts = NavTexts::new(lang);
-
-        NewClientTexts {
-            title,
-            message,
-            domain,
-            name,
-            id,
-            red_uri,
-            logo_url,
-            cli_type,
-            cat,
-            desc,
-            is_active,
-            submit_btn,
-            nav
-        }
-    }
-}
-
-
-/**
- * route: get "/admin/edit_client"
- */
-pub struct EditClientTexts {
-    pub title: String,
-    pub message: String,
-    pub domain: String,
-    pub name: String,
-    pub id: String,
-    pub red_uri: String,
-    pub logo_url: String,
-    pub cli_type: String,
-    pub cat: String,
-    pub desc: String,
-    pub is_active: String,
-    pub save_btn: String,
-    pub new_scret_btn: String,
-    pub nav: NavTexts
-}
-
-impl EditClientTexts {
-    pub fn new(user_req_data: &UserReqData) -> EditClientTexts {
-        let lang: &SupportedLangs = &user_req_data.lang;
-        let title: String = get_translation("edit_client.title", &user_req_data.lang, None);
-        let message: String = get_translation("edit_client.message", lang, None);
-        let domain: String = get_translation("clientform.domain", lang, None);
-        let name: String = get_translation("clientform.name", lang, None);
-        let id: String = get_translation("clientform.id", lang, None);
-        let red_uri: String = get_translation("clientform.red_uri", lang, None);
-        let logo_url: String = get_translation("clientform.logo_url", lang, None);
-        let cli_type: String = get_translation("clientform.type", lang, None);
-        let cat: String = get_translation("clientform.cat", lang, None);
-        let desc: String = get_translation("clientform.desc", lang, None);
-        let is_active: String = get_translation("clientform.isactive", lang, None);
-        let save_btn: String = get_translation("clientform.save_changes", lang, None);
-        let new_scret_btn: String = get_translation("clientform.gen_secret", lang, None);
-        let nav: NavTexts = NavTexts::new(lang);
-
-
-        EditClientTexts {
-            title,
-            message,
-            domain,
-            name,
-            id,
-            red_uri,
-            logo_url,
-            cli_type,
-            cat,
-            desc,
-            is_active,
-            save_btn,
-            new_scret_btn,
             nav
         }
     }

@@ -192,48 +192,9 @@ h1 {
  * 
  * 
 */
-.client_link_callout {
-  width: 100%;
-  margin-right: 5px;
-  margin-bottom: 5px;
-  text-align: center;
-  vertical-align: top;
-}
-
 .grid-x.less-padding > .cell {
   padding-left: 0.25rem;
   padding-right: 0.25rem;
-}
-
-.client_link_desc {
-  max-width: 225px;
-}
-
-.client_link_logo {
-  width: 175px;
-  max-width: 100%;
-}
-
-#confirm_box {
-  width: 400px;
-  max-width: 100%;
-  height: auto;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 700;
-}
-
-#gray_wrapper {
-  display: inline;
-  position: fixed;
-  top: 0%;
-  left: 0%;
-  width: 100% !important;
-  height: 100% !important;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 500;
 }
 
 .no_display {
@@ -243,22 +204,6 @@ h1 {
 #post_body {
   width: 50ch;
   height: 500px;
-}
-
-/*  ADMIN PAGES  */
-.client_ref_btn_inactive {
-  color: #f0f0f0;
-  background-color: rgb(194, 0, 0);
-}
-
-.client_ref_btn_internal {
-  color: #f0f0f0;
-  background-color: #423841;
-}
-
-.client_ref_btn_active {
-  color: #f0f0f0;
-  background-color: #248232;
 }
 
 /*# sourceMappingURL=app.css.map */

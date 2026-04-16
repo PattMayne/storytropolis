@@ -68,10 +68,6 @@ pub static TRANSLATIONS: phf::Map<&'static str, &'static str> = phf_map! {
     "admin.message.fr" => "Effectuer des actions administratives",
     "admin.actions.label.en" => "ADMIN ACTIONS",
     "admin.actions.label.fr" => "ACTIONS ADMIN",
-    "admin.editclients.label.en" => "EDIT CLIENT SITES",
-    "admin.editclients.label.fr" => "MODIFIER LES SITES CLIENTS",
-    "admin.newclient.btn.en" => "ADD NEW CLIENT",
-    "admin.newclient.btn.fr" => "AJOUTEZ SITE CLIENT",
 
 
     // LOGIN PAGE
@@ -84,8 +80,6 @@ pub static TRANSLATIONS: phf::Map<&'static str, &'static str> = phf_map! {
     "login.username.email.label.fr" => "Nom d'utilisateur ou e-mail:",
     "login.password.label.en" => "Password:",
     "login.password.label.fr" => "Mot de passe:",
-    "login.client_site.label.en" => "Destination Site:",
-    "login.client_site.label.fe" => "Site de destination:",
     // LOGIN BUTTONS
     "login.btn.en" => "LOGIN",
     "login.btn.fr" => "ACCUEIL",
@@ -136,18 +130,6 @@ pub static TRANSLATIONS: phf::Map<&'static str, &'static str> = phf_map! {
     "blog.title.en" => "DEVELOPER BLOG",
     "blog.title.fr" => "BLOG DU DÉVELOPPEUR",
 
-    // NEW CLIENT SITE
-    "new_client.title.en" => "NEW CLIENT SITE",
-    "new_client.title.fr" => "NOUVEAU SITE CLIENT",
-    "new_client.message.en" => "Add a new client site to the network.",
-    "new_client.message.fr" => "Ajoutez un nouveau site client au réseau.",
-
-    // EDIT CLIENT SITE
-    "edit_client.title.en" => "EDIT CLIENT SITE",
-    "edit_client.title.fr" => "MODIFIER LE SITE DU CLIENT",
-    "edit_client.message.en" => "Update existing client.",
-    "edit_client.message.fr" => "Mettez à jour le client existant.",
-
     // NEW POST
     "new_post.title.en" => "NEW BLOG POST",
     "new_post.title.fr" => "NOUVEAU POST D'BLOGUETTE !",
@@ -155,33 +137,6 @@ pub static TRANSLATIONS: phf::Map<&'static str, &'static str> = phf_map! {
     // EDIT POST
     "edit_post.title.en" => "EDIT BLOG POST",
     "edit_post.title.fr" => "EDIT POST D'BLOGUETTE !",
-
-    // CLIENT FORM LABELS (for both NEW and EDIT)
-    "clientform.domain.en" => "Site Domain:",
-    "clientform.domain.fr" => "Domaine du site:",
-    "clientform.name.en" => "Site Name (public-facing title):",
-    "clientform.name.fr" => "Nom du site (titre public) :",
-    "clientform.id.en" => "Client ID (random unique identifier):",
-    "clientform.id.fr" => "Client ID (unique identifier aléatoire):",
-    "clientform.red_uri.en" => "Redirect URI:",
-    "clientform.red_uri.fr" => "Redirection URI :",
-    "clientform.logo_url.en" => "Logo URL:",
-    "clientform.logo_url.fr" => "URL du logo :",
-    "clientform.type.en" => "Type:",
-    "clientform.type.fr" => "Type:",
-    "clientform.cat.en" => "Category:",
-    "clientform.cat.fr" => "Catégorie:",
-    "clientform.desc.en" => "Description:",
-    "clientform.desc.fr" => "Description:",
-    "clientform.isactive.en" => "Is Active:",
-    "clientform.isactive.fr" => "Est actif:",
-    // CLIENT FORM BUTTONS
-    "clientform.submit.en" => "SUBMIT",
-    "clientform.submit.fr" => "SUBMIT",
-    "clientform.save_changes.en" => "SUBMIT",
-    "clientform.save_changes.fr" => "ENVOYER",
-    "clientform.gen_secret.en" => "GENERATE NEW SECRET",
-    "clientform.gen_secret.fr" => "GÉNÉRER UN NOUVEAU SECRET",
 
     // NAV BUTTONS
     "nav.home.en" => "HOME",

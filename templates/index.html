@@ -35,30 +35,6 @@
                 </div>
             </div>
 
-            <div class="large-12 cell">
-                <div class="grid-x less-padding">
-                    <div class="large-12 cell">
-                        <h2>APPS</h2>
-                    </div>
-                    {% for link in client_links %}
-                    <div class="large-3 medium-4 small-6 cell">
-                        <div class="callout client_link_callout">
-                            <h5>
-                                <a class="client-link" data-client-id="{{ link.client_id }}">
-                                    {{ link.name }}
-                                </a>
-                            </h5>
-                            <a class="client-link" data-client-id="{{ link.client_id }}">
-                                <img class="client_link_logo" src="{{ link.logo_url }}" />
-                            </a>
-                            <p class="client_link_desc">{{ link.description }}</p>
-                        </div>
-                    </div>
-                    {% endfor %}
-
-                </div>
-            </div>
-
             <div class="callout primary hidden" id="err_msg_box"></div>
 
         </div> <!-- end of grid-x -->

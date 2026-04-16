@@ -34,7 +34,7 @@ use crate::{
     resources::get_translation,
     resource_mgr::{
         HomeTexts, LoginTexts, RegisterTexts, AdminTexts, BlogTexts,
-        ErrorTexts, EditClientTexts, NewClientTexts, DashboardTexts,
+        ErrorTexts, DashboardTexts,
         NewPostTexts, EditPostTexts, VerifyTexts, ReqVerificationTexts,
         ErrorData, error_by_code
      }
@@ -108,11 +108,6 @@ pub struct BadNames {
     pub code: u16,
 }
 
-
-#[derive(Serialize)]
-pub struct RawClientSecret {
-    pub raw_client_secret: String,
-}
 
 #[derive(Serialize)]
 pub struct BadPassword {
@@ -218,13 +213,9 @@ impl SendToError {
  * 
  * 
  * 
- */
+*/
 
 
-#[derive(Deserialize)]
-pub struct LoginQuery {
-    pub client_id: Option<String>,
-}
 
 #[derive(Deserialize)]
 pub struct VerifyQuery {
@@ -232,10 +223,6 @@ pub struct VerifyQuery {
     pub email: Option<String>,
 }
 
-#[derive(Deserialize)]
-pub struct ClientId {
-    pub client_id: String,
-}
 
 // Store credentials when user tries to register
 #[derive(Deserialize)]
@@ -243,7 +230,6 @@ pub struct RegisterCredentials {
     pub username: String,
     pub email: String,
     pub password: String,
-    pub client_id: String,
     pub has_agreed_terms: bool,
     pub website: String,
 }
@@ -258,7 +244,6 @@ pub struct NewCodeRequest {
 pub struct LoginCredentials{
     pub username_or_email: String,
     pub password: String,
-    pub client_id: String,
 }
 
 #[derive(Deserialize)]
@@ -273,11 +258,6 @@ pub struct NewPassword {
     pub password: String,
 }
 
-
-#[derive(Deserialize)]
-pub struct ClientDataReq {
-    pub client_id: String,
-}
 
 
 #[derive(Deserialize)]
@@ -316,42 +296,6 @@ impl BlogPostUpdateData {
 }
 
 
-#[derive(Deserialize)]
-pub struct ClientInputs {
-    pub site_domain: String,
-    pub site_name: String,
-    pub client_id: String,
-    pub redirect_uri: String,
-    pub logo_url: String,
-    pub description: String,
-    pub category: String,
-    pub client_type: String,
-    pub is_active: bool,
-}
-
-impl ClientInputs {
-    pub fn trim_all_strings(&mut self) {
-        self.client_id = self.client_id.trim().to_string();
-        self.site_domain = self.site_domain.trim().to_string();
-        self.site_name = self.site_name.trim().to_string();
-        self.redirect_uri = self.redirect_uri.trim().to_string();
-        self.logo_url = self.logo_url.trim().to_string();
-        self.client_type = self.client_type.trim().to_string();
-        self.description = self.description.trim().to_string();
-        self.category = self.category.trim().to_string();
-    }
-
-    pub fn print_all_strings(&self) {
-        println!("client_id: {}", self.client_id);
-        println!("domain: {}", self.site_domain);
-        println!("site_name: {}", self.site_name);
-        println!("r_uri: {}", self.redirect_uri);
-        println!("logo_url: {}", self.logo_url);
-        println!("client_type: {}", self.client_type);
-        println!("desc: {}", self.description);
-        println!("category: {}", self.category);
-    }
-}
 
 // OTHER STRUCTS
 
@@ -387,7 +331,6 @@ pub struct TwoAuthCookies {
 pub struct HomeTemplate {
     pub texts: HomeTexts,
     pub user: auth::UserReqData,
-    pub client_links: Vec<db::ClientLinkData>,
     pub pinned_post: Option<String>,
 }
 
@@ -424,10 +367,6 @@ pub struct ReqVerificationTemplate {
 pub struct LoginTemplate {
     pub texts: LoginTexts,
     pub user: auth::UserReqData,
-    pub client_refs: Vec<db::ClientRef>,
-    pub login_is_available: bool,
-    pub selected_client_id: String,
-    pub querystring: String,
 }
 
 #[derive(Template)]
@@ -435,16 +374,7 @@ pub struct LoginTemplate {
 pub struct AdminTemplate {
     pub texts: AdminTexts,
     pub user: auth::UserReqData,
-    pub client_refs: Vec<db::ClientRef>,
     pub posts: Vec<db::BlogPost>,
-}
-
-
-#[derive(Template)]
-#[template(path ="new_client_form_page.html")]
-pub struct NewClientTemplate {
-    pub user: auth::UserReqData,
-    pub texts: NewClientTexts,
 }
 
 
@@ -465,23 +395,12 @@ pub struct EditPostTemplate {
 }
 
 
-#[derive(Template)]
-#[template(path ="edit_client_form_page.html")]
-pub struct EditClientTemplate {
-    pub user: auth::UserReqData,
-    pub texts: EditClientTexts,
-    pub client_data: db::ClientData,
-}
-
 
 #[derive(Template)]
 #[template(path ="register.html")]
 pub struct RegisterTemplate {
     pub texts: RegisterTexts,
     pub user: auth::UserReqData,
-    pub client_refs: Vec<db::ClientRef>,
-    pub selected_client_id: String,
-    pub querystring: String,
     pub agreements: AgreementTexts,
 }
 
@@ -539,11 +458,8 @@ pub async fn get_server_error(req: &HttpRequest) -> HttpResponse {
  * Login and Register both end up with this authentication flow.
  */
 pub async fn authenticate_user_response(
-    req: HttpRequest,
     user: db::User,
-    pool: web::Data<MySqlPool>,
-    client_id: String,
-    go_to_dash: bool
+    pool: web::Data<MySqlPool>
 ) -> HttpResponse {
     // get cookies for local login
     let two_auth_cookies: TwoAuthCookies =
@@ -554,104 +470,14 @@ pub async fn authenticate_user_response(
                     .json(error_response)
         };
 
-    /* 
-     * Either log the user in locally,
-     * or send them to their chosen client site.
-     */
-    if client_id == utils::auth_client_id() {
-        if go_to_dash {
-            // redirect to DASHBOARD
-            HttpResponse::Found()
-                .cookie(two_auth_cookies.jwt_cookie)
-                .cookie(two_auth_cookies.refresh_token_cookie)
-                .append_header((header::LOCATION, "/dashboard"))
-                .finish()
-        } else {
-            // client_id is auth_site login now and redirect
-            // User may now receive JWT and refresh token.
-            HttpResponse::Ok()
-                .cookie(two_auth_cookies.jwt_cookie)
-                .cookie(two_auth_cookies.refresh_token_cookie)
-                .json(FreshLoginData {
-                    username: user.get_username().to_owned()
-            })
-        }
-    } else {
-        // It's an external site. So let's get an auth_token and redirect
-        post_auth_client_site_redirect(
-            req, user.get_id(),
-            pool, client_id,
-            Some(two_auth_cookies)
-        ).await
-    }
+    // redirect to DASHBOARD
+    HttpResponse::Found()
+        .cookie(two_auth_cookies.jwt_cookie)
+        .cookie(two_auth_cookies.refresh_token_cookie)
+        .append_header((header::LOCATION, "/dashboard"))
+        .finish()
 }
 
-
-/**
- * We have checked the user's login credentials.
- * The user wants to login on an external site.
- * We will STILL log them in locally, but then also send them
- * to the client site.
- */
-pub async fn post_auth_client_site_redirect(
-    req: HttpRequest,
-    user_id: i32,
-    pool: web::Data<MySqlPool>,
-    client_id: String,
-    cookies_option: Option<TwoAuthCookies>
-) -> HttpResponse {
-    let server_error: HttpResponse = get_server_error(&req).await;
-
-    let auth_code: String = match db::add_auth_code(
-        &pool,
-        user_id,
-        &client_id,
-        auth::generate_auth_code()
-    ).await {
-        Ok(code) => code,
-        Err(_e) => return server_error
-    };
-
-    let redirect_uri_option: Option<String>  =
-        match db::get_redirect_uri(&pool, &client_id).await {
-            Ok(option) => option,
-            Err(_e) => return server_error
-    };
-
-    match redirect_uri_option {
-        Some(redirect_uri) => {
-            /* we have the code and the redirect_uri.
-             * Build the full URL with querystring and send to frontend for redirect. */
-            let query_key_string: &str = "?code=";
-            let full_uri: FullRedirectUri = FullRedirectUri {
-                redirect_uri: format!("{}{}{}",
-                    &redirect_uri,
-                    query_key_string,
-                    &auth_code
-            )};
-
-            // Do we need to set cookies?
-            match cookies_option {
-                Some(two_auth_cookies) => {
-                    // Set local cookies.
-                    HttpResponse::Ok()
-                        .cookie(two_auth_cookies.jwt_cookie)
-                        .cookie(two_auth_cookies.refresh_token_cookie)
-                        .json(full_uri)
-                },
-                None => HttpResponse::Ok().json(full_uri)
-            }
-        },
-        None => {
-            let code: u16 = 404;
-            let lang: &utils::SupportedLangs =
-                &auth::get_user_req_data(&req).clone_lang();
-            let error: String = get_translation(
-                "err.404.title", &lang, None);
-            HttpResponse::NotFound().json(ErrorResponse { error, code })
-        }
-    }
-}
 
 
 /**
@@ -795,7 +621,6 @@ pub async fn get_user_auth_cookies(
     match db::add_refresh_token(
         &pool,
         user.get_id(),
-        utils::auth_client_id(),
         auth::generate_refresh_token()
     ).await {
         Ok(refresh_token) => {

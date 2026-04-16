@@ -528,43 +528,8 @@ pub fn verify_password(input_password: &String, stored_hash: &String) -> bool {
 
 
 
-/* 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * ===========================
- * ===========================
- * =====                 =====
- * =====  EXTERNAL AUTH  =====
- * =====                 =====
- * ===========================
- * ===========================
- * 
- * 
- * 
- * 
- * 
- * 
- * Functions specifically for authenticating external client apps.
- * Some of the ABOVE functions are also used for external apps (such as
- * the refresh token) but the BELOW functions are ONLY for external client apps.
- * 
- * 
-*/
-
-
-
-
-
 /**
  * Make a totally random refresh token to save to DB.
- * When user logs in from external client, we redirect them BACK to the client
- * along with this code. Then the client must send this code BACK to this app
- * for verification (before we send the refresh_token to the client app!!!!)
  */
 pub fn generate_auth_code() -> String {
     generate_code(32)

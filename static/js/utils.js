@@ -28,9 +28,6 @@ export const username_reqs_msg = "Username must be 6 to 20 characters. " +
 export const password_reqs_msg = "Password must be 6 to 16 characters with no spaces."
 export const name_range_err_msg = "Names must be 2 to 50 characters in length"
 
-export const new_client_req_fields_msg = "Site domain, name, auth_id, redirect_uri, " +
-    "and type must not be empty. Also, redirect_uri and domain must be valid."
-
 export const agreements_msg = "You must agree to the terms and conditions, privacy policy, " +
     "and to receive essential emails for account management."
 

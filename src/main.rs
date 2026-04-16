@@ -14,7 +14,6 @@ mod auth;
 mod middleware;
 mod resources;
 mod resource_mgr;
-mod auth_code_shared;
 mod routes_utils;
 mod email;
 
@@ -55,7 +54,6 @@ async fn main() -> std::io::Result<()> {
             .service(routes::error_root)
             .service(routes::error_root_2)
             .service(routes::error_page)
-            .service(routes::link_to_client)
             .service(routes::verify)
             .service(routes::verify_post)
             .service(routes::req_new_code)
@@ -77,22 +75,11 @@ async fn main() -> std::io::Result<()> {
                     .route("/", web::get().to(routes::admin_redirect))
                     .route("", web::get().to(routes::admin_redirect))
                     .route("/dashboard", web::get().to(routes::admin_home))
-                    .route("/new_client", web::get().to(routes::new_client_site_form_page))
-                    .service(routes::new_client_post)
                     .service(routes::new_post_page)
                     .service(routes::new_blog_post) // post data to create new blog post
                     .service(routes::edit_post_page)
                     .service(routes::update_blog_post)
-                    .service(routes::update_client_post)
                     .service(routes::delete_blog_post)
-                    .service(routes::edit_client_site_form_page)
-                    .service(routes::req_secret_post)
-            )
-            .service(
-                web::scope("/ext_auth")
-                    .service(routes::verify_auth_code)
-                    .service(routes::check_refresh)
-                    .service(routes::req_ver_email)
             )
             .default_service(web::get().to(routes::not_found)) // <- catch-all
             .wrap(from_fn(middleware::jwt_cookie_middleware))
@@ -104,7 +91,6 @@ async fn main() -> std::io::Result<()> {
 
 /**
  * When the server first starts, make sure admin exists in users.
- * Also make sure auth site (this site) exists in client_sites.
  */
 async fn db_first_entries(pool: &MySqlPool) {
     // add the admin user if they don't exist
@@ -118,20 +104,6 @@ async fn db_first_entries(pool: &MySqlPool) {
         },
         Err(e) => {
             eprintln!("DB Error: {e}");
-        }
-    };
-
-    // add this site to the client_sites table if it doesn't exist
-    match db::create_self_client(pool).await {
-        Ok(user_created) => {
-            if user_created {
-                println!("New client_site (auth) created.");
-            } else {
-                println!("Auth site already exists.")
-            }            
-        },
-        Err(e) => {
-            println!("DB Error: {e}");
         }
     };
 }

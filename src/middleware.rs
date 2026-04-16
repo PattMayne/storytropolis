@@ -135,8 +135,7 @@ async fn get_user_req_data_from_opt(
             let r_db_token_result: Result<Option<db::RefreshToken>, anyhow::Error> =
                 db::get_refresh_token(
                     &pool,
-                    claims.get_sub(),
-                    utils::auth_client_id()
+                    claims.get_sub()
                 ).await;
 
             if let Err(e) = r_db_token_result {

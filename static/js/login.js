@@ -13,12 +13,10 @@ const submit_login = async () => {
     err_msgs = []
     const pass_element = document.getElementById("password")
     const username_or_email_element = document.getElementById("username_or_email")
-    const client_id_element = document.getElementById("client_id")
 
     const creds = {
         password: pass_element.value.trim(),
-        username_or_email: username_or_email_element.value.trim(),
-        client_id: client_id_element.value.trim()
+        username_or_email: username_or_email_element.value.trim()
     }
 
     // Check the inputs (identifier must match email OR username specifications)

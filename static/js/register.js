@@ -85,16 +85,16 @@ const submit_register = async () => {
             }
             return response.json()
         }).then(data => {
-            // THIS WILL BE AUTH DATA NOT USER (change "user" to "auth_data")
-            console.log("Incoming data: ", data)
             // do something with the user
-            if (!!data.user_id || !!data.username){
+            if (!!data.success){
                 window.location.href = "/dashboard";
-            } else if (!!data.redirect_uri) {
-                window.location.href = data.redirect_uri
+            } else {
+                throw new Error("Unknown error.")
             }
         }).catch(error => {
             console.log('Error: ', error)
+            let msg = 'Error: ' + error
+            err_msgs.push(msg)
         })
 }
 

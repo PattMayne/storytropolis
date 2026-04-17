@@ -52,8 +52,6 @@ const submit_login = async () => {
             
             return response.json()
         }).then(data => {
-            console.log("whassup")
-            console.log("data: ", data)
             if (!!data.success){
                 window.location.href = "/dashboard";
             } else {
@@ -63,7 +61,10 @@ const submit_login = async () => {
             }
             
         }).catch(error => {
-            console.log('Errorrr: ', error)
+            console.log('Error: ', error)
+            let msg = "Error: " + error
+            err_msgs.push(msg)
+            show_err_box()
         })
 }
 

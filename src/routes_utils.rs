@@ -128,6 +128,11 @@ pub struct LogoutData {
     pub logout: bool,
 }
 
+#[derive(Serialize)]
+pub struct LoginSuccess {
+    pub success: bool,
+}
+
 
 #[derive(Serialize)]
 pub struct UpdateData {
@@ -470,12 +475,11 @@ pub async fn authenticate_user_response(
                     .json(error_response)
         };
 
-    // redirect to DASHBOARD
-    HttpResponse::Found()
+    // send OK
+    HttpResponse::Ok()
         .cookie(two_auth_cookies.jwt_cookie)
         .cookie(two_auth_cookies.refresh_token_cookie)
-        .append_header((header::LOCATION, "/dashboard"))
-        .finish()
+        .json(LoginSuccess { success: true })
 }
 
 

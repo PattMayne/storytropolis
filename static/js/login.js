@@ -49,17 +49,21 @@ const submit_login = async () => {
 
                 throw new Error("User not found or server error.")
             }
+            
             return response.json()
         }).then(data => {
+            console.log("whassup")
             console.log("data: ", data)
-            if (!!data.username){
+            if (!!data.success){
                 window.location.href = "/dashboard";
-            } else if (!!data.redirect_uri) {
-                window.location.href = data.redirect_uri
+            } else {
+                    let msg = "Unknown error."
+                    err_msgs.push(msg)
+                    show_err_box()
             }
             
         }).catch(error => {
-            console.log('Error: ', error)
+            console.log('Errorrr: ', error)
         })
 }
 

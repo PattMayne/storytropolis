@@ -84,7 +84,7 @@ async fn main() -> std::io::Result<()> {
             .default_service(web::get().to(routes::not_found)) // <- catch-all
             .wrap(from_fn(middleware::jwt_cookie_middleware))
     })
-    .bind(("127.0.0.1", 3000))?
+    .bind(("127.0.0.1", 8080))?
     .run()
     .await
 }

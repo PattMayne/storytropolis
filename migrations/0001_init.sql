@@ -27,7 +27,6 @@ CREATE TABLE IF NOT EXISTS refresh_tokens (
 );
 
 
-
 CREATE TABLE blog_post (
     id INT AUTO_INCREMENT PRIMARY KEY,
     author_name VARCHAR(255) NOT NULL,
@@ -38,6 +37,7 @@ CREATE TABLE blog_post (
     pinned BOOL NOT NULL DEFAULT FALSE
 );
 
+
 -- Codes for email verification, and also for reset password
 CREATE TABLE verification_codes (
     user_id INT NOT NULL UNIQUE,
@@ -46,4 +46,38 @@ CREATE TABLE verification_codes (
     created_timestamp TIMESTAMP NOT NULL DEFAULT UTC_TIMESTAMP,
     expires_timestamp TIMESTAMP NOT NULL, -- 5 minutes
     FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+
+CREATE TABLE books (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    author VARCHAR(255) NOT NULL,
+    description TEXT,
+    slug VARCHAR(255) NOT NULL UNIQUE,
+    created_timestamp TIMESTAMP NOT NULL DEFAULT UTC_TIMESTAMP
+);
+
+
+CREATE TABLE genres (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL UNIQUE
+);
+
+
+CREATE TABLE book_genres (
+    book_id INT NOT NULL,
+    genre_id INT(255) NOT NULL,
+    PRIMARY KEY (book_id, genre_id),
+    FOREIGN KEY (book_id) REFERENCES books(id),
+    FOREIGN KEY (genre_id) REFERENCES genres(id)
+);
+
+
+CREATE TABLE book_links (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    url VARCHAR(255) NOT NULL,
+    text TEXT,
+    book_id INT NOT NULL,
+    FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE CASCADE
 );

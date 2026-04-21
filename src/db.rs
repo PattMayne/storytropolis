@@ -33,7 +33,7 @@ use crate::{
 // use pattern matching in an impl function to get a String to store to DB
 pub enum UserRole {
     Admin,
-    Player,
+    Reader,
 }
 
 #[derive(Debug)]
@@ -472,7 +472,6 @@ pub async fn add_user(
     has_agreed_terms: bool
 ) -> Result<i32, anyhow::Error> {
     let password_hash: String = auth::hash_password(password);
-
     let result: sqlx::mysql::MySqlQueryResult = sqlx::query(
         "INSERT INTO users (
             username,
@@ -609,6 +608,7 @@ pub async fn create_verification_code(
     Ok(result.rows_affected())
 }
 
+
 /* 
  * 
  * 
@@ -632,7 +632,6 @@ pub async fn create_verification_code(
  * 
  * 
 */
-
 
 pub async fn increment_verification_attempt(
     pool: &MySqlPool,

@@ -337,6 +337,7 @@ pub struct HomeTemplate {
     pub texts: HomeTexts,
     pub user: auth::UserReqData,
     pub pinned_post: Option<String>,
+    pub nav_data: NavData,
 }
 
 
@@ -347,6 +348,7 @@ pub struct VerifyTemplate {
     pub user: auth::UserReqData,
     pub message: String,
     pub request_new_code: bool,
+    pub nav_data: NavData,
 }
 
 
@@ -358,6 +360,7 @@ pub struct BlogTemplate {
     pub texts: BlogTexts,
     pub user: auth::UserReqData,
     pub posts: Vec<db::BlogPost>,
+    pub nav_data: NavData,
 }
 
 #[derive(Template)]
@@ -365,6 +368,7 @@ pub struct BlogTemplate {
 pub struct ReqVerificationTemplate {
     pub texts: ReqVerificationTexts,
     pub user: auth::UserReqData,
+    pub nav_data: NavData,
 }
 
 #[derive(Template)]
@@ -372,6 +376,7 @@ pub struct ReqVerificationTemplate {
 pub struct LoginTemplate {
     pub texts: LoginTexts,
     pub user: auth::UserReqData,
+    pub nav_data: NavData,
 }
 
 #[derive(Template)]
@@ -380,6 +385,7 @@ pub struct AdminTemplate {
     pub texts: AdminTexts,
     pub user: auth::UserReqData,
     pub posts: Vec<db::BlogPost>,
+    pub nav_data: NavData,
 }
 
 
@@ -388,6 +394,7 @@ pub struct AdminTemplate {
 pub struct NewPostTemplate {
     pub user: auth::UserReqData,
     pub texts: NewPostTexts,
+    pub nav_data: NavData,
 }
 
 
@@ -397,6 +404,7 @@ pub struct EditPostTemplate {
     pub user: auth::UserReqData,
     pub texts: EditPostTexts,
     pub post: BlogPost,
+    pub nav_data: NavData,
 }
 
 
@@ -407,6 +415,7 @@ pub struct RegisterTemplate {
     pub texts: RegisterTexts,
     pub user: auth::UserReqData,
     pub agreements: AgreementTexts,
+    pub nav_data: NavData,
 }
 
 
@@ -416,6 +425,7 @@ pub struct ErrorTemplate {
     pub error_data: ErrorData,
     pub user: auth::UserReqData,
     pub texts: ErrorTexts,
+    pub nav_data: NavData,
 }
 
 
@@ -425,8 +435,23 @@ pub struct DashboardTemplate<'a> {
     pub texts: DashboardTexts,
     pub user_data: &'a db::User,
     pub user: auth::UserReqData,
+    pub nav_data: NavData,
 }
 
+
+pub struct NavData {
+    active_page: String,
+}
+
+impl NavData {
+    pub fn is_active(&self, page_name: &str) -> bool {
+        self.active_page == page_name
+    }
+
+    pub fn new(active_page: String) -> Self {
+        NavData { active_page }
+    }
+}
 
 /*
  * 

@@ -3,10 +3,10 @@
 /* RAW COLORS */
 
 
-$pure_orange: #de8200;
-$pure_blue: #007ede;
+$pure-orange: #de8200;
+$pure-blue: #007ede;
 $black: #111;
-$pure_black: #000;
+$pure-black: #000;
 
 /* Fonts from the PHP version*/
 $jet: #423841ff;
@@ -18,7 +18,7 @@ $bronze: #c97c18ff;
 $pastel-blue: #5a639e;
 $yellow: #bdf000;
 $very-light-gray: #f0f0f0;
-$light_gray: #ccc;
+$light-gray: #ccc;
 
 
 
@@ -310,10 +310,10 @@ blockquote {
 
 .active {
     color: #111;
-    background-color: $pure_blue;
+    background-color: $pure-blue;
 
     @media (max-width: 640px) {
-        border: 1px solid $pure_blue;
+        border: 1px solid $pure-blue;
     }
 }
 
@@ -635,7 +635,7 @@ blockquote {
 
 #the_title {
     font-family: pirata_one;
-    color: $pure_orange;
+    color: $pure-orange;
     /* color: #e45700; */
     /* background-color: rgba(255, 255, 255, 0.7); */
     display: inline-block;
@@ -660,11 +660,11 @@ blockquote {
 }
 
 #title_right {
-    color: $pure_blue;
+    color: $pure-blue;
 }
 
 #title_left {
-    color: $pure_blue;
+    color: $pure-blue;
 }
 
 #footer-text {
@@ -734,7 +734,7 @@ blockquote {
 }
 
 .post_title {
-    color: $pure_blue;
+    color: $pure-blue;
 }
 
 #posts_list_box {

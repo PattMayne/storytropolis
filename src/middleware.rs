@@ -70,10 +70,13 @@ pub async fn login_status_middleware(
 ) -> Result<ServiceResponse<impl MessageBody>, Error> {
     // Get the pool from app_data
 
-    let pool = match req.app_data::<web::Data<MySqlPool>>() {
-        Some(p) => p,
-        None => return Err(error::ErrorInternalServerError("MYSQL pool error".to_string()))
-    };
+    let pool: &web::Data<sqlx::Pool<sqlx::MySql>> =
+        match req.app_data::<web::Data<MySqlPool>>() {
+            Some(p) => p,
+            None => return Err(
+                error::ErrorInternalServerError("MYSQL pool error".to_string())
+            )
+        };
 
 
     let guest_data: auth::UserReqData = auth::UserReqData::new(None);

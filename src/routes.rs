@@ -753,7 +753,8 @@ pub async fn verify(
         texts: VerifyTexts::new(&user_req_data),
         user: user_req_data,
         message,
-        request_new_code
+        request_new_code,
+        nav_data: NavData::new( "verify".to_string() ),
     };
 
     HttpResponse::Ok()
@@ -783,7 +784,8 @@ async fn home(
     let home_template: HomeTemplate = HomeTemplate {
         texts: HomeTexts::new(&user_req_data),
         user: user_req_data,
-        pinned_post
+        pinned_post,
+        nav_data: NavData::new( "about".to_string() ),
     };
 
     HttpResponse::Ok()
@@ -803,6 +805,7 @@ pub async fn request_verification_page(
         ReqVerificationTemplate {
             texts: ReqVerificationTexts::new(&user_req_data),
             user: user_req_data,
+            nav_data: NavData::new( "verify".to_string() ),
         };
 
     HttpResponse::Ok()
@@ -821,7 +824,8 @@ pub async fn login_page(
 
     let login_template: LoginTemplate = LoginTemplate {
         texts: LoginTexts::new(&user_req_data),
-        user: user_req_data
+        user: user_req_data,
+        nav_data: NavData::new( "login".to_string() )
     };
 
     HttpResponse::Ok()
@@ -839,7 +843,8 @@ pub async fn register_page(
     let register_template: RegisterTemplate = RegisterTemplate {
         agreements: AgreementTexts::new(&user_req_data.lang),
         texts: RegisterTexts::new(&user_req_data),
-        user: user_req_data
+        user: user_req_data,
+        nav_data: NavData::new( "register".to_string() )
     };
 
     HttpResponse::Ok()
@@ -871,7 +876,8 @@ pub async fn admin_home(
     let admin_template: AdminTemplate = AdminTemplate {
         texts: AdminTexts::new(&user_req_data),
         user: user_req_data,
-        posts
+        posts,
+        nav_data: NavData::new( "admin".to_string() )
     };
 
     HttpResponse::Ok()
@@ -899,7 +905,8 @@ pub async fn new_post_page(req: HttpRequest) -> impl Responder {
     
     let new_post_template: NewPostTemplate = NewPostTemplate {
         texts: NewPostTexts::new(&user_req_data),
-        user: user_req_data
+        user: user_req_data,
+        nav_data: NavData::new( "new_post".to_string() )
     };
     HttpResponse::Ok()
         .content_type("text/html")
@@ -921,7 +928,8 @@ pub async fn blog(
     let dev_blog_template: BlogTemplate = BlogTemplate {
         posts,
         texts: BlogTexts::new(&user_req_data),
-        user: user_req_data
+        user: user_req_data,
+        nav_data: NavData::new( "blog".to_string() )
     };
     
     HttpResponse::Ok()
@@ -964,7 +972,8 @@ pub async fn edit_post_page(
             let edit_post_template: EditPostTemplate = EditPostTemplate {
                 texts: EditPostTexts::new(&user_req_data),
                 user: user_req_data,
-                post
+                post,
+                nav_data: NavData::new( "edit_post".to_string() )
             };
 
             HttpResponse::Ok()
@@ -997,7 +1006,8 @@ pub async fn dashboard_page(
             let dashboard_template: DashboardTemplate<'_> = DashboardTemplate {
                 user_data: &user,
                 texts: DashboardTexts::new(&user_req_data),
-                user: user_req_data
+                user: user_req_data,
+                nav_data: NavData::new( "dashboard".to_string() )
             };
 
             return HttpResponse::Ok()
@@ -1041,7 +1051,8 @@ async fn error_page(req: HttpRequest, path: web::Path<String>) -> HttpResponse {
     let error_template: ErrorTemplate<> = ErrorTemplate {
         error_data,
         texts: ErrorTexts::new(&user_req_data),
-        user: user_req_data
+        user: user_req_data,
+        nav_data: NavData::new( "error".to_string() )
     };
 
     HttpResponse::Ok()

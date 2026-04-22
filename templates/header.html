@@ -5,12 +5,9 @@
             <h2 id="the_title"><span id="title_left">The</span> Matt Payne <span id="title_right">Web Page</span></h2>
         </div>
         <div id="menu_box">
-            <a href="/" class='button menu-button {% if nav_data.is_active("about") %} active {% endif %}'>ABOUT</a>
-            <a href="/books" class='button menu-button {% if nav_data.is_active("books") || nav_data.is_active("single") %} active {% endif %}'>BOOKS</a>
-            <a href="/audio" class='button menu-button  {% if nav_data.is_active("audio") %} active {% endif %}'>AUDIO</a>
-            <a href="/blog" class='button menu-button  {% if nav_data.is_active("blog") %} active {% endif %}'>BLOG</a>
-            <a href="/auth/login" class='button menu-button  {% if nav_data.is_active("login") %} active {% endif %}'>LOGIN</a>
-            <div class="hr hide-for-small-only">&nbsp;</div>
+
+            {% include "menu_items.html" %}
+
         </div>
     </div>
 

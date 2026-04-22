@@ -12,34 +12,97 @@
 
     <body>
     {% include "header.html" %}
-    <div class="grid-container">
-        <div class="grid-x">
-            <div class="large-12 cell">
-                <h1>{{ texts.title }}</h1>
-            </div>
+    <div class="grid-x grid-padding-x"> <!-- 2 -->
+        <!-- START OF MAIN CONTENT BOXES -->
 
-            <div class="large-4 medium-6 small-12 cell">
-                <div class="callout">
-                    <p>
-                        {{ texts.message }}
-                    </p>
+        <div class="large-3 medium-5 small-12 cell" id="about_box"> 
+
+            <div class="grid-x grid-padding-x">
+
+
+                <!-- DESKTOP PROFILE PICS -->
+                <div class="small-3 large-6 medium-6 cell p-p-cell-L hide-for-small-only">
+                    <img src="static/img/cool_bro_C.jpg" class="profile-pic">
+                </div>
+                <div class="small-3 large-6 medium-6 cell p-p-cell-R hide-for-small-only">
+                    <img src="static/img/cool_bro_A.jpg" class="profile-pic">
+                </div>
+                <div class="small-3 large-6 medium-6 cell p-p-cell-L hide-for-small-only">
+                    <img src="static/img/cool_bro_B.jpg" class="profile-pic">
+                </div>
+                <div class="small-3 large-6 medium-6 cell p-p-cell-R hide-for-small-only">
+                    <div class="inner-img-grid">
+                        <img src="static/img/cool_bro_C.jpg" class="tiny-img">
+                        <img src="static/img/cool_bro_B.jpg" class="tiny-img">
+                        <img src="static/img/cool_bro_A.jpg" class="tiny-img">
+                        <div class="tiny-img">                                
+                            <div class="inner-inner-img-grid">
+                                <img src="static/img/cool_bro_C.jpg" class="tiny-img">
+                                <img src="static/img/cool_bro_A.jpg" class="tiny-img">
+                                <img src="static/img/cool_bro_B.jpg" class="tiny-img">
+                                <div class="tiny-img">                                
+                                    <div class="inner-inner-inner-img-grid">
+                                        <img src="static/img/cool_bro_C.jpg" class="tiny-img">
+                                        <img src="static/img/cool_bro_B.jpg" class="tiny-img">
+                                        <img src="static/img/cool_bro_A.jpg" class="tiny-img">
+                                        <div class="tiny-img">                                
+                                            <div class="inner-inner-inner-img-grid">
+                                                <img src="static/img/cool_bro_C.jpg" class="tiny-img">
+                                                <img src="static/img/cool_bro_A.jpg" class="tiny-img">
+                                                <img src="static/img/cool_bro_B.jpg" class="tiny-img">
+                                                <div class="tiny-img">                                
+                                                    <div class="inner-inner-inner-inner-img-grid">
+                                                        <img src="static/img/cool_bro_GRAY.jpg" class="tiny-img">
+                                                        <img src="static/img/cool_bro_B.jpg" class="tiny-img">
+                                                        <img src="static/img/cool_bro_A.jpg" class="tiny-img">
+                                                        <img src="static/img/cool_bro_C.jpg" class="tiny-img">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="callout primary">
-                    <p>
-                        {% if pinned_post.is_some() %}{{ pinned_post.as_ref().unwrap() | safe }}
-                        {% else %}
-                        {{ texts.default_pinned | safe }}
-                        {% endif %}
-                    </p>
-                </div>
+                                    <!-- MOBILE PROFILE PICS -->
+                    <div class="small-3 large-6 medium-6 cell show-for-small-only">
+                        <img src="static/img/cool_bro_C.jpg" class="profile-pic">
+                    </div>
+                    <div class="small-3 large-6 medium-6 cell show-for-small-only">
+                        <img src="static/img/cool_bro_A.jpg" class="profile-pic">
+                    </div>
+                    <div class="small-3 large-6 medium-6 cell show-for-small-only">
+                        <img src="static/img/cool_bro_B.jpg" class="profile-pic">
+                    </div>
+                    <div class="small-3 large-6 medium-6 cell show-for-small-only">
+                        <div class="inner-img-grid">
+                            <img src="static/img/cool_bro_C.jpg" class="tiny-img">
+                            <img src="static/img/cool_bro_B.jpg" class="tiny-img">
+                            <img src="static/img/cool_bro_A.jpg" class="tiny-img">
+                            <div class="tiny-img">                                
+                                <div class="inner-inner-img-grid">
+                                    <img src="static/img/cool_bro_C.jpg" class="tiny-img">
+                                    <img src="static/img/cool_bro_A.jpg" class="tiny-img">
+                                    <img src="static/img/cool_bro_B.jpg" class="tiny-img">
+                                    <div class="tiny-img">                                
+                                        <div class="inner-inner-inner-img-grid">
+                                            <img src="static/img/cool_bro_GRAY.jpg" class="tiny-img">
+                                            <img src="static/img/cool_bro_B.jpg" class="tiny-img">
+                                            <img src="static/img/cool_bro_A.jpg" class="tiny-img">
+                                            <img src="static/img/cool_bro_C.jpg" class="tiny-img">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
             </div>
+        </div>
 
-            <div class="callout primary hidden" id="err_msg_box"></div>
-
-        </div> <!-- end of grid-x -->
-
-    </div><!-- end of grid-container -->
+    </div> <!-- end of grid-x -->
 
         <script src="static/js/vendor/jquery.js"></script>
         <script src="static/js/vendor/what-input.js"></script>

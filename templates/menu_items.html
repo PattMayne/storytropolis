@@ -1,5 +1,5 @@
-<li><a tabindex="0" href="/" class="button small nav-button">{{texts.nav.home}}</a></li>
-<li><a tabindex="0" href="/blog" class="button small nav-button">{{texts.nav.blog}}</a></li>
+
+{% if 1 == 2 %}
 {% if user.logged_in %}
     {% if user.role == "admin" %}
         <li><a tabindex="0" href="/admin" class="button small nav-button" id="admin_nav_button">
@@ -18,3 +18,25 @@
         {{texts.nav.register}}
     </a></li>
 {% endif %}
+{% endif %}
+
+
+
+<a href="/" class='button menu-button {% if nav_data.is_active("about") %} active {% endif %}'>{{texts.nav.home}}</a>
+<a href="/books" class='button menu-button {% if nav_data.is_active("books") || nav_data.is_active("single") %} active {% endif %}'>BOOKS</a>
+<a href="/audio" class='button menu-button  {% if nav_data.is_active("audio") %} active {% endif %}'>AUDIO</a>
+<a href="/blog" class='button menu-button  {% if nav_data.is_active("blog") %} active {% endif %}'>{{texts.nav.blog}}</a>
+
+{% if user.logged_in %}
+    {% if user.role == "admin" %}
+    <a href="/admin"" class='button menu-button  {% if nav_data.is_active("admin") %} active {% endif %}'>{{texts.nav.admin}}</a>
+    {% endif %}
+    <a  id="logout_nav_button" class='button menu-button'>{{texts.nav.logout}}</a>
+{% else %}
+<a href="/auth/login" class='button menu-button  {% if nav_data.is_active("login") %} active {% endif %}'>LOGIN</a>
+{% endif %}
+
+
+
+<div class="hr hide-for-small-only">&nbsp;</div>
+            

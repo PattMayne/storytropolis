@@ -53,6 +53,10 @@ CREATE TABLE books (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     author VARCHAR(255) NOT NULL,
+    publisher VARCHAR(255) NOT NULL,
+    release_year INT NOT NULL,
+    price DECIMAL(7, 2) NOT NULL,
+    book_type VARCHAR(255) NOT NULL DEFAULT "book",
     description TEXT,
     slug VARCHAR(255) NOT NULL UNIQUE,
     created_timestamp TIMESTAMP NOT NULL DEFAULT UTC_TIMESTAMP

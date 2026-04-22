@@ -280,7 +280,6 @@ pub async fn get_user_by_username(
 }
 
 
-
 pub async fn get_verification_code(
     pool: &MySqlPool,
     user_id: i32
@@ -647,8 +646,7 @@ pub async fn increment_verification_attempt(
                 Some(code_obj) => code_obj,
                 None => return Err(anyhow!("No code found in DB".to_string()))
             }
-        };
-        
+        };        
 
     let attempts: i32 = code_obj.attempts;
     let incr_attemtps: i32 = attempts + 1;

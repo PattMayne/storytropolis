@@ -47,6 +47,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .app_data(web::Data::new(pool.clone()))
             .service(Files::new("/static", "./static"))
+            .service(Files::new("/uploads", "./uploads"))
             .wrap(from_fn(middleware::login_status_middleware))
             .service(routes::home)
             .service(routes::blog)

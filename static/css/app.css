@@ -118,6 +118,7 @@ blockquote {
 .button[disabled]:hover,
 .button.disabled:focus,
 .button[disabled]:focus {
+  display: inline;
   background-color: #111;
   color: #fefefe;
 }

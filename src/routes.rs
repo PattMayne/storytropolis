@@ -925,7 +925,7 @@ pub async fn blog(
         Err(_e) => return return_error_page(&req, 404)
     };
 
-    let dev_blog_template: BlogTemplate = BlogTemplate {
+    let blog_post_template: BlogTemplate = BlogTemplate {
         posts,
         texts: BlogTexts::new(&user_req_data),
         user: user_req_data,
@@ -934,7 +934,7 @@ pub async fn blog(
     
     HttpResponse::Ok()
         .content_type("text/html")
-        .body(dev_blog_template.render().unwrap())
+        .body(blog_post_template.render().unwrap())
 }
 
 

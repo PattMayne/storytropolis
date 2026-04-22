@@ -355,7 +355,7 @@ pub struct VerifyTemplate {
 
 
 #[derive(Template)]
-#[template(path ="dev_blog.html")]
+#[template(path ="blog_post.html")]
 pub struct BlogTemplate {
     pub texts: BlogTexts,
     pub user: auth::UserReqData,

@@ -547,7 +547,7 @@ pub async fn create_primary_admin(pool: &MySqlPool) -> Result<bool, anyhow::Erro
 
 
 /**
- * Add a new post to the dev_blog
+ * Add a new post to the blog_post table in the database.
  */
 pub async fn add_post(
     pool: &MySqlPool,
@@ -560,7 +560,7 @@ pub async fn add_post(
     // We trust that the data has already been checked. We simply enter it like obedient robots now.
     // Except that we will turn the bool into an int.
     let result: sqlx::mysql::MySqlQueryResult = sqlx::query(
-    "INSERT INTO dev_blog (
+    "INSERT INTO blog_post (
             title, body, author_name, pinned
         ) VALUES (?, ?, ?, ?)")
         .bind(post_title)
@@ -715,7 +715,7 @@ pub async fn update_post(
     let pinned_i8: i8 = if pinned { 1 } else { 0 };
 
     let result: sqlx::mysql::MySqlQueryResult = sqlx::query(
-        "UPDATE dev_blog 
+        "UPDATE blog_post 
             SET title = ?, body = ?, updated_timestamp = ? ,
             pinned = ?
             WHERE id = ?")
@@ -802,7 +802,7 @@ pub async fn delete_post(
     post_id: i32
 ) -> Result<bool> {
     let result: sqlx::mysql::MySqlQueryResult = sqlx::query(
-        "DELETE FROM dev_blog WHERE id = ?")
+        "DELETE FROM blog_post WHERE id = ?")
         .bind(post_id)
         .execute(pool)
         .await?;

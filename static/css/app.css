@@ -207,17 +207,18 @@ blockquote {
   padding-bottom: 0px;
 }
 
-.menu-button:focus {
-  color: #e90000;
-  border-bottom: 1px solid #111;
-  background: none;
-}
-
 .menu-button {
+  padding: 0.5rem 0.5rem 0.52rem 0.5rem;
   border-color: #111;
   background-color: #d3d3d3;
   color: #111;
   border: 1px solid transparent;
+}
+
+.menu-button:focus {
+  color: #e90000;
+  border-bottom: 1px solid #111;
+  background: none;
 }
 
 .undisplay {

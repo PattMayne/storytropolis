@@ -770,19 +770,19 @@ async fn home(
     req: HttpRequest
 ) -> HttpResponse {
     let user_req_data: auth::UserReqData = auth::get_user_req_data(&req);
-
-    let pinned_post: Option<String> =
+    let texts: HomeTexts = HomeTexts::new(&user_req_data);
+    let pinned_post: String =
         match db::get_latest_pinned_post(&pool).await {
-            Ok(Some(post)) => Some(post.body.to_owned()),
-            Ok(None) => None,
+            Ok(Some(post)) => post.body.to_owned(),
+            Ok(None) => texts.default_pinned.clone(),
             Err(e) => {
                 eprintln!("Error retrieving pinned post: {e}");
-                None
+                texts.default_pinned.clone()
             }
         };
 
     let home_template: HomeTemplate = HomeTemplate {
-        texts: HomeTexts::new(&user_req_data),
+        texts,
         user: user_req_data,
         pinned_post,
         nav_data: NavData::new( "about".to_string() ),

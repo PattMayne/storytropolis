@@ -36,8 +36,8 @@ use crate::utils::SupportedLangs;
 pub static TRANSLATIONS: phf::Map<&'static str, &'static str> = phf_map! {
 
     // HOME PAGE
-    "home.title.fr" => "Crankade",
-    "home.title.en" => "Crankade",
+    "home.title.fr" => "The Matt Payne Web Page 11.0",
+    "home.title.en" => "The Matt Payne Web Page 11.0",
     "home.greeting.en" => "Hello, {0}!",
     "home.greeting.fr" => "Bonjour, {0}!",
 
@@ -244,7 +244,7 @@ pub static TRANSLATIONS: phf::Map<&'static str, &'static str> = phf_map! {
     "err.user_not_found.fr" => "Utilisateur non trouvé.",
 
     // FRONT PAGE DEFAULT TEXT
-    "frontpage.en" => "CRANKADE is the central hub for where I (Matt Payne) will host any web apps and games that I want to share with you. Right now there's just one: CRANKWORD, a multi-player, turn-based word-guessing game. Please enjoy!",
+    "frontpage.en" => "<p class='bold-text'>I'm Matt Payne and these are my books. I write comedy, satire, and adventure.</p><p>My stories have appeared in Futurist Letters, Qwerty Magazine, Depraved Desires 2, The Society of Misfit Stories 3, and elswhere.</p><p>If you want to join my newsletter to find out when I release new books, subscribe to my free <a href='https://pattmayne.substack.com' target='_blank'><b>Substack</b></a>.</p>",
     "frontpage.fr" => "CRANKADE est le centre central où je (Matt Payne) hébergerai toutes les applications web et jeux que je souhaite partager avec vous. Pour l'instant, il n'y en a qu'un seul : CRANKWORD, un jeu multijoueur au tour par tour où on devine des mots. Bonne lecture !"
 };
 

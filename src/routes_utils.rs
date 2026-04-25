@@ -26,7 +26,7 @@ use serde::{ Deserialize, Serialize };
 use sqlx::{MySqlPool };
 
 use crate::db::BlogPost;
-use crate::resource_mgr::AgreementTexts;
+use crate::resource_mgr::{AgreementTexts, NewBookTexts};
 // local modules, loaded as crates (declared as mods in main.rs)
 use crate::{
     db, utils,
@@ -434,6 +434,16 @@ pub struct ErrorTemplate {
 pub struct DashboardTemplate<'a> {
     pub texts: DashboardTexts,
     pub user_data: &'a db::User,
+    pub user: auth::UserReqData,
+    pub nav_data: NavData,
+}
+
+
+
+#[derive(Template)]
+#[template(path ="new_book.html")]
+pub struct NewBookTemplate {
+    pub texts: NewBookTexts,
     pub user: auth::UserReqData,
     pub nav_data: NavData,
 }

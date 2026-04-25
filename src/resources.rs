@@ -130,6 +130,11 @@ pub static TRANSLATIONS: phf::Map<&'static str, &'static str> = phf_map! {
     "blog.title.en" => "DEVELOPER BLOG",
     "blog.title.fr" => "BLOG DU DÉVELOPPEUR",
 
+    "newbook.title.en" => "NEW BOOK",
+    "newbook.title.fr" => "NOUVEAU LIVRE !",
+    "newbook.message.en" => "Create a new book",
+    "newbook.message.fr" => "Créer un nouveau livre !",
+
     // NEW POST
     "new_post.title.en" => "NEW BLOG POST",
     "new_post.title.fr" => "NOUVEAU POST D'BLOGUETTE !",

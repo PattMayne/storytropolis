@@ -77,6 +77,7 @@ async fn main() -> std::io::Result<()> {
                     .route("", web::get().to(routes::admin_redirect))
                     .route("/dashboard", web::get().to(routes::admin_home))
                     .service(routes::new_post_page)
+                    .service(routes::new_book_page)
                     .service(routes::new_blog_post) // post data to create new blog post
                     .service(routes::edit_post_page)
                     .service(routes::update_blog_post)

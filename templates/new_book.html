@@ -16,20 +16,26 @@
     <div class="grid-container">
         <div class="grid-x grid-padding-x">
             <div class="large-7 medium-10 small-12 cell">
-                <h1>{{ texts.title }}</h1>
-                <input type="text" id="title" placeholder="TITLE" />
-                <p>Use HTML for formatting of post body.</p>
-                <textarea id="post_body" cols="50"></textarea>
+                <div class="callout">
+                    <h1>{{ texts.title }}</h1>
+                    <input type="text" id="title" placeholder="TITLE" />
+                    <input type="text" id="author" placeholder="AUTHOR" />
+                    <p>Separate genres by a comma.</p>
+                    <input type="text" id="genres" placeholder="GENRES" />
+                    <input type="text" id="publisher" placeholder="PUBLISHER" />
+                    <input type="text" id="release_year" placeholder="RELEASE YEAR" />
+                    <input type="text" id="price" placeholder="PRICE" />
+                    <input type="text" id="slug" placeholder="SLUG" />
+                    <p>Use HTML for formatting of post body.</p>
+                    <textarea id="description" cols="50"></textarea>
 
-                <label for="pin_check">
-                    <input
-                        type="checkbox"
-                        id="pin_check"
-                        name="pin_check"
-                        value="pinned"
-                    >
-                    Pin to home page?
-                </label>
+                    <label for="book_type">
+                        <select id="book_type" name="book_type">
+                            <option value="book">Book</option>
+                            <option value="short_story">Short Story</option>
+                        </select>
+                    </label>
+                </div>
 
                 <a class="button small" id="submit_button">SUBMIT</a>
 
@@ -45,7 +51,7 @@
         <script src="/static/js/vendor/what-input.js"></script>
         <script src="/static/js/vendor/foundation.min.js"></script>
         <script type="module" src="/static/js/app.js?id=7"></script>
-        <script type="module" src="/static/js/new_post_form.js?id=5"></script>
+        <script type="module" src="/static/js/new_book_form.js?id=5"></script>
     </body>
 
 </html>

@@ -31,7 +31,7 @@ use crate::{
     db, utils, auth,
     resource_mgr::{
         HomeTexts, LoginTexts, RegisterTexts, AdminTexts, VerifyTexts,
-        ErrorTexts, DashboardTexts,
+        ErrorTexts, DashboardTexts, NewBookTexts,
         ReqVerificationTexts, ErrorData
      },
     routes_utils::{*},
@@ -891,6 +891,32 @@ pub async fn admin_redirect() -> impl Responder {
 }
 
 
+
+/**
+ * Show the page where the user can create a new post
+ */
+#[get("/new_book_page")]
+pub async fn new_book_page(req: HttpRequest) -> impl Responder {
+    let user_req_data: auth::UserReqData = auth::get_user_req_data(&req);
+
+    // check if they're admin
+    if let Some(redirect_resp) = redirect_non_admin(&user_req_data, &req) {
+        return redirect_resp;
+    }
+    
+    let new_book_template: NewBookTemplate = NewBookTemplate {
+        texts: NewBookTexts::new(&user_req_data),
+        user: user_req_data,
+        nav_data: NavData::new( "new_book".to_string() )
+    };
+
+    HttpResponse::Ok()
+        .content_type("text/html")
+        .body(new_book_template.render().unwrap())
+}
+
+
+
 /**
  * Show the page where the user can create a new post
  */
@@ -996,7 +1022,7 @@ pub async fn dashboard_page(
     let user_req_data: auth::UserReqData = auth::get_user_req_data(&req);
 
     if user_req_data.id.is_none() {
-        return send_to_login();
+        return send_to_login()
     }
 
     let id: i32 = user_req_data.id.unwrap();
@@ -1014,10 +1040,7 @@ pub async fn dashboard_page(
                 .content_type("text/html")
                 .body(dashboard_template.render().unwrap());
         },
-        Ok(None) => {
-            eprintln!("Failed to find user");
-            return send_to_login();
-        },
+        Ok(None) => return send_to_login(),
         Err(_e) => {
             // redirect to ERROR PAGE
             return HttpResponse::Found()

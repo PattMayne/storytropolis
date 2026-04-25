@@ -385,6 +385,30 @@ impl DashboardTexts {
 }
 
 
+/**
+ * route: get "/auth/dashboard"
+ */
+pub struct NewBookTexts {
+    pub title: String,
+    pub message: String,
+    pub nav: NavTexts
+}
+
+impl NewBookTexts {
+    pub fn new(user_req_data: &UserReqData) -> NewBookTexts {
+        let title: String = get_translation("newbook.title", &user_req_data.lang, None);
+        let message: String = get_translation("newbook.message", &user_req_data.lang, None);
+        let lang: &SupportedLangs = &user_req_data.lang;
+        let nav: NavTexts = NavTexts::new(lang);
+
+        NewBookTexts {
+            title,
+            message,
+            nav
+        }
+    }
+}
+
 
 /* 
  * 

@@ -1,5 +1,6 @@
 // I'm actually using MariaDB which is supposedly a drop-in replacement for MySQL
 
+use jsonwebtoken::signature::digest::typenum::uint;
 use sqlx::{ MySqlPool };
 use time::{ OffsetDateTime, Duration, macros::format_description };
 use anyhow::{ Result, anyhow };
@@ -555,7 +556,6 @@ pub async fn add_post(
     author_name: String,
     pinned: bool
 ) -> Result<u64, anyhow::Error> {
-
     // We trust that the data has already been checked. We simply enter it like obedient robots now.
     // Except that we will turn the bool into an int.
     let result: sqlx::mysql::MySqlQueryResult = sqlx::query(
@@ -569,6 +569,45 @@ pub async fn add_post(
         .execute(pool).await.map_err(|e| {
             eprintln!("Failed to save NEW POST to database: {:?}", e);
             anyhow!("Could not save NEW POST to database: {e}")
+        })?;
+    
+    Ok(result.last_insert_id())
+}
+
+
+/**
+ * Add a new book to the book table in the database.
+ */
+pub async fn add_book(
+    pool: &MySqlPool,
+    title: &String,
+    author: &String,
+    publisher: &String,
+    release_year: u16,
+    price: f32,
+    book_type: &String,
+    description: &String,
+    slug: &String
+) -> Result<u64, anyhow::Error> {
+
+    // We trust that the data has already been checked. We simply enter it like obedient robots now.
+    // genres gets added with a different call, after creating this book entry,
+    // because of the many-to-many relationship between books and genres.
+    let result: sqlx::mysql::MySqlQueryResult = sqlx::query(
+    "INSERT INTO books (
+            title, author, publisher, release_year, price, book_type, description, slug
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")
+        .bind(title)
+        .bind(author)
+        .bind(publisher)
+        .bind(release_year)
+        .bind(price)
+        .bind(book_type)
+        .bind(description)
+        .bind(slug)
+        .execute(pool).await.map_err(|e| {
+            eprintln!("Failed to save NEW BOOK to database: {:?}", e);
+            anyhow!("Could not save NEW BOOK to database: {e}")
         })?;
     
     Ok(result.last_insert_id())

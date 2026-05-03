@@ -17,12 +17,17 @@
  */
 
 use actix_web::{
-    web, HttpResponse, HttpRequest,
+    web, HttpResponse, HttpRequest, Error,
     Responder, http::StatusCode, http::header,
     get, post, web::Redirect };
 use actix_web::cookie::{ Cookie };
 use askama::Template;
 use sqlx::{ MySqlPool };
+
+use actix_multipart::Multipart;
+use futures_util::StreamExt;
+use std::fs;
+use std::io::Write;
 
 use crate::resource_mgr::{AgreementTexts, BlogTexts, NewPostTexts, EditPostTexts};
 // local modules, loaded as crates (declared as mods in main.rs)
@@ -386,6 +391,142 @@ async fn new_blog_post(
             BlogPostSuccess {
                 success: false,
                 message: "ERROR: Blog post NOT SAVED".to_string(),
+                post_id: 0
+            }
+        }
+    };
+
+    HttpResponse::Ok().json(post_succes_obj)
+}
+
+
+/**
+ * Checks that the user is truly an admin, checks that all the 
+ * data is legit, then adds it to the database.
+ * Lots of opportunities to send errors.
+ */
+#[post("/add_book")]
+async fn new_book(
+    pool: web::Data<MySqlPool>,
+    req: HttpRequest,
+    mut payload: Multipart
+) -> HttpResponse {
+    let user_req_data: auth::UserReqData = auth::get_user_req_data(&req);
+    // check if they're admin
+    if let Some(redirect_resp) = redirect_non_admin(&user_req_data, &req) {
+        return redirect_resp;
+    }
+
+    let mut title: Option<String> = None;
+    let mut author: Option<String> = None;
+    let mut publisher: Option<String> = None;
+    let mut release_year: Option<u16> = None;
+    let mut price: Option<f32> = None;
+    let mut book_type: Option<String> = None;
+    let mut description: Option<String> = None;
+    let mut slug: Option<String> = None;
+
+    while let Some(item) = payload.next().await {
+        let field: actix_multipart::Field = item.unwrap();
+        let name: &str = field.name().unwrap_or("");
+
+        match name {
+            "title" => {
+                let bytes: Vec<u8> = get_bytes_from_field(field).await;
+                title = Some(String::from_utf8(bytes).unwrap());
+            },
+            "author" => {
+                let bytes: Vec<u8> = get_bytes_from_field(field).await;
+                author = Some(String::from_utf8(bytes).unwrap());
+            },
+            "publisher" => {
+                let bytes: Vec<u8> = get_bytes_from_field(field).await;
+                publisher = Some(String::from_utf8(bytes).unwrap());
+            },
+            "release_year" => {
+                let bytes: Vec<u8> = get_bytes_from_field(field).await;
+                let s: String = String::from_utf8(bytes).unwrap();
+                release_year = Some(s.parse::<u16>().unwrap());
+            },
+            "price" => {
+                let bytes: Vec<u8> = get_bytes_from_field(field).await;
+                let s: String = String::from_utf8(bytes).unwrap();
+                price = Some(s.parse::<f32>().unwrap());
+            },"book_type" => {
+                let bytes: Vec<u8> = get_bytes_from_field(field).await;
+                book_type = Some(String::from_utf8(bytes).unwrap());
+            },
+            "description" => {
+                let bytes: Vec<u8> = get_bytes_from_field(field).await;
+                description = Some(String::from_utf8(bytes).unwrap());
+            },
+            "slug" => {
+                let bytes: Vec<u8> = get_bytes_from_field(field).await;
+                slug = Some(String::from_utf8(bytes).unwrap());
+            },
+            "image" => {
+                // handle file upload separately
+            }
+            _ => {}
+        }
+    }
+
+    let mut book_data: NewBookData =
+        NewBookData {
+            title: title.unwrap(),
+            author: author.unwrap(),
+            publisher: publisher.unwrap(),
+            release_year: release_year.unwrap(),
+            price: price.unwrap(),
+            book_type: book_type.unwrap(),
+            description: description.unwrap(),
+            slug: slug.unwrap(),
+        };
+
+    // cycle through the multi-part form data and extract the fields into a NewBookData struct
+    // I need to MAKE the struct definition.
+    // I need to SAVE the image to disk and save the path in the struct.
+    // I need to save all that data to the DB.
+    // I need to save the genres EACH to the genres table
+    // Then make the association in the book_genres table
+    // Then finally send a success response back to the JS that called this API.
+
+    // check the file upload
+    // if book_data.file.is_none() {
+    //     return HttpResponse::BadRequest().json(BlogPostSuccess {
+    //         success: false,
+    //         message: "ERROR: No file uploaded".to_string(),
+    //         post_id: 0
+    //     });
+    // }
+
+    // Trim the body string
+    book_data.trim_all_strings();
+
+    // Add the post to the database
+    let post_succes_obj: BlogPostSuccess = match db::add_book(
+        &pool,
+        &book_data.title,
+        &book_data.author,
+        &book_data.publisher,
+        book_data.release_year,
+        book_data.price,
+        &book_data.book_type,
+        &book_data.description,
+        &book_data.slug
+    ).await {
+        Ok(post_id) => {
+            BlogPostSuccess {
+                success: true,
+                message: "Book created".to_string(),
+                post_id: post_id as i32
+            }
+        },
+        Err(e) => {
+            eprintln!("{}", e);
+            BlogPostSuccess {
+                success: false,
+                message: "ERROR: Book NOT SAVED".to_string(),
                 post_id: 0
             }
         }
@@ -817,7 +958,6 @@ pub async fn request_verification_page(
 
 /* LOGIN PAGE ROUTE FUNCTION */
 pub async fn login_page(
-    pool: web::Data<MySqlPool>,
     req: HttpRequest
 ) -> impl Responder {
     let user_req_data: auth::UserReqData = auth::get_user_req_data(&req);
@@ -938,6 +1078,7 @@ pub async fn new_post_page(req: HttpRequest) -> impl Responder {
         .content_type("text/html")
         .body(new_post_template.render().unwrap())
 }
+
 
 #[get("/blog")]
 pub async fn blog(

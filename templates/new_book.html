@@ -23,17 +23,26 @@
                     <p>Separate genres by a comma.</p>
                     <input type="text" id="genres" placeholder="GENRES" />
                     <input type="text" id="publisher" placeholder="PUBLISHER" />
-                    <input type="text" id="release_year" placeholder="RELEASE YEAR" />
-                    <input type="text" id="price" placeholder="PRICE" />
+                    <input type="number" id="release_year" placeholder="RELEASE YEAR" step="1" />
+                    <input type="number" id="price" placeholder="PRICE" step="0.01" />
                     <input type="text" id="slug" placeholder="SLUG" />
                     <p>Use HTML for formatting of post body.</p>
                     <textarea id="description" cols="50"></textarea>
 
-                    <label for="book_type">
+                    <label for="book_type">Book Type:
                         <select id="book_type" name="book_type">
                             <option value="book">Book</option>
                             <option value="short_story">Short Story</option>
                         </select>
+                    </label>
+
+                    <label for="cover_img_upload">Upload a cover image:
+                        <input
+                            type="file"
+                            id="cover_img_upload"
+                            name="cover_img_upload"
+                            accept="image/png, image/jpeg"
+                        />
                     </label>
                 </div>
 

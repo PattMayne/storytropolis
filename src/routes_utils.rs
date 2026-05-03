@@ -16,7 +16,8 @@
  * 
 */
 
-
+use futures_util::StreamExt;
+use actix_multipart::Multipart;
 use actix_web::{
     HttpResponse, HttpRequest, web::Redirect, web,
     Responder, http::StatusCode, http::header };
@@ -139,10 +140,6 @@ pub struct UpdateData {
     pub success: bool,
 }
 
-#[derive(Deserialize)]
-pub struct PostId {
-    pub id: i64,
-}
 
 
 #[derive(Serialize)]
@@ -153,6 +150,25 @@ pub struct FullRedirectUri {
 #[derive(Serialize)]
 pub struct Message {
     pub message: String,
+}
+
+
+
+#[derive(Deserialize)]
+pub struct NewBookData {
+    pub title: String,
+    pub author: String,
+    pub publisher: String,
+    pub release_year: u16,
+    pub price: f32,
+    pub book_type: String,
+    pub description: String,
+    pub slug: String,
+}
+
+#[derive(Deserialize)]
+pub struct PostId {
+    pub id: i64,
 }
 
 
@@ -276,6 +292,17 @@ impl BlogPostData {
     pub fn trim_all_strings(&mut self) {
         self.post_title = self.post_title.trim().to_string();
         self.post_body = self.post_body.trim().to_string();
+    }
+}
+
+impl NewBookData {
+    pub fn trim_all_strings(&mut self) {
+        self.title = self.title.trim().to_string();
+        self.author = self.author.trim().to_string();
+        self.publisher = self.publisher.trim().to_string();
+        self.book_type = self.book_type.trim().to_string();
+        self.description = self.description.trim().to_string();
+        self.slug = self.slug.trim().to_string();
     }
 }
 
@@ -437,7 +464,6 @@ pub struct DashboardTemplate<'a> {
     pub user: auth::UserReqData,
     pub nav_data: NavData,
 }
-
 
 
 #[derive(Template)]
@@ -686,6 +712,15 @@ pub async fn get_user_auth_cookies(
     }
 }
 
+
+pub async fn get_bytes_from_field(mut field: actix_multipart::Field) -> Vec<u8> {
+    let mut bytes: Vec<u8> = Vec::new();
+    while let Some(chunk) = field.next().await {
+        bytes.extend_from_slice(&chunk.unwrap());
+    }
+
+    bytes
+}
 
 /* 
  * 

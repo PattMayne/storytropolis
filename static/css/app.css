@@ -148,8 +148,8 @@ blockquote {
 .callout.primary {
   font-family: nimbus;
   border: 2px solid rgb(169, 101, 13);
-  background-color: #170e1b;
-  color: #ccc;
+  background-color: #ccc;
+  color: #000;
   padding: 20px;
 }
 
@@ -721,9 +721,10 @@ blockquote {
   margin: 0px;
   font-family: andada, nimbus;
   font-size: large;
-  background-color: #170e1b;
-  color: #ccc;
-  border: 2px solid rgb(169, 101, 13);
+  background-color: #ccc;
+  color: #000;
+  /* border: 2px solid $article-border-color; */
+  border: none;
 }
 @media (max-width: 700px) {
   .article {
@@ -731,18 +732,23 @@ blockquote {
   }
 }
 
+.article p, h1, h2, h3, h4, h5, h6, hr, a, label, li {
+  font-family: andada, nimbus;
+  color: #000;
+}
+
 #post_body {
   min-height: 500px;
   border: 2px solid rgb(169, 101, 13);
-  background-color: #170e1b;
+  background-color: #ccc;
   padding: 20px;
 }
 
 #title_input {
   font-family: andada, nimbus;
-  color: #ccc;
+  color: #000;
   border: 2px solid rgb(169, 101, 13);
-  background-color: #170e1b;
+  background-color: #ccc;
 }
 
 .article p {

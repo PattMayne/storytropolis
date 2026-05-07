@@ -12,12 +12,14 @@ $pure-black: #000;
 $dark-rust: rgb(32, 28, 27);
 $dark-jet: rgb(32, 27, 32);
 $jet: #423841ff;
+$gray: rgb(134, 129, 128);
 $lapis-lazuli: #2e5c8aff;
 $timberwolf: #d6d6d6ff;
 $forest-green: #248232ff;
 $dartmouth-green: #1A6025; /* darker green */
 $bronze: #c97c18ff;
 $deep-orange: rgb(169, 101, 13);
+$dull-orange: rgb(163, 142, 127);
 $pastel-blue: #5a639e;
 $yellow: #bdf000;
 $very-light-gray: #f0f0f0;
@@ -25,9 +27,13 @@ $light-gray: #ccc;
 $very-dark-violet: #170e1b;
 
 
+$callout-border-color: $deep-orange;
+$callout-bg-color: $very-dark-violet;
+$callout-text-color: $light-gray;
+
 $article-border-color: $deep-orange;
-$article-bg-color: $very-dark-violet;
-$article-text-color: $light-gray;
+$article-bg-color: $light-gray;
+$article-text-color: $pure-black;
 
 /* COLOR SCHEME 
         https://coolors.co/423841-2e5c8a-d6d6d6-248232-c97c18
@@ -149,9 +155,9 @@ p, a, label {
 
 input, textarea {
     font-family: $article-font;
-    color: $article-text-color;
-    background-color: $article-bg-color;
-    border: 1px solid $article-border-color;
+    color: $callout-text-color;
+    background-color: $callout-bg-color;
+    border: 1px solid $callout-border-color;
 }
 
 h1,
@@ -220,9 +226,9 @@ blockquote {
     margin: 0 0 1rem 0;
     padding: 20px;
     font-size: large;
-    border: 2px solid $article-border-color;
-    background-color: $article-bg-color;
-    color: $article-text-color;
+    border: 2px solid $callout-border-color;
+    background-color: $callout-bg-color;
+    color: $callout-text-color;
     font-family: $text-font;
 }
 
@@ -237,7 +243,7 @@ blockquote {
 
 .callout.primary p,
 .callout p {
-    color: $article-text-color;
+    color: $callout-text-color;
     font-family: $text-font;
 }
 
@@ -816,7 +822,7 @@ blockquote {
     padding: 10px;
 }
 
-  .article {
+.article {
     text-align: left;
     justify-content: left;
     display: inline-block;
@@ -828,12 +834,18 @@ blockquote {
     font-size: large;
     background-color: $article-bg-color;
     color: $article-text-color;
-    border: 2px solid $article-border-color;
+    /* border: 2px solid $article-border-color; */
+    border: none;
 
     @media (max-width: 700px) {
         font-size: medium;
     }
-  }
+}
+
+.article p, h1, h2, h3, h4, h5, h6, hr, a, label, li {
+    font-family: $article-font, nimbus;
+    color: $article-text-color;
+}
 
 #post_body {
     min-height: 500px;

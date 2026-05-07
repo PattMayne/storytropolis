@@ -7,7 +7,7 @@
         <title>{{ texts.title }}</title>
         <link rel="icon" type="image/x-icon" href="/static/img/guy_icon.png">
         <link rel="stylesheet" href="/static/css/foundation.min.css">
-        <link rel="stylesheet" href="/static/css/app.css?id=59552rr5557975">
+        <link rel="stylesheet" href="/static/css/app.css?id=59552rr555775">
     </head>
 
     <body>
@@ -17,9 +17,18 @@
         <div class="grid-x grid-padding-x">
             <div class="large-7 medium-10 small-12 cell">
                 <h1>{{ texts.title }}</h1>
-                <input type="text" id="title_input" cols="50" placeholder="TITLE" value="{{ post.title }}" />
-                <p>Use markdown for formatting of post body.</p>
-                <textarea id="post_body" cols="50">{{ post.body }}</textarea>
+
+                <label for="title_input">Title
+                    <input type="text" id="title_input" placeholder="TITLE" value="{{ post.title }}" />
+                </label>
+
+                <label>Body: Use markdown
+                    <textarea id="post_body" cols="50">{{ post.body }}</textarea>
+                </label>
+
+                <label for="categories">Categories: separate by commas</label>
+                    <input type="text" id="categories" placeholder="CATEGORIES" />
+                </label>
 
                 <label for="pin_check">
                     <input
@@ -63,7 +72,7 @@
         <script src="/static/js/vendor/what-input.js"></script>
         <script src="/static/js/vendor/foundation.min.js"></script>
         <script type="module" src="/static/js/app.js?id=7"></script>
-        <script type="module" src="/static/js/edit_post.js?id=707"></script>
+        <script type="module" src="/static/js/edit_post.js?id=7097"></script>
     </body>
 
 </html>

@@ -284,6 +284,7 @@ pub struct NewPassword {
 #[derive(Deserialize)]
 pub struct BlogPostData {
     pub post_title: String,
+    pub categories: String,
     pub post_body: String,
     pub pinned: bool,
     pub pinned_to_blog: bool,
@@ -292,6 +293,7 @@ pub struct BlogPostData {
 impl BlogPostData {
     pub fn trim_all_strings(&mut self) {
         self.post_title = self.post_title.trim().to_string();
+        self.categories = self.categories.trim().to_string();
         self.post_body = self.post_body.trim().to_string();
     }
 }
@@ -317,6 +319,7 @@ pub struct DeletePostId {
 pub struct BlogPostUpdateData {
     pub post_id: i64,
     pub post_title: String,
+    pub categories: String,
     pub post_body: String,
     pub pinned: bool,
     pub pinned_to_blog: bool,
@@ -325,6 +328,7 @@ pub struct BlogPostUpdateData {
 impl BlogPostUpdateData {
     pub fn trim_all_strings(&mut self) {
         self.post_title = self.post_title.trim().to_string();
+        self.categories = self.categories.trim().to_string();
         self.post_body = self.post_body.trim().to_string();
     }
 }

@@ -67,7 +67,10 @@ use crate::{
  */
 
 
-
+/**
+ * When somebody has visited the page to verify their email,
+ * that page calls this API to do the actual verification.
+ */
 #[post("verify_post")]
 pub async fn verify_post(
     pool: web::Data<MySqlPool>,
@@ -123,19 +126,19 @@ pub async fn verify_post(
     // if match, log user in. Otherwise, send rejection.
     if code_match {
          // verify user email:
-        let _email_verified: bool =
-            match db::verify_user(&pool, user.get_id()).await {
-                Ok(affected_count) => affected_count > 0,
-                Err(e) => {
-                    eprint!("Error verifying user: {}", e);
-                    false
-                }
-            };
-
-        // set cookies, signal to redirect to dash
-        authenticate_user_response(user, pool).await
+        match db::verify_user(&pool, user.get_id()).await {
+            Ok(affected_count) => if affected_count > 0 {
+                authenticate_user_response(user, pool).await
+            } else {
+                eprint!("Error verifying user: no rows affected");
+                return error_post_response(&req, 500)
+            },
+            Err(e) => {
+                eprint!("Error verifying user: {}", e);
+                return error_post_response(&req, 500)
+            }
+        }
     } else {
-
         // Wrong code. Increment attempts.
         let _inc_obj_result: Result<auth::HashedVerificationCode, anyhow::Error> =
             db::increment_verification_attempt(
@@ -145,6 +148,7 @@ pub async fn verify_post(
         let message: String = "The code does not match. 
             Get the correct code from your email, or request a new one.".to_string();
         let error_struct: ErrorResponse = ErrorResponse { error: message, code: 401 };
+
         HttpResponse::TooManyRequests().json(error_struct)
     }
    
@@ -372,6 +376,8 @@ async fn new_blog_post(
 
     // Trim the body string
     blog_post_data.trim_all_strings();
+
+    println!("Categories: {}", blog_post_data.categories);
 
     // Add the post to the database
     let post_succes_obj: BlogPostSuccess = match db::add_post(
@@ -608,6 +614,9 @@ pub async fn update_blog_post(
 
     // Trim the body string
     blog_post_data.trim_all_strings();
+
+
+    println!("Categories: {}", blog_post_data.categories);
 
     // Add the post to the database
     let post_succes_obj: BlogPostSuccess = match db::update_post(

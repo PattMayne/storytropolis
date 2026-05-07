@@ -106,6 +106,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     new_code_req_btn.addEventListener('click', () => request_new_code())
     !!verify_btn && verify_btn.addEventListener('click', () => submit_verify())
 
-    document.getElementById('email').addEventListener('keydown', (e) => (e.key === 'Enter') && submit_verify())
-    document.getElementById('v_code').addEventListener('keydown', (e) => (e.key === 'Enter') && submit_verify())
+    document.getElementById('email').addEventListener('keydown', (e) =>
+        (e.key === 'Enter') && submit_verify())
+    document.getElementById('v_code').addEventListener('keydown', (e) =>
+        (e.key === 'Enter') && submit_verify())
 })

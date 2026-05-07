@@ -17,9 +17,17 @@
         <div class="grid-x grid-padding-x">
             <div class="large-7 medium-10 small-12 cell">
                 <h1>{{ texts.title }}</h1>
-                <input type="text" id="title_input" placeholder="TITLE" />
-                <p>Use markdown for formatting of post body.</p>
-                <textarea id="post_body" cols="50"></textarea>
+                <label for="title_input">Title</label>
+                    <input type="text" id="title_input" placeholder="TITLE" />
+                </label>
+
+                <label>Body: Use markdown
+                    <textarea id="post_body" cols="50"></textarea>
+                </label>
+
+                <label for="categories">Categories: separate by commas</label>
+                    <input type="text" id="categories" placeholder="CATEGORIES" />
+                </label>
 
                 <label for="pin_check">
                     <input
@@ -38,7 +46,7 @@
                         name="pinned_to_blog_check"
                         value="pinned_to_blog"
                     >
-                    Pin to home page?
+                    Pin to blog?
                 </label>
 
                 <a class="button small" id="submit_button">SUBMIT</a>
@@ -55,7 +63,7 @@
         <script src="/static/js/vendor/what-input.js"></script>
         <script src="/static/js/vendor/foundation.min.js"></script>
         <script type="module" src="/static/js/app.js?id=7"></script>
-        <script type="module" src="/static/js/new_post_form.js?id=5"></script>
+        <script type="module" src="/static/js/new_post_form.js?id=995"></script>
     </body>
 
 </html>

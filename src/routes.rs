@@ -368,6 +368,8 @@ async fn new_blog_post(
         return redirect_resp;
     }
 
+    println!("trying to post");
+
     // Trim the body string
     blog_post_data.trim_all_strings();
 
@@ -377,7 +379,8 @@ async fn new_blog_post(
         &blog_post_data.post_title,
         &blog_post_data.post_body,
         user_req_data.username.unwrap(),
-        blog_post_data.pinned
+        blog_post_data.pinned,
+        blog_post_data.pinned_to_blog
     ).await {
         Ok(post_id) => {
             BlogPostSuccess {
@@ -612,7 +615,8 @@ pub async fn update_blog_post(
         blog_post_data.post_id,
         &blog_post_data.post_title,
         &blog_post_data.post_body,
-        blog_post_data.pinned
+        blog_post_data.pinned,
+        blog_post_data.pinned_to_blog
     ).await {
         Ok(rows_affected) => {
             if rows_affected > 0 {

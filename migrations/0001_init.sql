@@ -34,7 +34,22 @@ CREATE TABLE blog_post (
     body TEXT NOT NULL,
     created_timestamp TIMESTAMP NOT NULL DEFAULT UTC_TIMESTAMP,
     updated_timestamp TIMESTAMP NOT NULL DEFAULT UTC_TIMESTAMP,
-    pinned BOOL NOT NULL DEFAULT FALSE
+    pinned BOOL NOT NULL DEFAULT FALSE,
+    pinned_to_blog BOOL NOT NULL DEFAULT FALSE
+);
+
+CREATE TABLE categories (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL UNIQUE
+);
+
+
+CREATE TABLE post_categories (
+    post_id INT NOT NULL,
+    category_id INT(255) NOT NULL,
+    PRIMARY KEY (post_id, category_id),
+    FOREIGN KEY (post_id) REFERENCES blog_post(id),
+    FOREIGN KEY (category_id) REFERENCES categories(id)
 );
 
 

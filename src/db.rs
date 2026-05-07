@@ -65,6 +65,7 @@ pub struct BlogPost {
     pub body: String,
     pub author_name: String,
     pub pinned: i8,
+    pub pinned_to_blog: i8,
     pub created_timestamp: OffsetDateTime,
     pub updated_timestamp: OffsetDateTime,
 }
@@ -114,6 +115,9 @@ impl BlogPost {
         self.updated_timestamp.format(&format).unwrap()
     }
 
+    pub fn is_pinned_to_blog(&self) -> bool {
+        self.pinned_to_blog == 1
+    }
     pub fn is_pinned(&self) -> bool {
         self.pinned == 1
     }
@@ -217,8 +221,8 @@ pub async fn get_post_by_id(
     Ok(sqlx::query_as!(
             BlogPost,
             "SELECT id, author_name, title, body,
-            created_timestamp, updated_timestamp, pinned
-            FROM blog_post WHERE id = ?",
+            created_timestamp, updated_timestamp, pinned, 
+            pinned_to_blog FROM blog_post WHERE id = ?",
             post_id
         ).fetch_optional(pool).await?)
 }
@@ -230,7 +234,7 @@ pub async fn get_latest_pinned_post(
     Ok(sqlx::query_as!(
             BlogPost,
             "SELECT id, author_name, title, body,
-            created_timestamp, updated_timestamp, pinned 
+            created_timestamp, updated_timestamp, pinned, pinned_to_blog
             FROM blog_post WHERE pinned = ? ORDER BY created_timestamp DESC LIMIT 1",
             true
         ).fetch_optional(pool).await?)
@@ -243,7 +247,7 @@ pub async fn get_posts(
     let blog_posts: Vec<BlogPost> = sqlx::query_as!(
         BlogPost,
         "SELECT id, author_name, title, body, created_timestamp, 
-        updated_timestamp, pinned
+        updated_timestamp, pinned, pinned_to_blog
         FROM blog_post ORDER BY created_timestamp ASC"
     ).fetch_all(pool).await?;
 
@@ -257,7 +261,7 @@ pub async fn get_non_pinned_posts(
     let blog_posts: Vec<BlogPost> = sqlx::query_as!(
         BlogPost,
         "SELECT id, author_name, title, body, created_timestamp, 
-        updated_timestamp, pinned
+        updated_timestamp, pinned, pinned_to_blog
         FROM blog_post WHERE pinned = ? 
         ORDER BY created_timestamp ASC",
         false
@@ -554,18 +558,20 @@ pub async fn add_post(
     post_title: &String,
     post_body: &String,
     author_name: String,
-    pinned: bool
+    pinned: bool,
+    pinned_to_blog: bool
 ) -> Result<u64, anyhow::Error> {
     // We trust that the data has already been checked. We simply enter it like obedient robots now.
     // Except that we will turn the bool into an int.
     let result: sqlx::mysql::MySqlQueryResult = sqlx::query(
     "INSERT INTO blog_post (
-            title, body, author_name, pinned
-        ) VALUES (?, ?, ?, ?)")
+            title, body, author_name, pinned, pinned_to_blog
+        ) VALUES (?, ?, ?, ?, ?)")
         .bind(post_title)
         .bind(post_body)
         .bind(author_name)
         .bind(pinned)
+        .bind(pinned_to_blog)
         .execute(pool).await.map_err(|e| {
             eprintln!("Failed to save NEW POST to database: {:?}", e);
             anyhow!("Could not save NEW POST to database: {e}")
@@ -746,20 +752,23 @@ pub async fn update_post(
     post_id: i64,
     post_title: &String,
     post_body: &String,
-    pinned: bool
+    pinned: bool,
+    pinned_to_blog: bool
 ) -> Result<i32, anyhow::Error> {
     let update_time: OffsetDateTime = OffsetDateTime::now_utc();
     let pinned_i8: i8 = if pinned { 1 } else { 0 };
+    let pinned_to_blog_i8: i8 = if pinned_to_blog { 1 } else { 0 };
 
     let result: sqlx::mysql::MySqlQueryResult = sqlx::query(
         "UPDATE blog_post 
             SET title = ?, body = ?, updated_timestamp = ? ,
-            pinned = ?
+            pinned = ?, pinned_to_blog = ?
             WHERE id = ?")
         .bind(post_title)
         .bind(post_body)
         .bind(update_time)
         .bind(pinned_i8)
+        .bind(pinned_to_blog_i8)
         .bind(post_id)
         .execute(pool)
         .await?;

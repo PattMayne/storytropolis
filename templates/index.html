@@ -4,10 +4,10 @@
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{{ texts.title }}</title>
+        <title>{{ texts.title | safe }}</title>
         <link rel="icon" type="image/x-icon" href="static/img/guy_icon.png">
         <link rel="stylesheet" href="static/css/foundation.min.css">
-        <link rel="stylesheet" href="static/css/app.css?id=77">
+        <link rel="stylesheet" href="static/css/app.css?id=779">
     </head>
 
     <body>
@@ -17,88 +17,6 @@
 
         <div class="large-3 medium-5 small-12 cell" id="about_box"> 
 
-            <div class="grid-x grid-padding-x">
-
-                <!-- DESKTOP PROFILE PICS -->
-                <div class="small-3 large-6 medium-6 cell p-p-cell-L hide-for-small-only">
-                    <img src="static/img/cool_bro_C.jpg" class="profile-pic">
-                </div>
-                <div class="small-3 large-6 medium-6 cell p-p-cell-R hide-for-small-only">
-                    <img src="static/img/cool_bro_A.jpg" class="profile-pic">
-                </div>
-                <div class="small-3 large-6 medium-6 cell p-p-cell-L hide-for-small-only">
-                    <img src="static/img/cool_bro_B.jpg" class="profile-pic">
-                </div>
-                <div class="small-3 large-6 medium-6 cell p-p-cell-R hide-for-small-only">
-                    <div class="inner-img-grid">
-                        <img src="static/img/cool_bro_C.jpg" class="tiny-img">
-                        <img src="static/img/cool_bro_B.jpg" class="tiny-img">
-                        <img src="static/img/cool_bro_A.jpg" class="tiny-img">
-                        <div class="tiny-img">                                
-                            <div class="inner-inner-img-grid">
-                                <img src="static/img/cool_bro_C.jpg" class="tiny-img">
-                                <img src="static/img/cool_bro_A.jpg" class="tiny-img">
-                                <img src="static/img/cool_bro_B.jpg" class="tiny-img">
-                                <div class="tiny-img">                                
-                                    <div class="inner-inner-inner-img-grid">
-                                        <img src="static/img/cool_bro_C.jpg" class="tiny-img">
-                                        <img src="static/img/cool_bro_B.jpg" class="tiny-img">
-                                        <img src="static/img/cool_bro_A.jpg" class="tiny-img">
-                                        <div class="tiny-img">                                
-                                            <div class="inner-inner-inner-img-grid">
-                                                <img src="static/img/cool_bro_C.jpg" class="tiny-img">
-                                                <img src="static/img/cool_bro_A.jpg" class="tiny-img">
-                                                <img src="static/img/cool_bro_B.jpg" class="tiny-img">
-                                                <div class="tiny-img">                                
-                                                    <div class="inner-inner-inner-inner-img-grid">
-                                                        <img src="static/img/cool_bro_GRAY.jpg" class="tiny-img">
-                                                        <img src="static/img/cool_bro_B.jpg" class="tiny-img">
-                                                        <img src="static/img/cool_bro_A.jpg" class="tiny-img">
-                                                        <img src="static/img/cool_bro_C.jpg" class="tiny-img">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                                    <!-- MOBILE PROFILE PICS -->
-                    <div class="small-3 large-6 medium-6 cell show-for-small-only">
-                        <img src="static/img/cool_bro_C.jpg" class="profile-pic">
-                    </div>
-                    <div class="small-3 large-6 medium-6 cell show-for-small-only">
-                        <img src="static/img/cool_bro_A.jpg" class="profile-pic">
-                    </div>
-                    <div class="small-3 large-6 medium-6 cell show-for-small-only">
-                        <img src="static/img/cool_bro_B.jpg" class="profile-pic">
-                    </div>
-                    <div class="small-3 large-6 medium-6 cell show-for-small-only">
-                        <div class="inner-img-grid">
-                            <img src="static/img/cool_bro_C.jpg" class="tiny-img">
-                            <img src="static/img/cool_bro_B.jpg" class="tiny-img">
-                            <img src="static/img/cool_bro_A.jpg" class="tiny-img">
-                            <div class="tiny-img">                                
-                                <div class="inner-inner-img-grid">
-                                    <img src="static/img/cool_bro_C.jpg" class="tiny-img">
-                                    <img src="static/img/cool_bro_A.jpg" class="tiny-img">
-                                    <img src="static/img/cool_bro_B.jpg" class="tiny-img">
-                                    <div class="tiny-img">                                
-                                        <div class="inner-inner-inner-img-grid">
-                                            <img src="static/img/cool_bro_GRAY.jpg" class="tiny-img">
-                                            <img src="static/img/cool_bro_B.jpg" class="tiny-img">
-                                            <img src="static/img/cool_bro_A.jpg" class="tiny-img">
-                                            <img src="static/img/cool_bro_C.jpg" class="tiny-img">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-            </div>
 
             <div class="callout primary">
                 {{ pinned_post | safe }}

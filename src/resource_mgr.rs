@@ -328,13 +328,16 @@ impl BlogTexts {
  * route: get "/error"
  */
 pub struct ErrorTexts {
-    pub nav: NavTexts
+    pub nav: NavTexts,
+    pub title: String,
 }
 
 impl ErrorTexts {
     pub fn new(user_req_data: &UserReqData) -> ErrorTexts {
+        let lang: &SupportedLangs = &user_req_data.lang;
+        let title: String = get_translation("error.title", lang, None);
         let nav: NavTexts = NavTexts::new(&user_req_data.lang);
-        ErrorTexts { nav }
+        ErrorTexts { nav, title }
     }
 }
 
@@ -439,6 +442,7 @@ pub struct NavTexts {
     pub login: &'static str,
     pub register: &'static str,
     pub logout: &'static str,
+    pub header_title: String,
 }
 
 
@@ -450,6 +454,7 @@ impl NavTexts {
      */
     pub fn new(lang: &SupportedLangs) -> NavTexts {
         let lang_suffix: &str = lang.suffix();
+        let header_title: String = get_translation("header.title", lang, None);
 
         let home_key: String = format!("{}.{}", "nav.home", lang_suffix);
         let blog_key: String = format!("{}.{}", "nav.blog", lang_suffix);
@@ -468,13 +473,9 @@ impl NavTexts {
         let logout: &'static str = raw_trans_or_missing(logout_key.as_str(), lang);
 
         NavTexts {
-            home,
-            admin,
-            dashboard,
-            login,
-            register,
-            logout,
-            blog,
+            home, admin, dashboard, login,
+            register, logout, blog,
+            header_title,
         }
     }
 }

@@ -285,7 +285,8 @@ pub struct NewPassword {
 pub struct BlogPostData {
     pub post_title: String,
     pub post_body: String,
-    pub pinned: bool
+    pub pinned: bool,
+    pub pinned_to_blog: bool,
 }
 
 impl BlogPostData {
@@ -318,6 +319,7 @@ pub struct BlogPostUpdateData {
     pub post_title: String,
     pub post_body: String,
     pub pinned: bool,
+    pub pinned_to_blog: bool,
 }
 
 impl BlogPostUpdateData {
@@ -718,7 +720,6 @@ pub async fn get_bytes_from_field(mut field: actix_multipart::Field) -> Vec<u8> 
     while let Some(chunk) = field.next().await {
         bytes.extend_from_slice(&chunk.unwrap());
     }
-
     bytes
 }
 

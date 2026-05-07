@@ -39,24 +39,10 @@ $white: $very-light-gray;
     src: url(../fonts/andada.otf);
 }
 
-@font-face {
-    font-family: alte-bold;
-    src: url(../fonts/alte-haas-grotesk.bold.ttf);
-}
-
-@font-face {
-    font-family: alte;
-    src: url(../fonts/alte-haas-grotesk.regular.ttf);
-}
 
 @font-face {
     font-family: libertine;
     src: url(../fonts/LinLibertine_R.ttf);
-}
-
-@font-face {
-    font-family: pirata_one;
-    src: url(../fonts/pirata_one.ttf);
 }
 
 
@@ -64,6 +50,36 @@ $white: $very-light-gray;
     font-family: nimbus;
     src: url(../fonts/nimbus.otf);
 }
+
+@font-face {
+    font-family: dejavu_serif;
+    src: url(../fonts/dejavu_serif.ttf);
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+@font-face {
+    font-family: dejavu_serif;
+    src: url(../fonts/dejavu_serif_bold.ttf);
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: dejavu_serif;
+    src: url(../fonts/dejavu_serif_italic.ttf);
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: dejavu_serif;
+    src: url(../fonts/dejavu_serif_bolditalic.ttf);
+    font-weight: bold;
+    font-style: italic;
+}
+
 
 
 
@@ -87,42 +103,16 @@ $white: $very-light-gray;
   src: url(../fonts/nue-gothic-round.ttf);
 }
 
-@font-face {
-  font-family: 'lato';
-  src: url(../fonts/lato-med.woff2);
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'lato';
-  src: url(../fonts/lato-bold.woff2);
-  font-weight: bold;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'lato';
-  src: url(../fonts/lato-med-italic.woff2);
-  font-weight: normal;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: 'lato';
-  src: url(../fonts/lato-bold-italic.woff2);
-  font-weight: bold;
-  font-style: italic;
-}
 
 
 
 /* FONT VARIABLES */
 
-$title-font: ander-hedge;
+$title-font: nue-gothic-round;
 $header-font: nue-gothic-round;
-$text-font: lato;
-$button-font: lato;
+$text-font: nimbus;
+$button-font: nue-gothic-round;
+$article-font: dejavu_serif;
 
 
 
@@ -130,19 +120,23 @@ $button-font: lato;
 /*    HTML elements  */
 
 body {
-    background-color: #2e3233;
+    background-color: #231111;
+
     /* background-image: url(../img/wall.png); */
-    background-image: url(../img/screen_BG_indexed.png);
+    /* background-image: url(../img/screen_BG_indexed.png);
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
-
+        */
+    
+    font-family: $text-font;
+    color: $very-light-gray;
 }
 
 h1,
 h2 {
-    font-family: alte-bold;
+    font-family: $title-font;
 }
 
 
@@ -152,7 +146,7 @@ h4,
 h5,
 h6,
 .button {
-    font-family: alte-bold;
+    font-family: $button-font;
     text-transform: uppercase;
 }
 
@@ -162,14 +156,18 @@ a,
 li,
 input {
     font-family:
+        $text-font,
         Arial,
-        nimbus,
-        alte,
         sans-serif;
 }
 
-article {
+article, .article {
     padding: 10px;
+    margin: 10px;
+    font-family: $article-font;
+    display: block;
+    width: 100%;
+    border: 2px solid $bronze;
 }
 
 blockquote {
@@ -319,7 +317,7 @@ blockquote {
 }
 
 .bold-text {
-    font-family: alte-bold;
+    font-weight: bold;
 }
 
 .button-box {
@@ -487,7 +485,7 @@ blockquote {
 
 .genres_p {
     margin-bottom: 0px;
-    font-family: alte;
+    font-family: $button-font;
     text-transform: uppercase;
     font-size: small;
     display: inline-block;
@@ -504,7 +502,7 @@ blockquote {
 .genre_span {
     margin: 0px;
     margin-right: 3px;
-    font-family: alte;
+    font-family: $button-font;
     font-size: small;
     display: inline-block;
     background-color: #dfdfdf;
@@ -600,7 +598,7 @@ blockquote {
 
 
 .blog_link {
-    font-family: 'alte-bold';
+    font-family: $button-font;
     font-size: large;
     color:#222;
     margin: 0px 3px 0px 3px;
@@ -613,7 +611,7 @@ blockquote {
 }
 
 .blog_link_cats{
-    font-family: 'alte';
+    font-family: $button-font;
 }
 
 .attribution {
@@ -635,7 +633,7 @@ blockquote {
 }
 
 #the_title {
-    font-family: pirata_one;
+    font-family: $title-font;
     color: $pure-orange;
     /* color: #e45700; */
     /* background-color: rgba(255, 255, 255, 0.7); */
@@ -673,7 +671,6 @@ blockquote {
     font-size: 18px;
     color: black;
     text-align: right;
-    font-family: alte-bold;
 }
 
 #footer {
@@ -778,7 +775,7 @@ blockquote {
 /* BLOG ARTICLE STYLING */
 
   .article, .article p {
-    font-family: Arial, nimbus, sans-serif, 'libertine', 'alte';
+    font-family: $article-font, nimbus;
     font-size: x-large;
 
     @media (max-width: 700px) {

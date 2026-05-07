@@ -32,6 +32,17 @@
                     Pin to home page?
                 </label>
 
+                <label for="pinned_to_blog_check">
+                    <input
+                        type="checkbox"
+                        id="pinned_to_blog_check"
+                        name="pinned_to_blog_check"
+                        value="pinned_to_blog"
+                        {% if post.is_pinned_to_blog() %} checked {% endif %}
+                    >
+                    Pin to blog page?
+                </label>
+
                 <a class="button small" id="submit_button">UPDATE</a>
 
                 <div class="callout primary hidden" id="msg_box">
@@ -52,7 +63,7 @@
         <script src="/static/js/vendor/what-input.js"></script>
         <script src="/static/js/vendor/foundation.min.js"></script>
         <script type="module" src="/static/js/app.js?id=7"></script>
-        <script type="module" src="/static/js/edit_post.js?id=70"></script>
+        <script type="module" src="/static/js/edit_post.js?id=707"></script>
     </body>
 
 </html>

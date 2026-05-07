@@ -2,19 +2,19 @@
 {% if 1 == 2 %}
 {% if user.logged_in %}
     {% if user.role == "admin" %}
-        <li><a tabindex="0" href="/admin" class="button small nav-button" id="admin_nav_button">
+        <li><a tabindex="0" href="/admin" class="button nav-button" id="admin_nav_button">
             {{texts.nav.admin}}
         </a></li>
     {% endif %}
-    <li><a tabindex="0" href="/dashboard" class="button small nav-button">{{texts.nav.dashboard}}</a></li>
-    <li><a tabindex="0" class="button small nav-button" id="logout_nav_button">
+    <li><a tabindex="0" href="/dashboard" class="button nav-button">{{texts.nav.dashboard}}</a></li>
+    <li><a tabindex="0" class="button nav-button" id="logout_nav_button">
         {{texts.nav.logout}}
     </a></li>
 {% else %}
-    <li><a tabindex="0" href="/auth/login" class="button small nav-button" id="login_nav_button">
+    <li><a tabindex="0" href="/auth/login" class="button nav-button" id="login_nav_button">
         {{texts.nav.login}}
     </a></li>
-    <li><a tabindex="0" href="/auth/register" class="button small nav-button" id="register_nav_button">
+    <li><a tabindex="0" href="/auth/register" class="button nav-button" id="register_nav_button">
         {{texts.nav.register}}
     </a></li>
 {% endif %}
@@ -22,18 +22,18 @@
 
 
 
-<a href="/" class='button menu-button {% if nav_data.is_active("about") %} active {% endif %}'>{{texts.nav.home}}</a>
+<a tabindex="0" href="/" class='button menu-button {% if nav_data.is_active("about") %} active {% endif %}'>{{texts.nav.home}}</a>
 
 <!-- NO BOOKS until 2.0
 <a href="/books" class='button menu-button {% if nav_data.is_active("books") || nav_data.is_active("single") %} active {% endif %}'>BOOKS</a>-->
-<a href="/blog" class='button menu-button  {% if nav_data.is_active("blog") %} active {% endif %}'>{{texts.nav.blog}}</a>
+<a tabindex="0" href="/blog" class='button menu-button  {% if nav_data.is_active("blog") %} active {% endif %}'>{{texts.nav.blog}}</a>
 
 {% if user.logged_in %}
     {% if user.role == "admin" %}
-    <a href="/admin"" class='button menu-button  {% if nav_data.is_active("admin") %} active {% endif %}'>{{texts.nav.admin}}</a>
+    <a tabindex="0" href="/admin" class='button menu-button  {% if nav_data.is_active("admin") %} active {% endif %}'>{{texts.nav.admin}}</a>
     {% endif %}
-    <a  id="logout_nav_button" class='button menu-button'>{{texts.nav.logout}}</a>
+    <a tabindex="0" id="logout_nav_button" class='button menu-button'>{{texts.nav.logout}}</a>
 {% else %}
-<a href="/auth/login" class='button menu-button  {% if nav_data.is_active("login") %} active {% endif %}'>LOGIN</a>
+<a tabindex="0" href="/auth/login" class='button menu-button  {% if nav_data.is_active("login") %} active {% endif %}'>LOGIN</a>
 {% endif %}
             

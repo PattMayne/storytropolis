@@ -59,14 +59,13 @@
 /* FONT VARIABLES */
 /*    HTML elements  */
 body {
-  background-color: #10121d;
+  background-color: #0d1117;
   /* background-image: url(../img/wall.png); */
-  /* background-image: url(../img/screen_BG_indexed.png);
+  background-image: url(../img/screen_BG_indexed.png);
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
-      */
   font-family: nimbus;
   color: #f0f0f0;
 }
@@ -80,7 +79,7 @@ p, a, label {
 input, textarea {
   font-family: nimbus;
   color: #ccc;
-  background-color: #10121d;
+  background-color: #0d1117;
   border: 1px solid rgb(169, 101, 13);
 }
 
@@ -140,7 +139,7 @@ blockquote {
   padding: 20px;
   font-size: large;
   border: 2px solid rgb(169, 101, 13);
-  background-color: #10121d;
+  background-color: #0d1117;
   color: #ccc;
   font-family: nimbus;
 }
@@ -148,7 +147,7 @@ blockquote {
 .callout.primary {
   font-family: nimbus;
   border: 2px solid rgb(169, 101, 13);
-  background-color: #10121d;
+  background-color: #0d1117;
   color: #ccc;
   padding: 20px;
 }
@@ -242,7 +241,7 @@ blockquote {
 }
 
 .menu-button:focus {
-  color: #e90000;
+  color: #248232;
   background: none;
 }
 
@@ -714,8 +713,8 @@ blockquote {
   padding: 50px 40px 40px 40px;
   margin: 0px;
   font-family: nimbus, nimbus;
-  background-color: #10121d;
-  color: #ccc;
+  background-color: transparent;
+  color: #f0f0f0;
   /* border: 2px solid $article-border-color; */
   border: none;
 }
@@ -729,12 +728,12 @@ blockquote {
 .article h4, .article h5, .article h6, .article hr,
 .article label {
   font-family: nimbus, nimbus;
-  color: #ccc;
+  color: #f0f0f0;
 }
 
 .article p, .article a, .article li {
   font-family: nimbus, nimbus;
-  color: #ccc;
+  color: #f0f0f0;
   font-size: 1.2em;
 }
 @media (max-width: 500px) {
@@ -747,16 +746,16 @@ blockquote {
 #post_body {
   min-height: 500px;
   border: 2px solid rgb(169, 101, 13);
-  background-color: #10121d;
+  background-color: #0d1117;
   padding: 20px;
 }
 
 /* text input */
 #title_input {
   font-family: nimbus, nimbus;
-  color: #ccc;
+  color: #f0f0f0;
   border: 2px solid rgb(169, 101, 13);
-  background-color: #10121d;
+  background-color: #0d1117;
 }
 
 #article_container {

@@ -22,8 +22,8 @@
             <div class="callout">
                 <h4>ACTIONS</h4>
                 <div>
-                    <a href="/admin/new_post" class="button small">New Blog Post</a>
-                    <a href="/admin/new_book_page" class="button small">New Book</a>
+                    <a href="/admin/new_post" class="button">New Blog Post</a>
+                    <a href="/admin/new_book_page" class="button">New Book</a>
                 </div>
                 
             </div>
@@ -36,7 +36,7 @@
                 {% for post in posts %}
                     <div class="large-6 medium-6 small-12 cell">
                         <a href="/admin/edit_post/{{ post.id }}"
-                            class="button small">{{ post.title }}</a>
+                            class="button">{{ post.title }}</a>
                     </div>
                     {% endfor %}
                 {% else %}

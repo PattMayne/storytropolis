@@ -25,7 +25,7 @@ $pastel-blue: #5a639e;
 $yellow: #bdf000;
 $very-light-gray: #f0f0f0;
 $light-gray: #ccc;
-$very-dark-blue: #10121d;
+$very-dark-blue: #0d1117;
 
 
 $callout-border-color: $deep-orange;
@@ -38,7 +38,7 @@ $primary-text-color: $light-gray;
 
 $article-border-color: $deep-orange;
 $article-bg-color: $very-dark-blue;
-$article-text-color: $light-gray;
+$article-text-color: $very-light-gray;
 
 /* COLOR SCHEME 
         https://coolors.co/423841-2e5c8a-d6d6d6-248232-c97c18
@@ -141,12 +141,12 @@ body {
     background-color: $very-dark-blue;
 
     /* background-image: url(../img/wall.png); */
-    /* background-image: url(../img/screen_BG_indexed.png);
+    background-image: url(../img/screen_BG_indexed.png);
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
-        */
+
     
     font-family: $text-font;
     color: $very-light-gray;
@@ -832,7 +832,7 @@ blockquote {
     padding: 50px 40px 40px 40px;
     margin: 0px;
     font-family: $article-font, nimbus;
-    background-color: $article-bg-color;
+    background-color: transparent;
     color: $article-text-color;
     /* border: 2px solid $article-border-color; */
     border: none;

@@ -103,6 +103,10 @@ h6 {
   font-size: large;
   font-weight: bold;
   border: 1px solid rgb(169, 101, 13);
+  padding: 0.4rem 0.4rem 0.4rem 0.4rem;
+  align-items: center;
+  justify-content: center;
+  line-height: normal;
 }
 
 .button:hover {
@@ -231,7 +235,7 @@ blockquote {
   color: #111;
   background-color: #ccc;
   border: 1px solid #ccc;
-  padding: 0.5rem 0.5rem 0.52rem 0.5rem;
+  padding: 0.4rem 0.6rem 0.4rem 0.6rem;
 }
 
 .menu-button:hover {
@@ -720,7 +724,7 @@ blockquote {
 }
 @media (max-width: 600px) {
   .article {
-    padding: 20px 10px 10px 10px;
+    padding: 20px 5px 10px 5px;
   }
 }
 

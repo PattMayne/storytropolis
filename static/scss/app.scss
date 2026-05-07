@@ -18,22 +18,27 @@ $timberwolf: #d6d6d6ff;
 $forest-green: #248232ff;
 $dartmouth-green: #1A6025; /* darker green */
 $bronze: #c97c18ff;
+$dull-bronze: rgb(156, 95, 15);
 $deep-orange: rgb(169, 101, 13);
 $dull-orange: rgb(163, 142, 127);
 $pastel-blue: #5a639e;
 $yellow: #bdf000;
 $very-light-gray: #f0f0f0;
 $light-gray: #ccc;
-$very-dark-violet: #170e1b;
+$very-dark-blue: #10121d;
 
 
 $callout-border-color: $deep-orange;
-$callout-bg-color: $very-dark-violet;
+$callout-bg-color: $very-dark-blue;
 $callout-text-color: $light-gray;
 
+$primary-border-color: $deep-orange;
+$primary-bg-color: $very-dark-blue;
+$primary-text-color: $light-gray;
+
 $article-border-color: $deep-orange;
-$article-bg-color: $light-gray;
-$article-text-color: $pure-black;
+$article-bg-color: $very-dark-blue;
+$article-text-color: $light-gray;
 
 /* COLOR SCHEME 
         https://coolors.co/423841-2e5c8a-d6d6d6-248232-c97c18
@@ -124,7 +129,7 @@ $title-font: nue-gothic-round;
 $header-font: nue-gothic-round;
 $text-font: nimbus;
 $button-font: nue-gothic-reg;
-$article-font: andada;
+$article-font: nimbus;
 
 
 
@@ -133,7 +138,7 @@ $article-font: andada;
 /*    HTML elements  */
 
 body {
-    background-color: $very-dark-violet;
+    background-color: $very-dark-blue;
 
     /* background-image: url(../img/wall.png); */
     /* background-image: url(../img/screen_BG_indexed.png);
@@ -235,9 +240,9 @@ blockquote {
 
 .callout.primary {
     font-family: $text-font;
-    border: 2px solid $article-border-color;
-    background-color: $article-bg-color;
-    color: $article-text-color;
+    border: 2px solid $primary-border-color;
+    background-color: $primary-bg-color;
+    color: $primary-text-color;
     padding: 20px;
 }
 
@@ -323,16 +328,21 @@ blockquote {
 .main-logo-cell {}
 
 .menu-button {
+    color: $black;
+    background-color: $light-gray;
+    border: 1px solid $light-gray;
+    
     padding: 0.5rem 0.5rem 0.52rem 0.5rem;
-    border-color: #111;
-    background-color: #d3d3d3;
-    color: #111;
-    border: 1px solid transparent;
+}
+
+.menu-button:hover {
+    border: 1px solid $light-gray;;
+    color: $light-gray;
+    background-color: $black;
 }
 
 .menu-button:focus {
-    color: #e90000;
-    border-bottom: 1px solid #111;
+    color: $forest-green;
     background: none;
 }
 
@@ -340,18 +350,10 @@ blockquote {
     display: none;
 }
 
-.menu-button:hover {
-    background-color: #111;
-    color: #fefefe;
-}
-
 .active {
     color: #111;
     background-color: $pure-blue;
-
-    @media (max-width: 640px) {
-        border: 1px solid $pure-blue;
-    }
+    border: 1px solid $pure-blue;
 }
 
 .bold-text {
@@ -672,27 +674,26 @@ blockquote {
 
 #the_title {
     font-family: $title-font;
-    color: $pure-orange;
-    /* color: #e45700; */
-    /* background-color: rgba(255, 255, 255, 0.7); */
+    color: $light-gray;
     display: inline-block;
     margin-top: 10px;
-    padding-left: 6px;
+    margin-left: 0px;
+    padding-left: 0px;
     padding-right: 6px;
-    font-size: 55px;
+    font-size: 41px;
     text-transform: none;
     /* -webkit-text-stroke: 1px #bf7f00; */
 
     @media (max-width: 535px) {
-        font-size: 41px;
+        font-size: 37px;
     }
 
     @media (max-width: 420px) {
-        font-size: 36px;
+        font-size: 31px;
     }
         
     @media (max-width: 350px) {
-        font-size: 33px;
+        font-size: 25px;
     }
 }
 
@@ -831,22 +832,35 @@ blockquote {
     padding: 50px 40px 40px 40px;
     margin: 0px;
     font-family: $article-font, nimbus;
-    font-size: large;
     background-color: $article-bg-color;
     color: $article-text-color;
     /* border: 2px solid $article-border-color; */
     border: none;
 
-    @media (max-width: 700px) {
-        font-size: medium;
+    @media (max-width: 600px) {
+        padding: 20px 10px 10px 10px;
     }
 }
 
-.article p, h1, h2, h3, h4, h5, h6, hr, a, label, li {
+.article h1, .article h2, .article h3,
+.article h4, .article h5, .article h6, .article hr,
+.article label {
     font-family: $article-font, nimbus;
     color: $article-text-color;
 }
 
+.article p, .article a, .article li {
+    font-family: $article-font, nimbus;
+    color: $article-text-color;
+    font-size: 1.2em;
+
+
+    @media (max-width: 500px) {
+        font-size: medium;
+    }
+}
+
+/* textarea */
 #post_body {
     min-height: 500px;
     border: 2px solid $article-border-color;
@@ -854,6 +868,7 @@ blockquote {
     padding: 20px;
 }
 
+/* text input */
 #title_input {
     font-family: $article-font, nimbus;
     color: $article-text-color;
@@ -861,16 +876,8 @@ blockquote {
     background-color: $article-bg-color;
 }
 
-.article p {
-    font-family: $article-font, nimbus;
-    font-size: large;
 
-    @media (max-width: 700px) {
-        font-size: medium;
-    }
-  }
-
-  #article_container {
+#article_container {
     margin-left: 15px;
     margin-bottom: 10px;
     padding: 10px;
@@ -885,20 +892,24 @@ blockquote {
         border-left: none;
         border-right: none;
     }
-  }
+}
 
-  .article_title {
+.article_title {
     font-family: $text-font;
     text-transform: none;
     font-weight: bold;
-  }
 
-  .italics {
+    @media (max-width: 640px) {
+        font-size: 1.55em;
+    }
+}
+
+.italics {
     font-style: italic;
-  }
+}
 
   /* Optional: clear floats after the paragraph if needed */
-  .clearfix::after {
+.clearfix::after {
     content: "";
     display: table;
     clear: both;

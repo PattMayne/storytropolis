@@ -36,8 +36,8 @@ use crate::utils::SupportedLangs;
 pub static TRANSLATIONS: phf::Map<&'static str, &'static str> = phf_map! {
 
     // HOME PAGE
-    "header.title.fr" => "<span id='title_left'>The</span> Matt Payne <span id='title_right'>Blog</span>",
-    "header.title.en" => "<span id='title_left'>The</span> Matt Payne <span id='title_right'>Blog</span>",
+    "header.title.fr" => "The Matt Payne Journal",
+    "header.title.en" => "The Matt Payne Journal",
     "home.title.fr"=> "The Matt Payne Blog",
     "home.title.en"=> "The Matt Payne Blog",
     "home.greeting.en" => "Hello, {0}!",

@@ -59,7 +59,7 @@
 /* FONT VARIABLES */
 /*    HTML elements  */
 body {
-  background-color: #231111;
+  background-color: #170e1b;
   /* background-image: url(../img/wall.png); */
   /* background-image: url(../img/screen_BG_indexed.png);
   background-size: cover;
@@ -71,6 +71,19 @@ body {
   color: #f0f0f0;
 }
 
+p, a, label {
+  font-family: nimbus;
+  color: #f0f0f0;
+  font-size: medium;
+}
+
+input, textarea {
+  font-family: andada;
+  color: #ccc;
+  background-color: #170e1b;
+  border: 1px solid rgb(169, 101, 13);
+}
+
 h1,
 h2 {
   font-family: nue-gothic-round;
@@ -79,10 +92,22 @@ h2 {
 h3,
 h4,
 h5,
-h6,
-.button {
+h6 {
   font-family: nue-gothic-round;
   text-transform: uppercase;
+  font-size: medium;
+}
+
+.button {
+  font-family: nue-gothic-reg;
+  text-transform: uppercase;
+  font-size: large;
+  font-weight: bold;
+  border: 1px solid rgb(169, 101, 13);
+}
+
+.button:hover {
+  border: 1px solid #f0f0f0;
 }
 
 p,
@@ -90,15 +115,6 @@ a,
 li,
 input {
   font-family: nimbus, Arial, sans-serif;
-}
-
-article, .article {
-  padding: 10px;
-  margin: 10px;
-  font-family: dejavu_serif;
-  display: block;
-  width: 100%;
-  border: 2px solid #c97c18;
 }
 
 blockquote {
@@ -121,17 +137,26 @@ blockquote {
 .callout {
   position: relative;
   margin: 0 0 1rem 0;
-  padding: 0.25rem 0.5rem 0.5rem 0.5rem;
-  background-color: #ccc;
-  color: #0a0a0a;
-  border: 1px solid #111;
+  padding: 20px;
+  font-size: large;
+  border: 2px solid rgb(169, 101, 13);
+  background-color: #170e1b;
+  color: #ccc;
+  font-family: nimbus;
 }
 
 .callout.primary {
-  background: #a5a5a5;
-  border: none;
-  color: #000;
-  border: none;
+  font-family: nimbus;
+  border: 2px solid rgb(169, 101, 13);
+  background-color: #170e1b;
+  color: #ccc;
+  padding: 20px;
+}
+
+.callout.primary p,
+.callout p {
+  color: #ccc;
+  font-family: nimbus;
 }
 
 /*    CUSTOM classes  */
@@ -403,7 +428,7 @@ blockquote {
 
 .genres_p {
   margin-bottom: 0px;
-  font-family: nue-gothic-round;
+  font-family: nue-gothic-reg;
   text-transform: uppercase;
   font-size: small;
   display: inline-block;
@@ -420,7 +445,7 @@ blockquote {
 .genre_span {
   margin: 0px;
   margin-right: 3px;
-  font-family: nue-gothic-round;
+  font-family: nue-gothic-reg;
   font-size: small;
   display: inline-block;
   background-color: #dfdfdf;
@@ -511,7 +536,7 @@ blockquote {
 }
 
 .blog_link {
-  font-family: nue-gothic-round;
+  font-family: nue-gothic-reg;
   font-size: large;
   color: #222;
   margin: 0px 3px 0px 3px;
@@ -524,7 +549,7 @@ blockquote {
 }
 
 .blog_link_cats {
-  font-family: nue-gothic-round;
+  font-family: nue-gothic-reg;
 }
 
 .attribution {
@@ -676,12 +701,56 @@ blockquote {
 }
 
 /* BLOG ARTICLE STYLING */
-.article, .article p {
-  font-family: dejavu_serif, nimbus;
-  font-size: x-large;
+.article_wrapper {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  max-width: 100%;
+  margin: 0px;
+  padding: 10px;
+}
+
+.article {
+  text-align: left;
+  justify-content: left;
+  display: inline-block;
+  width: 770px;
+  max-width: 100%;
+  padding: 50px 40px 40px 40px;
+  margin: 0px;
+  font-family: andada, nimbus;
+  font-size: large;
+  background-color: #170e1b;
+  color: #ccc;
+  border: 2px solid rgb(169, 101, 13);
 }
 @media (max-width: 700px) {
-  .article, .article p {
+  .article {
+    font-size: medium;
+  }
+}
+
+#post_body {
+  min-height: 500px;
+  border: 2px solid rgb(169, 101, 13);
+  background-color: #170e1b;
+  padding: 20px;
+}
+
+#title_input {
+  font-family: andada, nimbus;
+  color: #ccc;
+  border: 2px solid rgb(169, 101, 13);
+  background-color: #170e1b;
+}
+
+.article p {
+  font-family: andada, nimbus;
+  font-size: large;
+}
+@media (max-width: 700px) {
+  .article p {
     font-size: medium;
   }
 }
@@ -702,6 +771,16 @@ blockquote {
     border-left: none;
     border-right: none;
   }
+}
+
+.article_title {
+  font-family: nimbus;
+  text-transform: none;
+  font-weight: bold;
+}
+
+.italics {
+  font-style: italic;
 }
 
 /* Optional: clear floats after the paragraph if needed */

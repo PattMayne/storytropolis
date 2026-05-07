@@ -9,19 +9,25 @@ $black: #111;
 $pure-black: #000;
 
 /* Fonts from the PHP version*/
+$dark-rust: rgb(32, 28, 27);
+$dark-jet: rgb(32, 27, 32);
 $jet: #423841ff;
 $lapis-lazuli: #2e5c8aff;
 $timberwolf: #d6d6d6ff;
 $forest-green: #248232ff;
 $dartmouth-green: #1A6025; /* darker green */
 $bronze: #c97c18ff;
+$deep-orange: rgb(169, 101, 13);
 $pastel-blue: #5a639e;
 $yellow: #bdf000;
 $very-light-gray: #f0f0f0;
 $light-gray: #ccc;
+$very-dark-violet: #170e1b;
 
 
-
+$article-border-color: $deep-orange;
+$article-bg-color: $very-dark-violet;
+$article-text-color: $light-gray;
 
 /* COLOR SCHEME 
         https://coolors.co/423841-2e5c8a-d6d6d6-248232-c97c18
@@ -111,8 +117,9 @@ $white: $very-light-gray;
 $title-font: nue-gothic-round;
 $header-font: nue-gothic-round;
 $text-font: nimbus;
-$button-font: nue-gothic-round;
-$article-font: dejavu_serif;
+$button-font: nue-gothic-reg;
+$article-font: andada;
+
 
 
 
@@ -120,7 +127,7 @@ $article-font: dejavu_serif;
 /*    HTML elements  */
 
 body {
-    background-color: #231111;
+    background-color: $very-dark-violet;
 
     /* background-image: url(../img/wall.png); */
     /* background-image: url(../img/screen_BG_indexed.png);
@@ -134,20 +141,44 @@ body {
     color: $very-light-gray;
 }
 
+p, a, label {
+    font-family: $text-font;
+    color: $very-light-gray;
+    font-size: medium;
+}
+
+input, textarea {
+    font-family: $article-font;
+    color: $article-text-color;
+    background-color: $article-bg-color;
+    border: 1px solid $article-border-color;
+}
+
 h1,
 h2 {
     font-family: $title-font;
 }
 
 
-
 h3,
 h4,
 h5,
-h6,
+h6{
+    font-family: $title-font;
+    text-transform: uppercase;
+    font-size:medium;
+}
+
 .button {
     font-family: $button-font;
     text-transform: uppercase;
+    font-size:large;
+    font-weight: bold;
+    border: 1px solid $article-border-color;
+}
+
+.button:hover {
+    border: 1px solid $white;
 }
 
 
@@ -161,14 +192,7 @@ input {
         sans-serif;
 }
 
-article, .article {
-    padding: 10px;
-    margin: 10px;
-    font-family: $article-font;
-    display: block;
-    width: 100%;
-    border: 2px solid $bronze;
-}
+
 
 blockquote {
     color: #666;
@@ -194,20 +218,28 @@ blockquote {
 .callout {
     position: relative;
     margin: 0 0 1rem 0;
-    padding: 0.25rem 0.5rem 0.5rem 0.5rem;
-    background-color: #ccc;
-    color: #0a0a0a;
-    border: 1px solid #111;
+    padding: 20px;
+    font-size: large;
+    border: 2px solid $article-border-color;
+    background-color: $article-bg-color;
+    color: $article-text-color;
+    font-family: $text-font;
 }
 
 
 .callout.primary {
-    background: #a5a5a5;
-    border: none;
-    color: #000;
-    border: none;
+    font-family: $text-font;
+    border: 2px solid $article-border-color;
+    background-color: $article-bg-color;
+    color: $article-text-color;
+    padding: 20px;
 }
 
+.callout.primary p,
+.callout p {
+    color: $article-text-color;
+    font-family: $text-font;
+}
 
 /*    CUSTOM classes  */
 
@@ -774,9 +806,52 @@ blockquote {
 
 /* BLOG ARTICLE STYLING */
 
-  .article, .article p {
+.article_wrapper {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    max-width: 100%;
+    margin: 0px;
+    padding: 10px;
+}
+
+  .article {
+    text-align: left;
+    justify-content: left;
+    display: inline-block;
+    width: 770px;
+    max-width: 100%;
+    padding: 50px 40px 40px 40px;
+    margin: 0px;
     font-family: $article-font, nimbus;
-    font-size: x-large;
+    font-size: large;
+    background-color: $article-bg-color;
+    color: $article-text-color;
+    border: 2px solid $article-border-color;
+
+    @media (max-width: 700px) {
+        font-size: medium;
+    }
+  }
+
+#post_body {
+    min-height: 500px;
+    border: 2px solid $article-border-color;
+    background-color: $article-bg-color;
+    padding: 20px;
+}
+
+#title_input {
+    font-family: $article-font, nimbus;
+    color: $article-text-color;
+    border: 2px solid $article-border-color;
+    background-color: $article-bg-color;
+}
+
+.article p {
+    font-family: $article-font, nimbus;
+    font-size: large;
 
     @media (max-width: 700px) {
         font-size: medium;
@@ -798,6 +873,16 @@ blockquote {
         border-left: none;
         border-right: none;
     }
+  }
+
+  .article_title {
+    font-family: $text-font;
+    text-transform: none;
+    font-weight: bold;
+  }
+
+  .italics {
+    font-style: italic;
   }
 
   /* Optional: clear floats after the paragraph if needed */

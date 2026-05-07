@@ -18,7 +18,7 @@ const submit_data = async () => {
 
     // Gather data 
     const post_body = document.getElementById("post_body").value.trim()
-    const post_title = document.getElementById("title").value.trim()
+    const post_title = document.getElementById("title_input").value.trim()
     const pin_checked = document.getElementById("pin_check").checked
     const pinned_to_blog_checked = document.getElementById("pinned_to_blog_check").checked
 

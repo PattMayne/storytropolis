@@ -37,9 +37,12 @@ $primary-bg-color: $very-dark-blue;
 $primary-text-color: $light-gray;
 
 $article-border-color: $deep-orange;
-$article-bg-color: $very-dark-blue;
+$article-bg-color: transparent;
 $article-text-color: $very-light-gray;
 
+$editor-border-color: $deep-orange;
+$editor-bg-color: $very-dark-blue;
+$editor-text-color: $very-light-gray;
 /* COLOR SCHEME 
         https://coolors.co/423841-2e5c8a-d6d6d6-248232-c97c18
 */
@@ -832,7 +835,7 @@ blockquote {
     padding: 50px 40px 40px 40px;
     margin: 0px;
     font-family: $article-font, nimbus;
-    background-color: transparent;
+    background-color: $article-bg-color;
     color: $article-text-color;
     /* border: 2px solid $article-border-color; */
     border: none;
@@ -863,17 +866,17 @@ blockquote {
 /* textarea */
 #post_body {
     min-height: 500px;
-    border: 2px solid $article-border-color;
-    background-color: $article-bg-color;
+    border: 2px solid $editor-border-color;
+    background-color: $editor-bg-color;
     padding: 20px;
 }
 
 /* text input */
 #title_input {
     font-family: $article-font, nimbus;
-    color: $article-text-color;
-    border: 2px solid $article-border-color;
-    background-color: $article-bg-color;
+    color: $editor-text-color;
+    border: 2px solid $editor-border-color;
+    background-color: $editor-bg-color;
 }
 
 

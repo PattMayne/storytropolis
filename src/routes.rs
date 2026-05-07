@@ -372,18 +372,23 @@ async fn new_blog_post(
         return redirect_resp;
     }
 
-    println!("trying to post");
-
     // Trim the body string
     blog_post_data.trim_all_strings();
 
     println!("Categories: {}", blog_post_data.categories);
+
+    // NOW we need to add the categories to the table.
+    // this happens AFTER we get the post id.
+    // the post pattern must be rewritten to just return the post id
+    // then the categories can be added.
+    // and THEN we can create BlogPostSuccess.
 
     // Add the post to the database
     let post_succes_obj: BlogPostSuccess = match db::add_post(
         &pool,
         &blog_post_data.post_title,
         &blog_post_data.post_body,
+        &blog_post_data.categories,
         user_req_data.username.unwrap(),
         blog_post_data.pinned,
         blog_post_data.pinned_to_blog

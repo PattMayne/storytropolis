@@ -557,6 +557,7 @@ pub async fn add_post(
     pool: &MySqlPool,
     post_title: &String,
     post_body: &String,
+    cats_string: &String,
     author_name: String,
     pinned: bool,
     pinned_to_blog: bool
@@ -577,7 +578,9 @@ pub async fn add_post(
             anyhow!("Could not save NEW POST to database: {e}")
         })?;
     
-    Ok(result.last_insert_id())
+    let post_id: u64 = result.last_insert_id();
+    attach_categories_to_post(pool, post_id as i64, cats_string).await?;
+    Ok(post_id)
 }
 
 
@@ -650,6 +653,75 @@ pub async fn create_verification_code(
         })?;
     
     Ok(result.rows_affected())
+}
+
+
+/**
+ * When a post is created or edited we need to add the categories
+ * in one big transaction.
+ */
+pub async fn attach_categories_to_post(
+    pool: &MySqlPool,
+    post_id: i64,
+    cats_string: &str,
+) -> Result<(), sqlx::Error> {
+
+    let mut tx: sqlx::Transaction<'_, sqlx::MySql> = pool.begin().await?;
+    let category_names: Vec<String> = cats_string
+        .split(',')
+        .map(|s| s.trim().to_lowercase())
+        .filter(|s| !s.is_empty())
+        .collect();
+
+    // Remove existing category relationships first.
+    // User (me) might have deleted some from the text field.
+    sqlx::query(
+        r#"
+        DELETE FROM post_categories
+        WHERE post_id = ?
+        "#
+    )
+    .bind(post_id)
+    .execute(&mut *tx)
+    .await?;
+
+    for category_name in category_names {
+        // Insert category if it doesn't exist.
+        // If it DOES exist, retrieve existing id.
+        let result: sqlx::mysql::MySqlQueryResult = sqlx::query(
+            r#"
+            INSERT INTO categories (name)
+            VALUES (?)
+            ON DUPLICATE KEY UPDATE
+                id = LAST_INSERT_ID(id)
+            "#
+        )
+        .bind(&category_name)
+        .execute(&mut *tx)
+        .await?;
+
+        // Will get the new category id or existing id
+        let category_id: u64 = result.last_insert_id();
+
+        // Create relationship row
+        // INSERT IGNORE prevents duplicate relationships
+        sqlx::query(
+            r#"
+            INSERT IGNORE INTO post_categories
+                (post_id, category_id)
+            VALUES (?, ?)
+            "#
+        )
+        .bind(post_id)
+        .bind(category_id as i64)
+        .execute(&mut *tx)
+        .await?;
+    }
+
+    // Commit transaction
+    tx.commit().await?;
+
+    Ok(())
 }
 
 

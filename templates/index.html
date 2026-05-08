@@ -7,7 +7,7 @@
         <title>{{ texts.title | safe }}</title>
         <link rel="icon" type="image/x-icon" href="static/img/guy_icon.png">
         <link rel="stylesheet" href="static/css/foundation.min.css">
-        <link rel="stylesheet" href="static/css/app.css?id=5090090">
+        <link rel="stylesheet" href="static/css/app.css?id=5687p1">
     </head>
 
     <body>
@@ -22,10 +22,7 @@
 
             {% if categories.len() > 0 %}
             <div class="callout">
-                <h3>CATEGORIES</h3>
-                {% for cat in categories %}
-                    <span class="cat_item">{{ cat }}</span>
-                {% endfor %}
+                {% include "categories.html" %}
             </div>
             {% endif %}
         </div>

@@ -91,6 +91,10 @@ pub fn validate_url(url: &String) -> bool {
 }
 
 
+pub fn vec_to_string(vec: &Vec<String>) -> String {
+    vec.join(", ")
+}
+
 
 /* 
  * 

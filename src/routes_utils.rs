@@ -437,6 +437,7 @@ pub struct EditPostTemplate {
     pub user: auth::UserReqData,
     pub texts: EditPostTexts,
     pub post: BlogPost,
+    pub categories_string: String,
     pub nav_data: NavData,
 }
 

@@ -29,7 +29,9 @@ use futures_util::StreamExt;
 use std::fs;
 use std::io::Write;
 
+use crate::db::get_categories_by_post_id;
 use crate::resource_mgr::{AgreementTexts, BlogTexts, NewPostTexts, EditPostTexts};
+use crate::utils::vec_to_string;
 // local modules, loaded as crates (declared as mods in main.rs)
 use crate::{
     resources::get_translation,
@@ -377,12 +379,6 @@ async fn new_blog_post(
 
     println!("Categories: {}", blog_post_data.categories);
 
-    // NOW we need to add the categories to the table.
-    // this happens AFTER we get the post id.
-    // the post pattern must be rewritten to just return the post id
-    // then the categories can be added.
-    // and THEN we can create BlogPostSuccess.
-
     // Add the post to the database
     let post_succes_obj: BlogPostSuccess = match db::add_post(
         &pool,
@@ -629,6 +625,7 @@ pub async fn update_blog_post(
         blog_post_data.post_id,
         &blog_post_data.post_title,
         &blog_post_data.post_body,
+        &blog_post_data.categories,
         blog_post_data.pinned,
         blog_post_data.pinned_to_blog
     ).await {
@@ -1124,6 +1121,22 @@ pub async fn blog(
 
 
 /**
+ * User views a single post page.
+ */
+#[get("/post/{id}")]
+pub async fn view_post(
+    pool: web::Data<MySqlPool>,
+    req: HttpRequest,
+    post_id_obj: web::Path<PostId>
+) -> impl Responder {
+    let user_req_data: auth::UserReqData = auth::get_user_req_data(&req);
+
+    // this is just a placeholder for now
+
+    return_error_page(&req, 500)
+}
+
+/**
  * Show the page where the user can create a new post
  */
 #[get("/edit_post/{id}")]
@@ -1154,10 +1167,17 @@ pub async fn edit_post_page(
 
     match post_obj_result.unwrap() {
         Some(post) => {
+
+            // get the categories
+            let categories: Vec<String> =
+                get_categories_by_post_id(post.id as i64, &pool).await.unwrap_or_default();
+            
+            let categories_string: String = vec_to_string(&categories);
+
             let edit_post_template: EditPostTemplate = EditPostTemplate {
                 texts: EditPostTexts::new(&user_req_data),
                 user: user_req_data,
-                post,
+                post, categories_string,
                 nav_data: NavData::new( "edit_post".to_string() )
             };
 

@@ -254,6 +254,28 @@ pub async fn get_posts(
     Ok(blog_posts)
 }
 
+pub async fn get_categories_by_post_id(
+    post_id: i64,
+    pool: &MySqlPool,
+) -> Result<Vec<String>, sqlx::Error> {
+
+    let category_names: Vec<String> = sqlx::query_scalar(
+        r#"
+        SELECT c.name
+        FROM categories c
+        INNER JOIN post_categories pc
+            ON pc.category_id = c.id
+        WHERE pc.post_id = ?
+        ORDER BY c.name
+        "#
+    )
+    .bind(post_id)
+    .fetch_all(pool)
+    .await?;
+
+    Ok(category_names)
+}
+
 
 pub async fn get_non_pinned_posts(
     pool: &MySqlPool
@@ -562,8 +584,8 @@ pub async fn add_post(
     pinned: bool,
     pinned_to_blog: bool
 ) -> Result<u64, anyhow::Error> {
-    // We trust that the data has already been checked. We simply enter it like obedient robots now.
-    // Except that we will turn the bool into an int.
+    // We trust that the data has already been checked.
+    // We simply enter it like obedient robots now.
     let result: sqlx::mysql::MySqlQueryResult = sqlx::query(
     "INSERT INTO blog_post (
             title, body, author_name, pinned, pinned_to_blog
@@ -824,6 +846,7 @@ pub async fn update_post(
     post_id: i64,
     post_title: &String,
     post_body: &String,
+    cats_string: &String,
     pinned: bool,
     pinned_to_blog: bool
 ) -> Result<i32, anyhow::Error> {
@@ -845,10 +868,9 @@ pub async fn update_post(
         .execute(pool)
         .await?;
 
+    attach_categories_to_post(pool, post_id, cats_string).await?;
     Ok(result.rows_affected() as i32)
 }
-
-
 
 
 /**

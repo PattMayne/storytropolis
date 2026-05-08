@@ -29,7 +29,8 @@ use futures_util::StreamExt;
 use std::fs;
 use std::io::Write;
 
-use crate::db::{UnifiedPost, get_active_categories, get_categories_by_post_id, get_unified_post, get_unified_posts};
+use crate::db::{UnifiedPost, get_active_categories,
+    get_categories_by_post_id, get_unified_post, get_unified_posts};
 use crate::resource_mgr::{AgreementTexts, BlogTexts, NewPostTexts, EditPostTexts};
 use crate::utils::vec_to_string;
 // local modules, loaded as crates (declared as mods in main.rs)
@@ -940,17 +941,26 @@ async fn home(
     // we need the posts to get the unified posts uposts
     let posts: Vec<db::BlogPost> = match db::get_non_pinned_posts(&pool).await {
         Ok(b_posts) => b_posts,
-        Err(_e) => return return_error_page(&req, 404)
+        Err(e) => {
+            eprintln!("Error retrieving posts: {e}");
+            return return_error_page(&req, 404)
+        }
     };
 
     let uposts: Vec<db::UnifiedPost> = match get_unified_posts(&pool, posts).await {
         Ok(uposts) => uposts,
-        Err(_e) => return return_error_page(&req, 404)
+        Err(e) => {
+            eprintln!("Error retrieving unified posts: {e}");
+            return return_error_page(&req, 404)
+        }
     };
 
     let categories: Vec<String> = match get_active_categories(&pool).await {
         Ok(cats) => cats,
-        Err(_e) => return return_error_page(&req, 404)
+        Err(e) => {
+            eprintln!("Error retrieving categories: {e}");
+            return return_error_page(&req, 404)
+        }
     };
 
     let home_template: HomeTemplate = HomeTemplate {
@@ -1165,11 +1175,33 @@ pub async fn view_post(
 ) -> impl Responder {
     let user_req_data: auth::UserReqData = auth::get_user_req_data(&req);
 
-    // Get the requested post and package it with its categories
-    let upost: db::UnifiedPost =
+    // Painstaking extraction because we keep getting errors
+
+    let post_option: Option<db::BlogPost> =
         match db::get_post_by_id(&pool, post_id_obj.id).await {
-            Ok(Some(post)) => get_unified_post(&pool, post).await,
-            _ => return return_error_page(&req, 404)
+            Ok(option) => option,
+            Err(e) => {
+                eprintln!("Error retrieving unified post 1: {e}");
+                return return_error_page(&req, 404)
+            }
+        };
+
+    let post: db::BlogPost =
+        if post_option.is_some() {
+            post_option.unwrap()
+        } else {
+            eprintln!("Post not found");
+            return error_post_response(&req, 404);
+        };
+
+    // Get the requested post and package it with its categories
+    let upost: UnifiedPost =
+        match get_unified_post(&pool, post).await {
+            Ok(upost) => upost,
+            Err(e) => {
+                eprintln!("Error retrieving unified post 1: {e}");
+                return return_error_page(&req, 404)
+            }
         };
 
     let template: PostTemplate = PostTemplate {

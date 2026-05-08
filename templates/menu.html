@@ -1,0 +1,7 @@
+{% if !nav_data.is_active("about") || user.logged_in %}
+
+<div id="menu_box">
+    {% include "menu_items.html" %}
+</div>
+
+{% endif %}

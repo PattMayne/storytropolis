@@ -150,9 +150,9 @@ blockquote {
 
 .callout.primary {
   font-family: nimbus;
-  border: 2px solid rgb(169, 101, 13);
-  background-color: #0d1117;
-  color: #ccc;
+  border: none;
+  background-color: rgba(13, 17, 23, 0.6431372549);
+  color: #f0f0f0;
   padding: 20px;
 }
 
@@ -232,16 +232,16 @@ blockquote {
 }
 
 .menu-button {
-  color: #111;
-  background-color: #ccc;
   border: 1px solid #ccc;
+  color: #ccc;
+  background-color: #111;
   padding: 0.4rem 0.6rem 0.4rem 0.6rem;
 }
 
 .menu-button:hover {
+  color: #111;
+  background-color: #ccc;
   border: 1px solid #ccc;
-  color: #ccc;
-  background-color: #111;
 }
 
 .menu-button:focus {

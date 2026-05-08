@@ -35,8 +35,8 @@ $callout-bg-color: $very-dark-blue;
 $callout-text-color: $light-gray;
 
 $primary-border-color: $deep-orange;
-$primary-bg-color: $very-dark-blue;
-$primary-text-color: $light-gray;
+$primary-bg-color: $very-dark-blue-fade;
+$primary-text-color: $very-light-gray;
 
 $article-border-color: $deep-orange;
 $article-bg-color: $very-dark-blue-fade;
@@ -249,7 +249,7 @@ blockquote {
 
 .callout.primary {
     font-family: $text-font;
-    border: 2px solid $primary-border-color;
+    border: none;
     background-color: $primary-bg-color;
     color: $primary-text-color;
     padding: 20px;
@@ -337,17 +337,17 @@ blockquote {
 .main-logo-cell {}
 
 .menu-button {
-    color: $black;
-    background-color: $light-gray;
     border: 1px solid $light-gray;
+    color: $light-gray;
+    background-color: $black;
     
     padding: 0.4rem 0.6rem 0.4rem 0.6rem;
 }
 
 .menu-button:hover {
-    border: 1px solid $light-gray;;
-    color: $light-gray;
-    background-color: $black;
+    color: $black;
+    background-color: $light-gray;
+    border: 1px solid $light-gray;
 }
 
 .menu-button:focus {

@@ -7,7 +7,7 @@
         <title>{{ texts.title | safe }}</title>
         <link rel="icon" type="image/x-icon" href="static/img/guy_icon.png">
         <link rel="stylesheet" href="static/css/foundation.min.css">
-        <link rel="stylesheet" href="static/css/app.css?id=59">
+        <link rel="stylesheet" href="static/css/app.css?id=5090090">
     </head>
 
     <body>
@@ -15,11 +15,34 @@
     <div class="grid-x grid-padding-x"> <!-- 2 -->
         <!-- START OF MAIN CONTENT BOXES -->
 
-        <div class="large-3 medium-5 small-12 cell" id="about_box"> 
-
-
+        <div class="large-3 medium-5 small-12 cell" id="about_box">
             <div class="callout">
                 {{ pinned_post | safe }}
+            </div>
+
+            {% if categories.len() > 0 %}
+            <div class="callout">
+                <h3>CATEGORIES</h3>
+                {% for cat in categories %}
+                    <span class="cat_item">{{ cat }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="large-5 medium-7 small-12 cell">
+            <div class="callout">
+                <h2>POSTS</h2>
+                {% if uposts.len() > 0 %}
+                    {% for upost in uposts %}
+                    {% let post = upost.post %}
+                        {% if !post.is_pinned() %}
+                            {% include "posts_archive_item.html" %}
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    [NONE]
+                {% endif %}
             </div>
         </div>
 

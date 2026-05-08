@@ -29,7 +29,7 @@ use futures_util::StreamExt;
 use std::fs;
 use std::io::Write;
 
-use crate::db::{get_categories_by_post_id, get_unified_posts};
+use crate::db::{get_active_categories, get_categories_by_post_id, get_unified_posts};
 use crate::resource_mgr::{AgreementTexts, BlogTexts, NewPostTexts, EditPostTexts};
 use crate::utils::vec_to_string;
 // local modules, loaded as crates (declared as mods in main.rs)
@@ -937,8 +937,24 @@ async fn home(
             }
         };
 
+    // we need the posts to get the unified posts uposts
+    let posts: Vec<db::BlogPost> = match db::get_non_pinned_posts(&pool).await {
+        Ok(b_posts) => b_posts,
+        Err(_e) => return return_error_page(&req, 404)
+    };
+
+    let uposts: Vec<db::UnifiedPost> = match get_unified_posts(&pool, posts).await {
+        Ok(uposts) => uposts,
+        Err(_e) => return return_error_page(&req, 404)
+    };
+
+    let categories: Vec<String> = match get_active_categories(&pool).await {
+        Ok(cats) => cats,
+        Err(_e) => return return_error_page(&req, 404)
+    };
+
     let home_template: HomeTemplate = HomeTemplate {
-        texts,
+        texts, uposts, categories,
         user: user_req_data,
         pinned_post,
         nav_data: NavData::new( "about".to_string() ),

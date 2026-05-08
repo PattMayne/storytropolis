@@ -867,6 +867,21 @@ blockquote {
     }
 }
 
+.cat_item {
+    padding: 6px 5px 3px 5px;
+    margin: 2px;
+    font-family: nimbus;
+    border: 1px solid $light-gray;
+    background-color: $black;
+    color: $light-gray;
+}
+
+.cat_item:hover {
+    cursor: pointer;
+    background-color: $pure-blue;
+    color: $black;
+}
+
 .archive_p {
     margin-bottom: 5px;
 }

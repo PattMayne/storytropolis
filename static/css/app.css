@@ -746,6 +746,21 @@ blockquote {
   }
 }
 
+.cat_item {
+  padding: 6px 5px 3px 5px;
+  margin: 2px;
+  font-family: nimbus;
+  border: 1px solid #ccc;
+  background-color: #111;
+  color: #ccc;
+}
+
+.cat_item:hover {
+  cursor: pointer;
+  background-color: #007ede;
+  color: #111;
+}
+
 .archive_p {
   margin-bottom: 5px;
 }

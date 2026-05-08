@@ -369,6 +369,8 @@ pub struct TwoAuthCookies {
 pub struct HomeTemplate {
     pub texts: HomeTexts,
     pub user: auth::UserReqData,
+    pub uposts: Vec<db::UnifiedPost>,
+    pub categories: Vec<String>,
     pub pinned_post: String,
     pub nav_data: NavData,
 }

@@ -13,6 +13,8 @@ $dark-rust: rgb(32, 28, 27);
 $dark-jet: rgb(32, 27, 32);
 $jet: #423841ff;
 $gray: rgb(134, 129, 128);
+$light-gray: #ccc;
+$dark-gray: #292828;
 $lapis-lazuli: #2e5c8aff;
 $timberwolf: #d6d6d6ff;
 $forest-green: #248232ff;
@@ -24,9 +26,8 @@ $dull-orange: rgb(163, 142, 127);
 $pastel-blue: #5a639e;
 $yellow: #bdf000;
 $very-light-gray: #f0f0f0;
-$light-gray: #ccc;
 $very-dark-blue: #0d1117;
-$very-dark-blue-fade: #0d11179c;
+$very-dark-blue-fade: #0d1117a4;
 
 
 $callout-border-color: $deep-orange;
@@ -142,15 +143,15 @@ $article-font: nimbus;
 /*    HTML elements  */
 
 body {
-    background-color: $very-dark-blue;
+    background-color: $dark-gray;
 
     /* background-image: url(../img/wall.png); */
-    background-image: url(../img/screen_BG_indexed.png);
+
+    background-image: url(../img/screen_BG_indexed.webp);
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
-
     
     font-family: $text-font;
     color: $very-light-gray;

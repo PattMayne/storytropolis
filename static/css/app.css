@@ -59,9 +59,9 @@
 /* FONT VARIABLES */
 /*    HTML elements  */
 body {
-  background-color: #0d1117;
+  background-color: #292828;
   /* background-image: url(../img/wall.png); */
-  background-image: url(../img/screen_BG_indexed.png);
+  background-image: url(../img/screen_BG_indexed.webp);
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -730,7 +730,7 @@ blockquote {
   color: $callout-text-color;
   */
   border: none;
-  background-color: rgba(13, 17, 23, 0.6117647059);
+  background-color: rgba(13, 17, 23, 0.6431372549);
 }
 @media (max-width: 640px) {
   .article {

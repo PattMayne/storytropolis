@@ -229,10 +229,10 @@ pub async fn get_unified_post(
     pool: &MySqlPool,
     post: BlogPost
 ) -> UnifiedPost {
-    let categories: Vec<String> =
+    let categories_result: std::prelude::v1::Result<Vec<String>, sqlx::Error> =
         get_categories_by_post_id(post.id as i64, pool)
-        .await.unwrap_or_default();
-
+        .await;
+    let categories: Vec<String> = categories_result.unwrap_or_default();
     UnifiedPost{ post, categories }
 }
 

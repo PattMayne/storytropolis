@@ -17,6 +17,9 @@
     
     <div class="grid-x grid-padding-x">
         <div class="large-6 medium-6 small-12 cell">
+            {% if let Some(cat_string) = category %}
+                <h2>{{ cat_string }}</h2>
+            {% endif %}
             <div class="callout">
                 {% if uposts.len() > 0 %}
                     {% for upost in uposts %}
@@ -29,6 +32,10 @@
                     [NONE]
                 {% endif %}
             </div>
+
+            {% if let Some(cat_string) = category %}
+                <a class="button small" href="/blog">clear category</a>
+            {% endif %}
         </div>
     </div>
 

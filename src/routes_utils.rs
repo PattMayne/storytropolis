@@ -244,6 +244,11 @@ pub struct VerifyQuery {
     pub email: Option<String>,
 }
 
+#[derive(Deserialize)]
+pub struct CategoryQuery {
+    pub category: Option<String>,
+}
+
 
 // Store credentials when user tries to register
 #[derive(Deserialize)]
@@ -403,6 +408,7 @@ pub struct BlogTemplate {
     pub user: auth::UserReqData,
     pub uposts: Vec<db::UnifiedPost>,
     pub nav_data: NavData,
+    pub category: Option<String>,
 }
 
 #[derive(Template)]

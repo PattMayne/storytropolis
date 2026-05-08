@@ -29,8 +29,7 @@ use futures_util::StreamExt;
 use std::fs;
 use std::io::Write;
 
-use crate::db::{get_active_categories, get_categories_by_post_id,
-    get_unified_post, get_unified_posts};
+use crate::db::{UnifiedPost, get_active_categories, get_categories_by_post_id, get_unified_post, get_unified_posts};
 use crate::resource_mgr::{AgreementTexts, BlogTexts, NewPostTexts, EditPostTexts};
 use crate::utils::vec_to_string;
 // local modules, loaded as crates (declared as mods in main.rs)
@@ -1115,9 +1114,11 @@ pub async fn new_post_page(req: HttpRequest) -> impl Responder {
 #[get("/blog")]
 pub async fn blog(
     pool: web::Data<MySqlPool>,
-    req: HttpRequest
+    req: HttpRequest,
+    query: web::Query<CategoryQuery>
 ) -> HttpResponse {
     let user_req_data: auth::UserReqData = auth::get_user_req_data(&req);
+    let mut category_option: Option<String> = None;
 
     let posts: Vec<db::BlogPost> = match db::get_non_pinned_posts(&pool).await {
         Ok(b_posts) => b_posts,
@@ -1125,12 +1126,23 @@ pub async fn blog(
     };
 
     let uposts: Vec<db::UnifiedPost> = match get_unified_posts(&pool, posts).await {
-        Ok(uposts) => uposts,
+        Ok(uposts) => {
+            // optionally filter for those with the right category
+            if query.category.is_none() { uposts } else {
+                let category: String = query.category.to_owned().unwrap().to_string();
+                category_option = Some(category.to_owned());
+                uposts.into_iter()
+                    .filter(|upost|
+                    upost.categories.contains(&category))
+                    .collect()
+            }
+        },
         Err(_e) => return return_error_page(&req, 404)
-    };
+    };    
 
     let blog_post_template: BlogTemplate = BlogTemplate {
         uposts,
+        category: category_option,
         texts: BlogTexts::new(&user_req_data),
         user: user_req_data,
         nav_data: NavData::new( "blog".to_string() )

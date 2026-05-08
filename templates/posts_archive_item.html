@@ -2,7 +2,7 @@
     <span class="archive_date">
         {{ post.get_formatted_updated_timestamp() }}
     </span>
-    <span>
-        <a class="archive_title" href="#">{{ post.title }}</a>
+    <span class="archive_title_wrap">
+        <a class="archive_title" href="/post/{{ post.id }}">{{ post.title }}</a>
     </span>
 </p>

@@ -4,49 +4,25 @@
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{{ texts.title }}</title>
+        <title>{{ upost.post.title }}</title>
         <link rel="icon" type="image/x-icon" href="/static/img/guy_icon.png">
         <link rel="stylesheet" href="../static/css/foundation.min.css">
-        <link rel="stylesheet" href="../static/css/app.css?id=k">
+        <link rel="stylesheet" href="../static/css/app.css?id=73hml">
     </head>
 
     <body>
     {% include "header.html" %}
 
     <!-- archive on left, latest post on right (latest post invisible on mobile) -->
-    
-    <div class="grid-x grid-padding-x">
-        <div class="large-6 medium-6 small-12 cell">
-            <div class="callout">
-                {% if uposts.len() > 0 %}
-                    {% for upost in uposts %}
-                    {% let post = upost.post %}
-                        {% if !post.is_pinned() %}
-                            {% include "posts_archive_item.html" %}
-                        {% endif %}
-                    {% endfor %}
-                {% else %}
-                    [NONE]
-                {% endif %}
-            </div>
-        </div>
-    </div>
 
     <div class="article_wrapper">
-        {% if uposts.len() > 0 %}
-        {% for upost in uposts %}
-        {% if !upost.post.is_pinned() %}
-            <article class="article">
-                <h2 class="article_title bold_text">{{ upost.post.title }}</h2>
-                <p class="italics">{{ upost.post.get_formatted_updated_timestamp() }}</p>
-                <hr>
-                <p>{{ upost.post.body | safe }}</p>
-            </article>
-        {% endif %}
-        {% endfor %}
-        {% else %}
-        [NONE]
-        {% endif %}
+        <article class="article">
+            <h2 class="article_title bold_text">{{ upost.post.title }}</h2>
+            <p class="article_date italics">{{ upost.post.get_formatted_updated_timestamp() }}</p>
+            <hr>
+            <p>{{ upost.post.body | safe }}</p>
+        </article>
+
     </div>
 
         <script src="../static/js/vendor/jquery.js"></script>

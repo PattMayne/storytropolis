@@ -29,7 +29,8 @@ use futures_util::StreamExt;
 use std::fs;
 use std::io::Write;
 
-use crate::db::{get_active_categories, get_categories_by_post_id, get_unified_posts};
+use crate::db::{get_active_categories, get_categories_by_post_id,
+    get_unified_post, get_unified_posts};
 use crate::resource_mgr::{AgreementTexts, BlogTexts, NewPostTexts, EditPostTexts};
 use crate::utils::vec_to_string;
 // local modules, loaded as crates (declared as mods in main.rs)
@@ -38,7 +39,7 @@ use crate::{
     db, utils, auth,
     resource_mgr::{
         HomeTexts, LoginTexts, RegisterTexts, AdminTexts, VerifyTexts,
-        ErrorTexts, DashboardTexts, NewBookTexts,
+        ErrorTexts, DashboardTexts, NewBookTexts, PostTexts,
         ReqVerificationTexts, ErrorData
      },
     routes_utils::{*},
@@ -1152,9 +1153,23 @@ pub async fn view_post(
 ) -> impl Responder {
     let user_req_data: auth::UserReqData = auth::get_user_req_data(&req);
 
-    // this is just a placeholder for now
+    // Get the requested post and package it with its categories
+    let upost: db::UnifiedPost =
+        match db::get_post_by_id(&pool, post_id_obj.id).await {
+            Ok(Some(post)) => get_unified_post(&pool, post).await,
+            _ => return return_error_page(&req, 404)
+        };
 
-    return_error_page(&req, 500)
+    let template: PostTemplate = PostTemplate {
+        texts: PostTexts::new(&user_req_data),
+        user: user_req_data,
+        upost,
+        nav_data: NavData::new( "blog".to_string() )
+    };
+
+    HttpResponse::Ok()
+        .content_type("text/html")
+        .body(template.render().unwrap())
 }
 
 /**
@@ -1179,35 +1194,30 @@ pub async fn edit_post_page(
     };
 
     // Get the requested post
-    let post_obj_result: Result<Option<db::BlogPost>, anyhow::Error> =
-        db::get_post_by_id(&pool, post_id_obj.id).await;
+    let post: db::BlogPost =
+        match db::get_post_by_id(&pool, post_id_obj.id).await {
+            Ok(Some(post)) => post,
+            _ => return HttpResponse::NotFound().json(error_response)
+        };
 
-    if post_obj_result.is_err() {
-        return HttpResponse::Unauthorized().json(error_response)
-    }
+    // get the categories
+    let categories: Vec<String> =
+        get_categories_by_post_id(post.id as i64, &pool)
+        .await.unwrap_or_default();
+    
+    let categories_string: String = vec_to_string(&categories);
 
-    match post_obj_result.unwrap() {
-        Some(post) => {
+    let edit_post_template: EditPostTemplate = EditPostTemplate {
+        texts: EditPostTexts::new(&user_req_data),
+        user: user_req_data,
+        post, categories_string,
+        nav_data: NavData::new( "edit_post".to_string() )
+    };
 
-            // get the categories
-            let categories: Vec<String> =
-                get_categories_by_post_id(post.id as i64, &pool).await.unwrap_or_default();
-            
-            let categories_string: String = vec_to_string(&categories);
+    HttpResponse::Ok()
+        .content_type("text/html")
+        .body(edit_post_template.render().unwrap())
 
-            let edit_post_template: EditPostTemplate = EditPostTemplate {
-                texts: EditPostTexts::new(&user_req_data),
-                user: user_req_data,
-                post, categories_string,
-                nav_data: NavData::new( "edit_post".to_string() )
-            };
-
-            HttpResponse::Ok()
-                .content_type("text/html")
-                .body(edit_post_template.render().unwrap())
-        },
-        None => HttpResponse::Unauthorized().json(error_response)
-    }
 }
 
 

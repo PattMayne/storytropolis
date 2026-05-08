@@ -17,7 +17,7 @@ $lapis-lazuli: #2e5c8aff;
 $timberwolf: #d6d6d6ff;
 $forest-green: #248232ff;
 $dartmouth-green: #1A6025; /* darker green */
-$bronze: #c97c18ff;
+$bronze: #c97c18;
 $dull-bronze: rgb(156, 95, 15);
 $deep-orange: rgb(169, 101, 13);
 $dull-orange: rgb(163, 142, 127);
@@ -26,6 +26,7 @@ $yellow: #bdf000;
 $very-light-gray: #f0f0f0;
 $light-gray: #ccc;
 $very-dark-blue: #0d1117;
+$very-dark-blue-fade: #0d11179c;
 
 
 $callout-border-color: $deep-orange;
@@ -37,7 +38,7 @@ $primary-bg-color: $very-dark-blue;
 $primary-text-color: $light-gray;
 
 $article-border-color: $deep-orange;
-$article-bg-color: transparent;
+$article-bg-color: $very-dark-blue-fade;
 $article-text-color: $very-light-gray;
 
 $editor-border-color: $deep-orange;
@@ -828,6 +829,11 @@ blockquote {
     max-width: 100%;
     margin: 0px;
     padding: 10px;
+
+    @media (max-width: 640px) {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
 }
 
 .article {
@@ -838,15 +844,23 @@ blockquote {
     max-width: 100%;
     padding: 50px 40px 40px 40px;
     margin: 0px;
-    font-family: $article-font, nimbus;
-    background-color: $article-bg-color;
     color: $article-text-color;
-    /* border: 2px solid $article-border-color; */
-    border: none;
+    font-family: $article-font, nimbus;
+    /*
+    border: 2px solid $callout-border-color;
+    background-color: $callout-bg-color;
+    color: $callout-text-color;
+    */
 
-    @media (max-width: 600px) {
-        padding: 20px 5px 10px 5px;
+    border: none;
+    background-color: $article-bg-color;
+
+    @media (max-width: 640px) {
+        margin-left: 0px;
+        margin-right: 0px;
+        padding: 20px 15px 10px 15px;
     }
+
 }
 
 .article h1, .article h2, .article h3,
@@ -884,16 +898,30 @@ blockquote {
 
 .archive_p {
     margin-bottom: 5px;
+    display: flex;
+    gap: 0.5em;
+    flex-wrap: wrap;
 }
 
 .archive_date {
     color: $pastel-blue;
     font-size: 0.9rem;
     margin-right: 10px;
+    white-space: nowrap;
 }
+
+.archive_title_wrap {
+    flex-basis: 0;
+    flex-grow: 1;
+    min-width: 0; /* Allows shrinking */
+}
+
 
 .archive_title {
     color: $bronze;
+    display: inline-block;
+    white-space: normal;
+    word-break: break-word;
 }
 
 /* textarea */
@@ -930,15 +958,21 @@ blockquote {
     }
 }
 
-.article_title {
+.article h2.article_title {
     font-family: $text-font;
     text-transform: none;
     font-weight: bold;
+    color: $bronze;
 
     @media (max-width: 640px) {
         font-size: 1.55em;
     }
 }
+
+.article p.article_date {
+    color: $pure-blue;
+}
+
 
 .italics {
     font-style: italic;

@@ -35,7 +35,7 @@ use crate::{
     resources::get_translation,
     resource_mgr::{
         HomeTexts, LoginTexts, RegisterTexts, AdminTexts, BlogTexts,
-        ErrorTexts, DashboardTexts,
+        ErrorTexts, DashboardTexts, PostTexts,
         NewPostTexts, EditPostTexts, VerifyTexts, ReqVerificationTexts,
         ErrorData, error_by_code
      }
@@ -386,7 +386,14 @@ pub struct VerifyTemplate {
     pub nav_data: NavData,
 }
 
-
+#[derive(Template)]
+#[template(path ="blog_post.html")]
+pub struct PostTemplate {
+    pub texts: PostTexts,
+    pub user: auth::UserReqData,
+    pub upost: db::UnifiedPost,
+    pub nav_data: NavData,
+}
 
 
 #[derive(Template)]

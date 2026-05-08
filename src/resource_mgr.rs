@@ -261,6 +261,20 @@ impl EditPostTexts {
     }
 }
 
+/**
+ * route: get "/post/{id}"
+ */
+pub struct PostTexts {
+    pub nav: NavTexts,
+}
+
+
+impl PostTexts {
+    pub fn new(user_req_data: &UserReqData) -> PostTexts {
+        PostTexts { nav: NavTexts::new(&user_req_data.lang) }
+    }
+}
+
 
 /**
  * route: get "/verify"

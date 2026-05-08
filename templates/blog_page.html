@@ -7,7 +7,7 @@
         <title>{{ texts.title }}</title>
         <link rel="icon" type="image/x-icon" href="/static/img/guy_icon.png">
         <link rel="stylesheet" href="../static/css/foundation.min.css">
-        <link rel="stylesheet" href="../static/css/app.css?id=347">
+        <link rel="stylesheet" href="../static/css/app.css?id=3547">
     </head>
 
     <body>
@@ -30,23 +30,6 @@
                 {% endif %}
             </div>
         </div>
-    </div>
-
-    <div class="article_wrapper">
-        {% if uposts.len() > 0 %}
-        {% for upost in uposts %}
-        {% if !upost.post.is_pinned() %}
-            <article class="article">
-                <h2 class="article_title bold_text">{{ upost.post.title }}</h2>
-                <p class="italics">{{ upost.post.get_formatted_updated_timestamp() }}</p>
-                <hr>
-                <p>{{ upost.post.body | safe }}</p>
-            </article>
-        {% endif %}
-        {% endfor %}
-        {% else %}
-        [NONE]
-        {% endif %}
     </div>
 
         <script src="../static/js/vendor/jquery.js"></script>

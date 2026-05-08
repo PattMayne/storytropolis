@@ -29,7 +29,7 @@ use futures_util::StreamExt;
 use std::fs;
 use std::io::Write;
 
-use crate::db::get_categories_by_post_id;
+use crate::db::{get_categories_by_post_id, get_unified_posts};
 use crate::resource_mgr::{AgreementTexts, BlogTexts, NewPostTexts, EditPostTexts};
 use crate::utils::vec_to_string;
 // local modules, loaded as crates (declared as mods in main.rs)
@@ -1107,8 +1107,13 @@ pub async fn blog(
         Err(_e) => return return_error_page(&req, 404)
     };
 
+    let uposts: Vec<db::UnifiedPost> = match get_unified_posts(&pool, posts).await {
+        Ok(uposts) => uposts,
+        Err(_e) => return return_error_page(&req, 404)
+    };
+
     let blog_post_template: BlogTemplate = BlogTemplate {
-        posts,
+        uposts,
         texts: BlogTexts::new(&user_req_data),
         user: user_req_data,
         nav_data: NavData::new( "blog".to_string() )

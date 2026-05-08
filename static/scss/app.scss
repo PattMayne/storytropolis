@@ -867,6 +867,20 @@ blockquote {
     }
 }
 
+.archive_p {
+    margin-bottom: 5px;
+}
+
+.archive_date {
+    color: $pastel-blue;
+    font-size: 0.9rem;
+    margin-right: 10px;
+}
+
+.archive_title {
+    color: $bronze;
+}
+
 /* textarea */
 #post_body {
     min-height: 500px;

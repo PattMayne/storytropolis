@@ -122,7 +122,7 @@ pub struct RedirectUri {
 impl BlogPost {
     pub fn get_formatted_updated_timestamp(&self) -> String {
         let format: &[time::format_description::BorrowedFormatItem<'_>] =
-            format_description!("[month repr:long] [day] [year]");
+            format_description!("[day] [month repr:short], [year]");
         self.updated_timestamp.format(&format).unwrap()
     }
 

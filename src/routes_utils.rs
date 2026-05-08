@@ -388,11 +388,11 @@ pub struct VerifyTemplate {
 
 
 #[derive(Template)]
-#[template(path ="blog_post.html")]
+#[template(path ="blog_page.html")]
 pub struct BlogTemplate {
     pub texts: BlogTexts,
     pub user: auth::UserReqData,
-    pub posts: Vec<db::BlogPost>,
+    pub uposts: Vec<db::UnifiedPost>,
     pub nav_data: NavData,
 }
 
@@ -517,6 +517,7 @@ impl NavData {
  * 
  * 
 */
+
 
 pub async fn get_server_error(req: &HttpRequest) -> HttpResponse {
     // Worse than not finding something. Something broke.

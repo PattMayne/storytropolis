@@ -332,6 +332,26 @@ pub async fn get_categories_by_post_id(
 }
 
 
+pub async fn get_active_categories(
+    pool: &MySqlPool
+) -> Result<Vec<String>, sqlx::Error> {
+    let category_names: Vec<String> = sqlx::query_scalar(
+        r#"
+        SELECT c.name
+        FROM categories c
+        INNER JOIN post_categories pc
+            ON pc.category_id = c.id
+        GROUP BY c.id, c.name
+        ORDER BY COUNT(*) DESC, c.name ASC
+        "#
+    )
+    .fetch_all(pool)
+    .await?;
+
+    Ok(category_names)
+}
+
+
 pub async fn get_non_pinned_posts(
     pool: &MySqlPool
 ) -> Result<Vec<BlogPost>> {

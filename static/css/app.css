@@ -148,6 +148,14 @@ blockquote {
   font-family: nimbus;
 }
 
+.callout a {
+  color: #c97c18;
+}
+
+.callout a:hover {
+  color: #007ede;
+}
+
 .callout.primary {
   font-family: nimbus;
   border: none;
@@ -740,20 +748,25 @@ blockquote {
   }
 }
 
+.article a {
+  color: #c97c18;
+  font-size: inherit;
+}
+
 .article h1, .article h2, .article h3,
 .article h4, .article h5, .article h6, .article hr,
 .article label {
   font-family: nimbus, nimbus;
-  color: #f0f0f0;
+  color: #c97c18;
 }
 
-.article p, .article a, .article li {
+.article p, .article li {
   font-family: nimbus, nimbus;
   color: #f0f0f0;
   font-size: 1.2em;
 }
 @media (max-width: 500px) {
-  .article p, .article a, .article li {
+  .article p, .article li {
     font-size: medium;
   }
 }
@@ -765,7 +778,8 @@ blockquote {
   margin: 10px;
 }
 
-.cat_item {
+.cat_item,
+.callout .cat_item {
   display: inline-block;
   width: auto;
   padding: 2px 5px 1px 5px;
@@ -774,6 +788,10 @@ blockquote {
   border: 1px solid #ccc;
   background-color: #111;
   color: #ccc;
+}
+
+.callout .cat_item:hover {
+  color: #111;
 }
 
 .cat_item:hover {

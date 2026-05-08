@@ -926,6 +926,8 @@ async fn home(
     pool: web::Data<MySqlPool>,
     req: HttpRequest
 ) -> HttpResponse {
+    println!("Received request 111");
+
     let user_req_data: auth::UserReqData = auth::get_user_req_data(&req);
     let texts: HomeTexts = HomeTexts::new(&user_req_data);
     let pinned_post: String =
@@ -938,6 +940,7 @@ async fn home(
             }
         };
 
+    println!("Received request 222");
     // we need the posts to get the unified posts uposts
     let posts: Vec<db::BlogPost> = match db::get_non_pinned_posts(&pool).await {
         Ok(b_posts) => b_posts,
@@ -947,6 +950,7 @@ async fn home(
         }
     };
 
+    println!("Received request 333");
     let uposts: Vec<db::UnifiedPost> = match get_unified_posts(&pool, posts).await {
         Ok(uposts) => uposts,
         Err(e) => {
@@ -955,6 +959,7 @@ async fn home(
         }
     };
 
+    println!("Received request 444");
     let categories: Vec<String> = match get_active_categories(&pool).await {
         Ok(cats) => cats,
         Err(e) => {
@@ -963,6 +968,7 @@ async fn home(
         }
     };
 
+    println!("Received request 555");
     let home_template: HomeTemplate = HomeTemplate {
         texts, uposts, categories,
         user: user_req_data,
@@ -970,6 +976,7 @@ async fn home(
         nav_data: NavData::new( "about".to_string() ),
     };
 
+    println!("Received request 666");
     HttpResponse::Ok()
         .content_type("text/html")
         .body(home_template.render().unwrap())

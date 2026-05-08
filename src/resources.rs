@@ -146,8 +146,8 @@ pub static TRANSLATIONS: phf::Map<&'static str, &'static str> = phf_map! {
     "edit_post.title.fr" => "EDIT POST D'BLOGUETTE !",
 
     // NAV BUTTONS
-    "nav.home.en" => "HOME",
-    "nav.home.fr" => "ACCUEIL",
+    "nav.home.en" => "BLOG",
+    "nav.home.fr" => "BLOG",
     "nav.blog.en" => "BLOG",
     "nav.blog.fr" => "BLOG",
     "nav.admin.en" => "ADMIN",
@@ -246,8 +246,8 @@ pub static TRANSLATIONS: phf::Map<&'static str, &'static str> = phf_map! {
     "err.user_not_found.fr" => "Utilisateur non trouvé.",
 
     // FRONT PAGE DEFAULT TEXT
-    "frontpage.en" => "<p class='bold-text'>I'm Matt Payne and this is my blog.</p><p>I usually write books but this is my blog, where I'll share my thoughts and develop my thoughts. I'll be writing in different styles and maybe trying to develop a new style.</p>",
-    "frontpage.fr" => "<p class='bold-text'>I'm Matt Payne and this is my blog.</p><p>I usually write books but this is my blog, where I'll share my thoughts and develop my thoughts. I'll be writing in different styles and maybe trying to develop a new style.</p>"
+    "frontpage.en" => "<p class='bold-text'>I'm Matt Payne and this is my blog.</p><p>I usually write <a href='https://pattmayne.com/books'>books</a> but this is my blog, where I'll share my thoughts and develop my thoughts. I'll be writing in different styles and maybe trying to develop a new style.</p>",
+    "frontpage.fr" => "<p class='bold-text'>I'm Matt Payne and this is my blog.</p><p>I usually write <a href='https://pattmayne.com/books'>books</a> but this is my blog, where I'll share my thoughts and develop my thoughts. I'll be writing in different styles and maybe trying to develop a new style.</p>"
 };
 
 

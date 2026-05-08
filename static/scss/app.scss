@@ -246,6 +246,13 @@ blockquote {
     font-family: $text-font;
 }
 
+.callout a {
+    color: $bronze;
+}
+
+.callout a:hover {
+    color: $pure-blue;
+}
 
 .callout.primary {
     font-family: $text-font;
@@ -864,14 +871,19 @@ blockquote {
 
 }
 
+.article a {
+    color: $bronze;
+    font-size: inherit;
+}
+
 .article h1, .article h2, .article h3,
 .article h4, .article h5, .article h6, .article hr,
 .article label {
     font-family: $article-font, nimbus;
-    color: $article-text-color;
+    color: $bronze;
 }
 
-.article p, .article a, .article li {
+.article p, .article li {
     font-family: $article-font, nimbus;
     color: $article-text-color;
     font-size: 1.2em;
@@ -889,7 +901,8 @@ blockquote {
     margin: 10px;
 }
 
-.cat_item {
+.cat_item,
+.callout .cat_item {
     display: inline-block;
     width: auto;
     padding: 2px 5px 1px 5px;
@@ -898,6 +911,10 @@ blockquote {
     border: 1px solid $light-gray;
     background-color: $black;
     color: $light-gray;
+}
+
+.callout .cat_item:hover {
+    color: $black;
 }
 
 .cat_item:hover {

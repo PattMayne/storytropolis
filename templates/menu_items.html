@@ -5,6 +5,11 @@
     >{{texts.nav.home}}</a>
 {% endif %}
 
+<a tabindex="0"
+    href="https://pattmayne.com/books"
+    class='button menu-button'
+>books</a>
+
 {% if user.logged_in %}
     {% if user.role == "admin" %}
 

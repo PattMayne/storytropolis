@@ -7,7 +7,7 @@
         <title>{{ texts.title }}</title>
         <link rel="icon" type="image/x-icon" href="/static/img/guy_icon.png">
         <link rel="stylesheet" href="/static/css/foundation.min.css">
-        <link rel="stylesheet" href="/static/css/app.css?id=7790">
+        <link rel="stylesheet" href="/static/css/app.css?id=7n">
     </head>
 
 
@@ -31,13 +31,11 @@
 
         <div class="large-4 medium-6 small-12 cell">
             <div class="callout primary">
-            <h4>DEV BLOG POSTS</h4>
-                {% if posts.len() > 0 %}
-                {% for post in posts %}
-                    <div class="large-6 medium-6 small-12 cell">
-                        <a href="/admin/edit_post/{{ post.id }}"
-                            class="button">{{ post.title }}</a>
-                    </div>
+            <h4>EDIT BLOG POSTS</h4>
+                {% if uposts.len() > 0 %}
+                {% for upost in uposts %}
+                    {% let post = upost.post %}
+                        {% include "posts_edit_item.html" %}
                     {% endfor %}
                 {% else %}
                 [NONE]

@@ -1057,15 +1057,27 @@ pub async fn admin_home(
         return redirect_resp;
     }
 
+
     let posts: Vec<db::BlogPost> = match db::get_posts(&pool).await {
         Ok(b_posts) => b_posts,
-        Err(_e) => return return_error_page(&req, 404)
+        Err(e) => {
+            eprintln!("Error retrieving posts: {e}");
+            return return_error_page(&req, 404)
+        }
+    };
+
+    let uposts: Vec<db::UnifiedPost> = match get_unified_posts(&pool, posts).await {
+        Ok(uposts) => uposts,
+        Err(e) => {
+            eprintln!("Error retrieving unified posts: {e}");
+            return return_error_page(&req, 404)
+        }
     };
 
     let admin_template: AdminTemplate = AdminTemplate {
         texts: AdminTexts::new(&user_req_data),
         user: user_req_data,
-        posts,
+        uposts,
         nav_data: NavData::new( "admin".to_string() )
     };
 

@@ -432,7 +432,7 @@ pub struct LoginTemplate {
 pub struct AdminTemplate {
     pub texts: AdminTexts,
     pub user: auth::UserReqData,
-    pub posts: Vec<db::BlogPost>,
+    pub uposts: Vec<db::UnifiedPost>,
     pub nav_data: NavData,
 }
 

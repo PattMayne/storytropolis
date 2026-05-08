@@ -1015,6 +1015,14 @@ pub async fn delete_post(
     pool: &MySqlPool,
     post_id: i32
 ) -> Result<bool> {
+    // Delete related post_categories first
+    sqlx::query(
+        "DELETE FROM post_categories WHERE post_id = ?"
+    )
+    .bind(post_id)
+    .execute(pool)
+    .await?;
+
     let result: sqlx::mysql::MySqlQueryResult = sqlx::query(
         "DELETE FROM blog_post WHERE id = ?")
         .bind(post_id)

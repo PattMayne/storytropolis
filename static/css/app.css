@@ -110,7 +110,8 @@ h6 {
 }
 
 .button:hover {
-  border: 1px solid #f0f0f0;
+  border-color: #000;
+  background-color: rgb(32, 27, 32);
 }
 
 p,

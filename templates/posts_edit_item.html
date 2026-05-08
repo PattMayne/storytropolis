@@ -1,0 +1,9 @@
+<p class="archive_p">
+    <span class="archive_date">
+        {{ post.get_formatted_updated_timestamp() }}
+    </span>
+    <span class="archive_title_wrap">
+        <a class="archive_title" href="/admin/edit_post/{{ post.id }}">{{ post.title }}</a>
+        {% if post.is_pinned() %} PINNED {% endif %}
+    </span>
+</p>

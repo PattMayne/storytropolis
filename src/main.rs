@@ -59,6 +59,8 @@ async fn main() -> std::io::Result<()> {
             .service(routes::verify)
             .service(routes::verify_post)
             .service(routes::req_new_code)
+            .route("/wp-login", web::get().to(routes::login_page))
+            .route("/wp-admin", web::get().to(routes::login_page))
             .service(
                 web::scope("/auth")
                     .route("/login", web::get().to(routes::login_page))

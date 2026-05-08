@@ -823,6 +823,7 @@ pub async fn auth_home() -> impl Responder {
     Redirect::to("/auth/login")
 }
 
+
 /**
  * The page where the user comes to verify their email address.
  * We assume they received an email with a verification code.

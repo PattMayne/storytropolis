@@ -824,6 +824,26 @@ pub async fn auth_home() -> impl Responder {
 }
 
 
+#[get("/upload_img")]
+pub async fn upload_img_page(req: HttpRequest) -> HttpResponse {
+    let user_req_data: auth::UserReqData = auth::get_user_req_data(&req);
+
+    // check if they're admin
+    if let Some(redirect_resp) = redirect_non_admin(&user_req_data, &req) {
+        return redirect_resp;
+    }
+
+
+    /*
+     * Need a TEMPLATE (just with nav, nav texts & user for now)
+     * Need a PAGE (just an input field for file upload, and an input for rename)
+     * Need a POST FUNCTION to receive the img upload
+     * ---- protect the function by requiring admin role!!!
+     */
+
+    return_error_page(&req, 404)
+}
+
 /**
  * The page where the user comes to verify their email address.
  * We assume they received an email with a verification code.

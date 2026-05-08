@@ -70,6 +70,18 @@ pub struct BlogPost {
     pub updated_timestamp: OffsetDateTime,
 }
 
+#[derive(serde::Serialize)]
+pub struct UnifiedPost {
+    pub post: BlogPost,
+    pub categories: Vec<String>,
+}
+
+impl UnifiedPost {
+    pub fn cats_string(&self) -> String {
+        self.categories.join(", ")
+    }
+}
+
 
 #[derive(serde::Serialize)]
 pub struct Username {
@@ -209,8 +221,51 @@ impl User {
  * 
  * 
  * 
- */
+*/
 
+
+// You got the post. Now package it with its categories.
+pub async fn get_unified_post(
+    pool: &MySqlPool,
+    post: BlogPost
+) -> UnifiedPost {
+    let categories: Vec<String> =
+        get_categories_by_post_id(post.id as i64, pool)
+        .await.unwrap_or_default();
+
+    UnifiedPost{ post, categories }
+}
+
+
+// You got a collection of posts. Now package them with their categories.
+pub async fn get_unified_posts(
+    pool: &MySqlPool,
+    posts: Vec<BlogPost>
+) -> Result<Vec<UnifiedPost>> {
+    let mut uposts: Vec<UnifiedPost> = Vec::new();
+    let mut tx: sqlx::Transaction<'_, sqlx::MySql> = pool.begin().await?;
+
+    for post in posts {
+        let categories: Vec<String> = sqlx::query_scalar(
+            r#"
+            SELECT c.name
+            FROM categories c
+            INNER JOIN post_categories pc
+                ON pc.category_id = c.id
+            WHERE pc.post_id = ?
+            ORDER BY c.name
+            "#
+        )
+        .bind(post.id)
+        .fetch_all(&mut *tx)
+        .await?;
+        
+        uposts.push(UnifiedPost { post, categories });
+    }
+
+    tx.commit().await?;
+    Ok(uposts)
+}
 
 
 

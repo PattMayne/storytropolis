@@ -87,6 +87,7 @@ async fn main() -> std::io::Result<()> {
                     .service(routes::delete_blog_post)
                     .service(routes::upload_img_page)
                     .service(routes::img_upload_post)
+                    .service(routes::view_images_page)
             )
             .default_service(web::get().to(routes::not_found)) // <- catch-all
             .wrap(from_fn(middleware::jwt_cookie_middleware))

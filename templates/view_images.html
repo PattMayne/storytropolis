@@ -1,0 +1,57 @@
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{ texts.title }}</title>
+        <link rel="icon" type="image/x-icon" href="/static/img/guy_icon.png">
+        <link rel="stylesheet" href="/static/css/foundation.min.css">
+        <link rel="stylesheet" href="/static/css/app.css?id=67">
+    </head>
+
+
+    <body>
+    {% include "header.html" %}
+    <div class="grid-x grid-padding-x">
+        <div class="large-12 cell">
+            <h2>{{ texts.title }}</h2>
+        </div>
+
+        {% for filename in image_filenames %}
+            <div class="large-2 medium-3 small-6 cell">
+                <div class="callout primary">
+                    <img src="/uploads/{{ filename }}">
+                    <input
+                        class="copy_img_name_field"
+                        id="{{ filename }}"
+                        value="{{ filename }}"
+                        type="text"
+                        readonly
+                    >
+                </div>
+            </div>
+
+            <script>
+                // Automatically select all text when the input is clicked
+                document.getElementById('{{ filename }}').addEventListener('click', function() {
+                    this.select()
+                })
+            </script>
+            
+
+        {% endfor %}
+
+
+    </div> <!-- end of grid-x -->
+
+            
+
+        <script src="/static/js/vendor/jquery.js"></script>
+        <script src="/static/js/vendor/what-input.js"></script>
+        <script src="/static/js/vendor/foundation.min.js"></script>
+        <script type="module" src="/static/js/app.js?id=7"></script>
+    </body>
+
+
+</html>

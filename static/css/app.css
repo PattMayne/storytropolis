@@ -932,4 +932,16 @@ blockquote {
   display: none !important;
 }
 
+.copy_img_name_field {
+  padding: 2px;
+  background-color: #007ede;
+  color: #0d1117;
+  text-align: center;
+  justify-content: center;
+}
+
+.copy_img_name_field:hover {
+  cursor: pointer;
+}
+
 /*# sourceMappingURL=app.css.map */

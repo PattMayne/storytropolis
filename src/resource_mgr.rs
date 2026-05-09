@@ -263,6 +263,27 @@ impl UploadTexts {
     }
 }
 
+/**
+ * route: get "/admin/view_images"
+ */
+pub struct ImagesTexts {
+    pub title: String,
+    pub nav: NavTexts,
+}
+
+
+impl ImagesTexts {
+    pub fn new(user_req_data: &UserReqData) -> ImagesTexts {
+        let lang: &SupportedLangs = &user_req_data.lang;
+        let title: String = get_translation(
+            "images.title", &user_req_data.lang, None);
+        let nav: NavTexts = NavTexts::new(lang);
+
+        ImagesTexts { title, nav }
+    }
+}
+
+
 
 
 /**

@@ -32,7 +32,6 @@ use std::io::Write;
 
 use crate::db::{UnifiedPost, get_active_categories,
     get_categories_by_post_id, get_unified_post, get_unified_posts};
-use crate::resource_mgr::{AgreementTexts, BlogTexts, EditPostTexts, NewPostTexts, UploadTexts};
 use crate::utils::vec_to_string;
 // local modules, loaded as crates (declared as mods in main.rs)
 use crate::{
@@ -40,7 +39,8 @@ use crate::{
     db, utils, auth,
     resource_mgr::{
         HomeTexts, LoginTexts, RegisterTexts, AdminTexts, VerifyTexts,
-        ErrorTexts, DashboardTexts, NewBookTexts, PostTexts,
+        AgreementTexts, BlogTexts, EditPostTexts, NewPostTexts, UploadTexts,
+        ErrorTexts, DashboardTexts, NewBookTexts, PostTexts, ImagesTexts,
         ReqVerificationTexts, ErrorData
      },
     routes_utils::{*},
@@ -548,8 +548,6 @@ async fn new_book(
 }
 
 
-
-
 /**
  * Checks that the user is truly an admin, checks that all the 
  * data is legit, then adds it to the database.
@@ -1039,7 +1037,6 @@ async fn home(
     pool: web::Data<MySqlPool>,
     req: HttpRequest
 ) -> HttpResponse {
-    println!("Received request 111");
 
     let user_req_data: auth::UserReqData = auth::get_user_req_data(&req);
     let texts: HomeTexts = HomeTexts::new(&user_req_data);
@@ -1053,7 +1050,6 @@ async fn home(
             }
         };
 
-    println!("Received request 222");
     // we need the posts to get the unified posts uposts
     let posts: Vec<db::BlogPost> = match db::get_non_pinned_posts(&pool).await {
         Ok(b_posts) => b_posts,
@@ -1063,7 +1059,6 @@ async fn home(
         }
     };
 
-    println!("Received request 333");
     let uposts: Vec<db::UnifiedPost> = match get_unified_posts(&pool, posts).await {
         Ok(uposts) => uposts,
         Err(e) => {
@@ -1072,7 +1067,6 @@ async fn home(
         }
     };
 
-    println!("Received request 444");
     let categories: Vec<String> = match get_active_categories(&pool).await {
         Ok(cats) => cats,
         Err(e) => {
@@ -1081,7 +1075,6 @@ async fn home(
         }
     };
 
-    println!("Received request 555");
     let home_template: HomeTemplate = HomeTemplate {
         texts, uposts, categories,
         user: user_req_data,
@@ -1089,7 +1082,6 @@ async fn home(
         nav_data: NavData::new( "about".to_string() ),
     };
 
-    println!("Received request 666");
     HttpResponse::Ok()
         .content_type("text/html")
         .body(home_template.render().unwrap())
@@ -1151,6 +1143,41 @@ pub async fn register_page(
     HttpResponse::Ok()
         .content_type("text/html")
         .body(register_template.render().unwrap())
+}
+
+/**
+ * Main admin dashboard
+ * if user just goes to /auth
+ */
+#[get("/view_images")]
+pub async fn view_images_page(req: HttpRequest) -> impl Responder {
+    let user_req_data: auth::UserReqData = auth::get_user_req_data(&req);
+
+    // check if they're admin
+    if let Some(redirect_resp) = redirect_non_admin(&user_req_data, &req) {
+        return redirect_resp;
+    }
+
+    // first get the images
+    let dir: &str = "./uploads";
+    let mut image_filenames: Vec<String> = Vec::new();
+
+    if let Ok(entries) = fs::read_dir(dir) {
+        for entry in entries {
+            if let Ok(entry) = entry {
+                if let Some(name) = entry.file_name().to_str() {
+                    image_filenames.push(name.to_string());
+                }
+            }
+        }
+    }
+
+    let template: ImagesTemplate =
+        ImagesTemplate::new(user_req_data, image_filenames);
+
+    HttpResponse::Ok()
+        .content_type("text/html")
+        .body(template.render().unwrap())  
 }
 
 

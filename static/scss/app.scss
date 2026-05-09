@@ -1055,3 +1055,16 @@ blockquote {
 .no_display {
   display: none!important;
 }
+
+
+.copy_img_name_field {
+    padding: 2px;
+    background-color: $pure-blue;
+    color:$very-dark-blue;
+    text-align: center;
+    justify-content: center;
+}
+
+.copy_img_name_field:hover{
+    cursor: pointer;
+}

@@ -27,7 +27,7 @@ use serde::{ Deserialize, Serialize };
 use sqlx::{MySqlPool };
 
 use crate::db::BlogPost;
-use crate::resource_mgr::{AgreementTexts, NewBookTexts};
+use crate::resource_mgr::{AgreementTexts, ImagesTexts, NewBookTexts};
 // local modules, loaded as crates (declared as mods in main.rs)
 use crate::{
     db, utils,
@@ -460,6 +460,32 @@ pub struct AdminTemplate {
     pub user: auth::UserReqData,
     pub uposts: Vec<db::UnifiedPost>,
     pub nav_data: NavData,
+}
+
+
+#[derive(Template)]
+#[template(path ="view_images.html")]
+pub struct ImagesTemplate {
+    pub texts: ImagesTexts,
+    pub user: auth::UserReqData,
+    pub image_filenames: Vec<String>,
+    pub nav_data: NavData,
+}
+
+impl ImagesTemplate {
+
+    pub fn new(
+        user_req_data: auth::UserReqData,
+        image_filenames: Vec<String>
+    ) -> Self {
+        ImagesTemplate { 
+            texts: ImagesTexts::new(&user_req_data),
+            nav_data: NavData::new( "register".to_string() ),
+            image_filenames,
+            user: user_req_data
+         }
+    }
+    
 }
 
 

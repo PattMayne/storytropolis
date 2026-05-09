@@ -23,7 +23,6 @@ use actix_web::{
 use actix_web::cookie::{ Cookie };
 use askama::Template;
 use sqlx::{ MySqlPool };
-use uuid::Uuid;
 
 use actix_multipart::Multipart;
 use futures_util::StreamExt;
@@ -1042,7 +1041,7 @@ async fn home(
     let texts: HomeTexts = HomeTexts::new(&user_req_data);
     let pinned_post: String =
         match db::get_latest_pinned_post(&pool).await {
-            Ok(Some(post)) => post.body.to_owned(),
+            Ok(Some(post)) => post.get_body_as_html(),
             Ok(None) => texts.default_pinned.clone(),
             Err(e) => {
                 eprintln!("Error retrieving pinned post: {e}");

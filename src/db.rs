@@ -5,6 +5,7 @@ use sqlx::{ MySqlPool };
 use time::{ OffsetDateTime, Duration, macros::format_description };
 use anyhow::{ Result, anyhow };
 use serde;
+use comrak::{markdown_to_html, Options};
 
 
 use crate::{
@@ -132,6 +133,12 @@ impl BlogPost {
 
     pub fn is_pinned(&self) -> bool {
         self.pinned == 1
+    }
+
+    pub fn get_body_as_html(&self) -> String {
+        let mut options: Options<'_> = Options::default();
+        options.render.r#unsafe = true;
+        markdown_to_html(&self.body, &options)
     }
 }
 

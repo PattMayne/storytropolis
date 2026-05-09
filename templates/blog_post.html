@@ -20,7 +20,7 @@
             <h2 class="article_title bold_text">{{ upost.post.title }}</h2>
             <p class="article_date italics">{{ upost.post.get_formatted_updated_timestamp() }}</p>
             <hr>
-            <p>{{ upost.post.body | safe }}</p>
+            <p>{{ upost.post.get_body_as_html() | safe }}</p>
         </article>
         <br>
 

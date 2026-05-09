@@ -309,7 +309,7 @@ pub async fn get_posts(
         BlogPost,
         "SELECT id, author_name, title, body, created_timestamp, 
         updated_timestamp, pinned, pinned_to_blog
-        FROM blog_post ORDER BY created_timestamp ASC"
+        FROM blog_post ORDER BY created_timestamp DESC"
     ).fetch_all(pool).await?;
 
     Ok(blog_posts)
@@ -366,7 +366,7 @@ pub async fn get_non_pinned_posts(
         "SELECT id, author_name, title, body, created_timestamp, 
         updated_timestamp, pinned, pinned_to_blog
         FROM blog_post WHERE pinned = ? 
-        ORDER BY created_timestamp ASC",
+        ORDER BY created_timestamp DESC",
         false
     ).fetch_all(pool).await?;
 

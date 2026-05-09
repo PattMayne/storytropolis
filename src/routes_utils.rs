@@ -35,7 +35,7 @@ use crate::{
     resources::get_translation,
     resource_mgr::{
         HomeTexts, LoginTexts, RegisterTexts, AdminTexts, BlogTexts,
-        ErrorTexts, DashboardTexts, PostTexts,
+        ErrorTexts, DashboardTexts, PostTexts, UploadTexts,
         NewPostTexts, EditPostTexts, VerifyTexts, ReqVerificationTexts,
         ErrorData, error_by_code
      }
@@ -71,6 +71,22 @@ pub struct BlogPostSuccess {
     pub message: String,
     pub post_id: i32,
 }
+
+#[derive(Serialize)]
+pub struct NewBookSuccess {
+    pub success: bool,
+    pub message: String,
+    pub book_id: i32,
+}
+
+
+#[derive(Serialize)]
+pub struct FileUploadSuccess {
+    pub success: bool,
+    pub message: String,
+    pub filename: Option<String>,
+}
+
 
 
 #[derive(Serialize)]
@@ -390,6 +406,16 @@ pub struct VerifyTemplate {
     pub request_new_code: bool,
     pub nav_data: NavData,
 }
+
+
+#[derive(Template)]
+#[template(path ="upload_page.html")]
+pub struct UploadTemplate {
+    pub texts: UploadTexts,
+    pub user: auth::UserReqData,
+    pub nav_data: NavData,
+}
+
 
 #[derive(Template)]
 #[template(path ="blog_post.html")]

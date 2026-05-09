@@ -28,3 +28,10 @@ phf = { version = "0.13.1", features = ["macros"] }
 resend-rs = "0.21.1"
 actix-multipart = "0.7.2"
 futures-util = "0.3.32"
+
+[dependencies.uuid]
+version = "1.23.1"
+# Lets you generate random UUIDs
+features = [
+    "v4",
+]

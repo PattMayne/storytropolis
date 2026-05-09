@@ -23,6 +23,7 @@ use actix_web::{
 use actix_web::cookie::{ Cookie };
 use askama::Template;
 use sqlx::{ MySqlPool };
+use uuid::Uuid;
 
 use actix_multipart::Multipart;
 use futures_util::StreamExt;
@@ -31,7 +32,7 @@ use std::io::Write;
 
 use crate::db::{UnifiedPost, get_active_categories,
     get_categories_by_post_id, get_unified_post, get_unified_posts};
-use crate::resource_mgr::{AgreementTexts, BlogTexts, NewPostTexts, EditPostTexts};
+use crate::resource_mgr::{AgreementTexts, BlogTexts, EditPostTexts, NewPostTexts, UploadTexts};
 use crate::utils::vec_to_string;
 // local modules, loaded as crates (declared as mods in main.rs)
 use crate::{
@@ -515,7 +516,7 @@ async fn new_book(
     book_data.trim_all_strings();
 
     // Add the post to the database
-    let post_succes_obj: BlogPostSuccess = match db::add_book(
+    let post_succes_obj: NewBookSuccess = match db::add_book(
         &pool,
         &book_data.title,
         &book_data.author,
@@ -527,23 +528,105 @@ async fn new_book(
         &book_data.slug
     ).await {
         Ok(post_id) => {
-            BlogPostSuccess {
+            NewBookSuccess {
                 success: true,
                 message: "Book created".to_string(),
-                post_id: post_id as i32
+                book_id: post_id as i32
             }
         },
         Err(e) => {
             eprintln!("{}", e);
-            BlogPostSuccess {
+            NewBookSuccess {
                 success: false,
                 message: "ERROR: Book NOT SAVED".to_string(),
-                post_id: 0
+                book_id: 0
             }
         }
     };
 
     HttpResponse::Ok().json(post_succes_obj)
+}
+
+
+
+
+/**
+ * Checks that the user is truly an admin, checks that all the 
+ * data is legit, then adds it to the database.
+ * Lots of opportunities to send errors.
+ */
+#[post("/img_upload_post")]
+async fn img_upload_post(
+    req: HttpRequest,
+    mut payload: Multipart
+) -> HttpResponse {
+    let user_req_data: auth::UserReqData = auth::get_user_req_data(&req);
+    // check if they're admin
+    if let Some(redirect_resp) = redirect_non_admin(&user_req_data, &req) {
+        return redirect_resp;
+    }
+
+    let mut filename: Option<String> = None;
+    let mut file_bytes: Option<Vec<u8>> = None;
+    let mut original_extension: Option<String> = None;
+
+    // First get the raw data, and the original file extension
+    while let Some(item) = payload.next().await {
+        let mut field: actix_multipart::Field = item.unwrap();
+        let name: &str = field.name().unwrap_or("");
+
+        match name {
+            "filename" => {
+                let bytes = get_bytes_from_field(field).await;
+                filename = Some(String::from_utf8(bytes).unwrap());
+            }
+            "img_upload" => {
+                // Get original extension
+                if let Some(cd) = field.content_disposition() {
+                    if let Some(orig_filename) = cd.get_filename() {
+                        original_extension = std::path::Path::new(orig_filename)
+                            .extension()
+                            .and_then(|ext| ext.to_str())
+                            .map(|s| s.to_owned());
+                    }
+                }
+                // Read file to memory
+                let mut bytes: Vec<u8> = Vec::new();
+                while let Some(chunk) = field.next().await {
+                    let data: web::Bytes = chunk.unwrap();
+                    bytes.extend_from_slice(&data);
+                }
+                file_bytes = Some(bytes);
+            }
+            _ => {}
+        }
+    }
+
+    // Now combine and save if both fields exist
+    if let (Some(name), Some(bytes)) = (filename, file_bytes) {
+
+        let final_filename = if let Some(ext) = original_extension {
+            format!("{}.{}", name, ext)
+        } else { name };
+
+        let filepath: String = format!("./uploads/{}", final_filename);
+        let mut f: fs::File = fs::File::create(&filepath).unwrap();
+        f.write_all(&bytes).unwrap();
+
+        return HttpResponse::Ok().json(FileUploadSuccess {
+            success: true,
+            message: "File uploaded successfully".to_string(),
+            filename: Some(final_filename),
+        });
+    }
+
+    let failure_json: FileUploadSuccess = FileUploadSuccess {
+        success: false,
+        message: "ERROR: No file uploaded".to_string(),
+        filename: None
+    };
+
+    HttpResponse::Ok().json(failure_json)
 }
 
 
@@ -824,7 +907,7 @@ pub async fn auth_home() -> impl Responder {
 }
 
 
-#[get("/upload_img")]
+#[get("/upload_page")]
 pub async fn upload_img_page(req: HttpRequest) -> HttpResponse {
     let user_req_data: auth::UserReqData = auth::get_user_req_data(&req);
 
@@ -833,15 +916,24 @@ pub async fn upload_img_page(req: HttpRequest) -> HttpResponse {
         return redirect_resp;
     }
 
+    let template: UploadTemplate = UploadTemplate {
+        texts: UploadTexts::new(&user_req_data),
+        nav_data: NavData::new( "admin".to_string() ),
+        user:  user_req_data
+    };
 
     /*
+     * TO DO:
+     * 
      * Need a TEMPLATE (just with nav, nav texts & user for now)
      * Need a PAGE (just an input field for file upload, and an input for rename)
      * Need a POST FUNCTION to receive the img upload
      * ---- protect the function by requiring admin role!!!
      */
 
-    return_error_page(&req, 404)
+    HttpResponse::Ok()
+        .content_type("text/html")
+        .body(template.render().unwrap())
 }
 
 /**

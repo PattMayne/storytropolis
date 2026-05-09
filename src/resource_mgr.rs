@@ -241,6 +241,30 @@ impl NewPostTexts {
     }
 }
 
+
+
+/**
+ * route: get "/admin/upload_page"
+ */
+pub struct UploadTexts {
+    pub title: String,
+    pub nav: NavTexts,
+}
+
+
+impl UploadTexts {
+    pub fn new(user_req_data: &UserReqData) -> UploadTexts {
+        let lang: &SupportedLangs = &user_req_data.lang;
+        let title: String = get_translation(
+            "upload.title", &user_req_data.lang, None);
+        let nav: NavTexts = NavTexts::new(lang);
+
+        UploadTexts { title, nav }
+    }
+}
+
+
+
 /**
  * route: get "/admin/edit_post/{id}"
  */
@@ -260,6 +284,7 @@ impl EditPostTexts {
         EditPostTexts { title, nav }
     }
 }
+
 
 /**
  * route: get "/post/{id}"

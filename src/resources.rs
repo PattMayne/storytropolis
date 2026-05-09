@@ -145,6 +145,9 @@ pub static TRANSLATIONS: phf::Map<&'static str, &'static str> = phf_map! {
     "edit_post.title.en" => "EDIT BLOG POST",
     "edit_post.title.fr" => "EDIT POST D'BLOGUETTE !",
 
+    "upload.title.en" => "Upload File",
+    "upload.title.fr" => "Upload File",
+
     // NAV BUTTONS
     "nav.home.en" => "BLOG",
     "nav.home.fr" => "BLOG",

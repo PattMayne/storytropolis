@@ -21,7 +21,6 @@ use time::{
     format_description::FormatItem,
     macros::format_description,
     OffsetDateTime};
-use actix_multipart::Multipart;
 use actix_web::{
     HttpResponse, HttpRequest, web::Redirect, web,
     Responder, http::StatusCode, http::header };
@@ -29,6 +28,7 @@ use actix_web::cookie::{ Cookie };
 use askama::Template;
 use serde::{ Deserialize, Serialize };
 use sqlx::{ MySqlPool };
+use regex::Regex;
 
 use crate::db::{BlogPost, UnifiedPost};
 use crate::resource_mgr::{AgreementTexts, ImagesTexts, NewBookTexts};
@@ -810,6 +810,21 @@ fn to_rfc2822(dt: OffsetDateTime) -> String {
     dt.format(&rfc2822).unwrap()
 }
 
+
+fn rewrite_img_src(html: &str, domain: &str) -> String {
+    let reg: Regex = Regex::new(r#"<img src="([^"]+)"([^>]*)>"#).unwrap();
+    reg.replace_all(html, |caps: &regex::Captures| {
+        let src: &str = &caps[1];
+        let rest: &str = &caps[2];
+        // Only rewrite if src does not start with "http"
+        if src.starts_with("http") {
+            format!(r#"<img src="{}"{}>"#, src, rest)
+        } else {
+            format!(r#"<img src="{}{}"{}>"#, domain, src, rest)
+        }
+    }).to_string()
+}
+
 /**
  * send in the list of posts,
  * get an rss feed
@@ -825,7 +840,8 @@ pub async fn get_rss_from_uposts(
     let scheme: &str = connection_info.scheme();
     let host: &str = connection_info.host();
     let path: &str = "/post";
-    let base_url: String = format!("{}://{}{}", scheme, host, path);
+    let base_url: String = format!("{}://{}", scheme, host);
+    let base_post_url: String = format!("base_url{}", path);
 
     // first build the items
     let items: Vec<Item> = uposts.iter().map(|upost| {
@@ -837,20 +853,24 @@ pub async fn get_rss_from_uposts(
             }
         }).collect();
 
-        let link: String = format!("{}/{}", base_url, upost.post.id);
+        let link: String = format!("{}/{}", base_post_url, upost.post.id);
         let guid: Guid = Guid {
             value: link.to_string(),
             permalink: true
         };
 
         let pub_date: String = to_rfc2822(upost.post.created_timestamp);
+        let content: String = rewrite_img_src(
+            post.get_body_as_html().as_str(),
+            &base_url
+        );
 
         ItemBuilder::default()
             .title(Some(upost.post.title.to_string()))
             .link(Some(link))
             .guid(guid)
             .pub_date(pub_date)
-            .content(post.get_body_as_html())
+            .content(content)
             .categories(categories)
             .author(post.author_name.to_string())
             .build()

@@ -1,15 +1,13 @@
 // I'm actually using MariaDB which is supposedly a drop-in replacement for MySQL
 
-use jsonwebtoken::signature::digest::typenum::uint;
 use sqlx::{ MySqlPool };
 use time::{ OffsetDateTime, Duration, macros::format_description };
 use anyhow::{ Result, anyhow };
 use serde;
 use comrak::{markdown_to_html, Options};
-
+use regex::Regex;
 
 use crate::{
-    utils,
     auth,
 };
 
@@ -138,7 +136,18 @@ impl BlogPost {
     pub fn get_body_as_html(&self) -> String {
         let mut options: Options<'_> = Options::default();
         options.render.r#unsafe = true;
-        markdown_to_html(&self.body, &options)
+        
+        // get the HTML
+        let html: String = markdown_to_html(&self.body, &options);
+
+        // add folder /uploads/ to img links, and return string
+        let reg: Regex = Regex::new(r#"<img src="([^"]+)"([^>]*)>"#).unwrap();
+        reg.replace_all(&html, |caps: &regex::Captures| {
+            let src: &str = &caps[1];
+            let rest: &str = &caps[2];
+            // Only rewrite if src does not start with "http"
+            format!(r#"<img src="/uploads/{}"{}>"#, src, rest)
+        }).to_string()
     }
 }
 

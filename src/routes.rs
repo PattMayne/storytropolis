@@ -1298,29 +1298,27 @@ pub async fn blog(
     let user_req_data: auth::UserReqData = auth::get_user_req_data(&req);
     let mut category_option: Option<String> = None;
 
-    let posts: Vec<db::BlogPost> = match db::get_non_pinned_posts(&pool).await {
-        Ok(b_posts) => b_posts,
-        Err(_e) => return return_error_page(&req, 404)
-    };
-
-    // LEAVE THIS ALONE
-    // Do not use the routes_utils function, because this has special needs
-    // (it must select for category)
+    // get all non-pinned uposts
     let uposts: Vec<db::UnifiedPost> =
-        match get_unified_posts_from_posts(&pool, posts).await {
-            Ok(uposts) => {
-                // optionally filter for those with the right category
-                if query.category.is_none() { uposts } else {
-                    let category: String = query.category.to_owned().unwrap().to_string();
-                    category_option = Some(category.to_owned());
-                    uposts.into_iter()
-                        .filter(|upost|
-                        upost.categories.contains(&category))
-                        .collect()
-                }
-            },
-            Err(_e) => return return_error_page(&req, 404)
-        };    
+        match get_unified_posts(&pool, false).await {
+            Ok(uposts) => uposts,
+            Err(e) => {
+                eprintln!("Error retrieving posts: {e}");
+                return return_error_page(&req, 404)
+            }
+        };
+
+    // optionally shadow with filter if query for category exists
+    let uposts: Vec<UnifiedPost> =
+        if query.category.is_none() { uposts }
+        else {
+            let category: String = query.category.to_owned().unwrap().to_string();
+            category_option = Some(category.to_owned());
+            uposts.into_iter()
+                .filter(|upost|
+                upost.categories.contains(&category))
+                .collect()
+        };   
 
     let blog_post_template: BlogTemplate = BlogTemplate {
         uposts,

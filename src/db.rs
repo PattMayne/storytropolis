@@ -244,7 +244,7 @@ pub async fn get_unified_post(
 
 
 // You got a collection of posts. Now package them with their categories.
-pub async fn get_unified_posts(
+pub async fn get_unified_posts_from_posts(
     pool: &MySqlPool,
     posts: Vec<BlogPost>
 ) -> Result<Vec<UnifiedPost>> {

@@ -30,7 +30,7 @@ use askama::Template;
 use serde::{ Deserialize, Serialize };
 use sqlx::{ MySqlPool };
 
-use crate::db::BlogPost;
+use crate::db::{BlogPost, UnifiedPost};
 use crate::resource_mgr::{AgreementTexts, ImagesTexts, NewBookTexts};
 // local modules, loaded as crates (declared as mods in main.rs)
 use crate::{
@@ -804,12 +804,15 @@ pub async fn get_bytes_from_field(mut field: actix_multipart::Field) -> Vec<u8> 
 fn to_rfc2822(dt: OffsetDateTime) -> String {
     let rfc2822: &[FormatItem<'_>] =
         format_description!(
-            "[weekday repr:short], [day] [month repr:short] [year] [hour]:[minute]:[second] [offset_hour sign:mandatory][offset_minute]");
+            "[weekday repr:short], [day] [month repr:short] [year] [hour]:[minute]:[second] \
+            [offset_hour sign:mandatory][offset_minute]"
+        );
     dt.format(&rfc2822).unwrap()
 }
 
 /**
  * send in the list of posts,
+ * get an rss feed
  */
 pub async fn get_rss_from_uposts(
     req: &HttpRequest,
@@ -862,6 +865,33 @@ pub async fn get_rss_from_uposts(
         .build();
 
     channel.to_string()
+}
+
+
+/**
+ * Get the posts and their categories for the route.
+ */
+pub async fn get_unified_posts(
+    pool: &web::Data<MySqlPool>,
+    include_pinned: bool
+) -> Result<Vec<UnifiedPost>, String> {
+
+    let posts: Vec<BlogPost> = if include_pinned {
+        match db::get_posts(&pool).await {
+            Ok(b_posts) => b_posts,
+            Err(e) => return Err(e.to_string())
+        }
+    } else {
+        match db::get_non_pinned_posts(pool).await {
+            Ok(b_posts) => b_posts,
+            Err(e) => return Err(e.to_string())
+        }
+    };
+
+    match db::get_unified_posts_from_posts(pool, posts).await {
+        Ok(uposts) => Ok(uposts),
+        Err(e) => return Err(e.to_string())
+    }
 }
 
 

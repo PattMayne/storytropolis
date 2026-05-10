@@ -30,7 +30,7 @@ use std::fs;
 use std::io::Write;
 
 use crate::db::{UnifiedPost, get_active_categories,
-    get_categories_by_post_id, get_unified_post, get_unified_posts};
+    get_categories_by_post_id, get_unified_post, get_unified_posts_from_posts};
 use crate::utils::vec_to_string;
 // local modules, loaded as crates (declared as mods in main.rs)
 use crate::{
@@ -903,29 +903,20 @@ pub async fn get_rss(
     req: HttpRequest
 ) -> HttpResponse {
 
-    // get all non-pinned posts
+    // get all non-pinned uposts
+    let uposts: Vec<db::UnifiedPost> =
+        match get_unified_posts(&pool, false).await {
+            Ok(uposts) => uposts,
+            Err(e) => {
+                eprintln!("Error retrieving posts: {e}");
+                return return_error_page(&req, 404)
+            }
+        };
+
     // create an rss xml
-    // send it
-
-    // we need the posts to get the unified posts uposts
-    let posts: Vec<db::BlogPost> = match db::get_non_pinned_posts(&pool).await {
-        Ok(b_posts) => b_posts,
-        Err(e) => {
-            eprintln!("Error retrieving posts: {e}");
-            return return_error_page(&req, 404)
-        }
-    };
-
-    let uposts: Vec<db::UnifiedPost> = match get_unified_posts(&pool, posts).await {
-        Ok(uposts) => uposts,
-        Err(e) => {
-            eprintln!("Error retrieving unified posts: {e}");
-            return return_error_page(&req, 404)
-        }
-    };
-
     let xml: String = get_rss_from_uposts(&req, &uposts).await;
 
+    // send it
     HttpResponse::Ok()
         .content_type("application/rss+xml; charset=utf-8")
         .body(xml)
@@ -1084,21 +1075,14 @@ async fn home(
         };
 
     // we need the posts to get the unified posts uposts
-    let posts: Vec<db::BlogPost> = match db::get_non_pinned_posts(&pool).await {
-        Ok(b_posts) => b_posts,
-        Err(e) => {
-            eprintln!("Error retrieving posts: {e}");
-            return return_error_page(&req, 404)
-        }
-    };
-
-    let uposts: Vec<db::UnifiedPost> = match get_unified_posts(&pool, posts).await {
-        Ok(uposts) => uposts,
-        Err(e) => {
-            eprintln!("Error retrieving unified posts: {e}");
-            return return_error_page(&req, 404)
-        }
-    };
+    let uposts: Vec<db::UnifiedPost> =
+        match get_unified_posts(&pool, false).await {
+            Ok(uposts) => uposts,
+            Err(e) => {
+                eprintln!("Error retrieving posts: {e}");
+                return return_error_page(&req, 404)
+            }
+        };
 
     let categories: Vec<String> = match get_active_categories(&pool).await {
         Ok(cats) => cats,
@@ -1229,22 +1213,14 @@ pub async fn admin_home(
         return redirect_resp;
     }
 
-
-    let posts: Vec<db::BlogPost> = match db::get_posts(&pool).await {
-        Ok(b_posts) => b_posts,
-        Err(e) => {
-            eprintln!("Error retrieving posts: {e}");
-            return return_error_page(&req, 404)
-        }
-    };
-
-    let uposts: Vec<db::UnifiedPost> = match get_unified_posts(&pool, posts).await {
-        Ok(uposts) => uposts,
-        Err(e) => {
-            eprintln!("Error retrieving unified posts: {e}");
-            return return_error_page(&req, 404)
-        }
-    };
+    let uposts: Vec<db::UnifiedPost> =
+        match get_unified_posts(&pool, false).await {
+            Ok(uposts) => uposts,
+            Err(e) => {
+                eprintln!("Error retrieving posts: {e}");
+                return return_error_page(&req, 404)
+            }
+        };
 
     let admin_template: AdminTemplate = AdminTemplate {
         texts: AdminTexts::new(&user_req_data),
@@ -1327,20 +1303,24 @@ pub async fn blog(
         Err(_e) => return return_error_page(&req, 404)
     };
 
-    let uposts: Vec<db::UnifiedPost> = match get_unified_posts(&pool, posts).await {
-        Ok(uposts) => {
-            // optionally filter for those with the right category
-            if query.category.is_none() { uposts } else {
-                let category: String = query.category.to_owned().unwrap().to_string();
-                category_option = Some(category.to_owned());
-                uposts.into_iter()
-                    .filter(|upost|
-                    upost.categories.contains(&category))
-                    .collect()
-            }
-        },
-        Err(_e) => return return_error_page(&req, 404)
-    };    
+    // LEAVE THIS ALONE
+    // Do not use the routes_utils function, because this has special needs
+    // (it must select for category)
+    let uposts: Vec<db::UnifiedPost> =
+        match get_unified_posts_from_posts(&pool, posts).await {
+            Ok(uposts) => {
+                // optionally filter for those with the right category
+                if query.category.is_none() { uposts } else {
+                    let category: String = query.category.to_owned().unwrap().to_string();
+                    category_option = Some(category.to_owned());
+                    uposts.into_iter()
+                        .filter(|upost|
+                        upost.categories.contains(&category))
+                        .collect()
+                }
+            },
+            Err(_e) => return return_error_page(&req, 404)
+        };    
 
     let blog_post_template: BlogTemplate = BlogTemplate {
         uposts,

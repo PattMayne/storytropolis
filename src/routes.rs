@@ -894,8 +894,39 @@ pub async fn logout_post(
  * 
  * 
  * 
- */
+*/
 
+
+#[get("/rss")]
+pub async fn rss(
+    pool: web::Data<MySqlPool>,
+    req: HttpRequest
+) -> HttpResponse {
+    let user_req_data: auth::UserReqData = auth::get_user_req_data(&req);
+
+    // get all non-pinned posts
+    // create an rss xml
+    // send it
+
+    // we need the posts to get the unified posts uposts
+    let posts: Vec<db::BlogPost> = match db::get_non_pinned_posts(&pool).await {
+        Ok(b_posts) => b_posts,
+        Err(e) => {
+            eprintln!("Error retrieving posts: {e}");
+            return return_error_page(&req, 404)
+        }
+    };
+
+    let uposts: Vec<db::UnifiedPost> = match get_unified_posts(&pool, posts).await {
+        Ok(uposts) => uposts,
+        Err(e) => {
+            eprintln!("Error retrieving unified posts: {e}");
+            return return_error_page(&req, 404)
+        }
+    };
+
+    send_to_login()
+}
 
 
 // if user just goes to /auth or /auth/

@@ -9,7 +9,6 @@ import * as globals from './globals.js'
 
 let msgs = []
 
-
 const submit_data = async () => {
     msgs = []
     hide_msg_box()
@@ -148,15 +147,36 @@ const show_msg_box = () => {
 document.addEventListener('DOMContentLoaded', () => {
     hide_msg_box()
     const submit_button = document.getElementById("submit_button")
-    const delete_button = document.getElementById("delete_button")
+    const really_delete_button = document.getElementById("really_delete_button")
+    const ask_delete_button = document.getElementById("ask_delete_button")
+    const cancel_button = document.getElementById("cancel_button")
+    const really_delete_panel = document.getElementById("really_delete_panel")
 
-    !!submit_button && submit_button.addEventListener("click", () => {
-        console.log("pressed le buton")
-        submit_data()
-    })
+    !!submit_button &&
+        submit_button.addEventListener("click", () => {
+            console.log("submitting")
+            submit_data()
+        })
 
-    !!delete_button && delete_button.addEventListener("click", () => {
-        console.log("deleting")
-        delete_post()
-    })
+    !!really_delete_button &&
+        really_delete_button.addEventListener("click", () => {
+            console.log("deleting")
+            delete_post()
+        })
+
+    !!ask_delete_button &&
+        ask_delete_button.addEventListener("click", () => show_hide_delete())
+    
+    !!cancel_button &&
+        cancel_button.addEventListener("click", () => show_hide_delete())
+
+    const show_hide_delete = () => {
+        if (!really_delete_panel.classList.contains("hidden")) {
+            really_delete_panel.classList.add("hidden")
+            ask_delete_button.classList.remove("hidden")
+        } else {
+            really_delete_panel.classList.remove("hidden")
+            ask_delete_button.classList.add("hidden")
+        }
+    }
 })

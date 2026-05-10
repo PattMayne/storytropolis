@@ -412,10 +412,7 @@ pub async fn verify_jwt(token: &str) -> JwtVerification {
     // get the jwt secret so we can decode the jwt string
     let secret: String = match get_jwt_secret() {
         Ok(s) => s,
-        Err(_e) => {
-            eprintln!("Failed to retrieve JWT SECRET");
-            return JwtVerification::Invalid;
-        }
+        Err(_e) => return JwtVerification::Invalid
     };
 
     // HS256 algorithm matches the header default I use to encode
@@ -424,13 +421,13 @@ pub async fn verify_jwt(token: &str) -> JwtVerification {
         &DecodingKey::from_secret(secret.as_ref()),
         &Validation::new(Algorithm::HS256),
     ) {
-        Ok(token_data) => JwtVerification::Valid(token_data.claims), // good. send.
+        Ok(token_data) =>
+            JwtVerification::Valid(token_data.claims), // good. send.
         Err(e) => match *e.kind() {
             ErrorKind::ExpiredSignature => {
                 match insecure_decode::<Claims>(token) {
-                    Ok(token_data) => {
-                        JwtVerification::Expired(token_data.claims)
-                    },
+                    Ok(token_data) =>
+                        JwtVerification::Expired(token_data.claims),
                     Err(_e) => JwtVerification::Invalid
                 }
             },

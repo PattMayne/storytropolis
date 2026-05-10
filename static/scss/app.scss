@@ -28,6 +28,7 @@ $yellow: #bdf000;
 $very-light-gray: #f0f0f0;
 $very-dark-blue: #0d1117;
 $very-dark-blue-fade: #0d1117a4;
+$danger-red: #ee2c12;
 
 
 $callout-border-color: $deep-orange;
@@ -1067,4 +1068,31 @@ blockquote {
 
 .copy_img_name_field:hover{
     cursor: pointer;
+}
+
+#ask_delete_button {
+
+}
+
+#really_delete_button {
+    border: 1px solid $black;
+    background-color: $danger-red;
+    color: $black;
+}
+
+#really_delete_button:hover {
+    color: $yellow;
+    border: 1px solid $yellow;
+}
+
+#cancel_button {
+    border: 1px solid $black;
+    background-color: $dartmouth-green;
+    color: $yellow;
+}
+
+#cancel_button:hover {
+    color: $very-light-gray;
+    border: 1px solid $very-light-gray;
+    background-color: $forest-green;
 }

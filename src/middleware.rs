@@ -117,7 +117,6 @@ async fn get_user_req_data_from_opt(
             Ok(auth::UserReqData::new(Some(claims)))
         },
         auth::JwtVerification::Expired(claims) => {
-            //println!("JWT expired. will check refresh token and generate new JWT");
             // JWT is expired but otherwise valid.
             // set an object in the req to send a new cookie
             /* 
@@ -128,9 +127,10 @@ async fn get_user_req_data_from_opt(
              * => ELSE
              * ====> set FLAG to make user log in again
             */
-            
+
             // Check the cookies for a refresh_token
-            let r_token_optn = req.cookie("refresh_token");
+            let r_token_optn: Option<actix_web::cookie::Cookie<'_>> =
+                req.cookie("refresh_token");
             if r_token_optn.is_none() { return Ok(guest_data); }
             let r_tkn_ckie: actix_web::cookie::Cookie<'_> = r_token_optn.unwrap();
 
@@ -167,7 +167,7 @@ async fn get_user_req_data_from_opt(
                     return Err(error::ErrorInternalServerError(e.to_string()));
                 }
 
-                let new_jwt = new_jwt_rslt.unwrap();
+                let new_jwt: String = new_jwt_rslt.unwrap();
                 req.extensions_mut().insert(NewJwtObj::new(new_jwt));
                 return Ok(auth::UserReqData::new(Some(claims)));
             } else {

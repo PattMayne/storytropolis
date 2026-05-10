@@ -944,4 +944,27 @@ blockquote {
   cursor: pointer;
 }
 
+#really_delete_button {
+  border: 1px solid #111;
+  background-color: #ee2c12;
+  color: #111;
+}
+
+#really_delete_button:hover {
+  color: #bdf000;
+  border: 1px solid #bdf000;
+}
+
+#cancel_button {
+  border: 1px solid #111;
+  background-color: #1A6025;
+  color: #bdf000;
+}
+
+#cancel_button:hover {
+  color: #f0f0f0;
+  border: 1px solid #f0f0f0;
+  background-color: #248232;
+}
+
 /*# sourceMappingURL=app.css.map */

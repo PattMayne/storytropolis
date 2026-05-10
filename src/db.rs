@@ -508,7 +508,7 @@ pub async fn get_refresh_token(
         OffsetDateTime::now_utc() + Duration::days(14); // TODO: put this in resources?
     let created_timestamp: OffsetDateTime = OffsetDateTime::now_utc();
 
-    let _result: sqlx::mysql::MySqlQueryResult = sqlx::query(
+    let result: sqlx::mysql::MySqlQueryResult = sqlx::query(
         "INSERT INTO refresh_tokens (
             user_id,
             token,
@@ -530,6 +530,8 @@ pub async fn get_refresh_token(
     })?;
 
     // Return the refresh_token, because now it's safe to use (saved to DB)
+    println!("Added refresh token id: {}", result.last_insert_id());
+    println!{"{}", refresh_token};
     Ok(refresh_token)
  }
 

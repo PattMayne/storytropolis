@@ -29,6 +29,7 @@ resend-rs = "0.21.1"
 actix-multipart = "0.7.2"
 futures-util = "0.3.32"
 comrak = "0.52"
+rss = "2.0.12"
 
 [dependencies.uuid]
 version = "1.23.1"

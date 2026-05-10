@@ -7,7 +7,7 @@
         <title>{{ texts.title }}</title>
         <link rel="icon" type="image/x-icon" href="/static/img/guy_icon.png">
         <link rel="stylesheet" href="/static/css/foundation.min.css">
-        <link rel="stylesheet" href="/static/css/app.css?id=59552rr555775">
+        <link rel="stylesheet" href="/static/css/app.css?id=22759">
     </head>
 
     <body>
@@ -59,7 +59,16 @@
 
                 <hr/><hr/>
 
-                <a class="button small red_button" id="delete_button">DELETE POST</a>
+                <a class="button small red_button" id="ask_delete_button">
+                    DELETE POST</a>
+
+                <div id="really_delete_panel" class="hidden">
+                    <a class="button small red_button" id="cancel_button">
+                        NO NO CANCEL CANCEL</a>
+                    <a class="button small red_button" id="really_delete_button">
+                        YES REALLY DELETE POST</a>
+                </div>
+
             </div>
 
             <input type="hidden" id="post_id" value="{{ post.id }}" />
@@ -72,7 +81,7 @@
         <script src="/static/js/vendor/what-input.js"></script>
         <script src="/static/js/vendor/foundation.min.js"></script>
         <script type="module" src="/static/js/app.js?id=7"></script>
-        <script type="module" src="/static/js/edit_post.js?id=7097"></script>
+        <script type="module" src="/static/js/edit_post.js?id=52009"></script>
     </body>
 
 </html>

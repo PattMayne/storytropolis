@@ -17,6 +17,10 @@
 */
 
 use futures_util::StreamExt;
+use time::{
+    format_description::FormatItem,
+    macros::format_description,
+    OffsetDateTime};
 use actix_multipart::Multipart;
 use actix_web::{
     HttpResponse, HttpRequest, web::Redirect, web,
@@ -24,7 +28,7 @@ use actix_web::{
 use actix_web::cookie::{ Cookie };
 use askama::Template;
 use serde::{ Deserialize, Serialize };
-use sqlx::{MySqlPool };
+use sqlx::{ MySqlPool };
 
 use crate::db::BlogPost;
 use crate::resource_mgr::{AgreementTexts, ImagesTexts, NewBookTexts};
@@ -41,6 +45,7 @@ use crate::{
      }
 };
 
+use rss::{ChannelBuilder, ItemBuilder, Item, Guid, Category };
 
 /* 
  * 
@@ -795,6 +800,70 @@ pub async fn get_bytes_from_field(mut field: actix_multipart::Field) -> Vec<u8> 
     }
     bytes
 }
+
+fn to_rfc2822(dt: OffsetDateTime) -> String {
+    let rfc2822: &[FormatItem<'_>] =
+        format_description!(
+            "[weekday repr:short], [day] [month repr:short] [year] [hour]:[minute]:[second] [offset_hour sign:mandatory][offset_minute]");
+    dt.format(&rfc2822).unwrap()
+}
+
+/**
+ * send in the list of posts,
+ */
+pub async fn get_rss_from_uposts(
+    req: &HttpRequest,
+    uposts: &Vec<db::UnifiedPost>
+) -> String {
+
+    // get base url
+    let connection_info: std::cell::Ref<'_, actix_web::dev::ConnectionInfo> =
+        req.connection_info();
+    let scheme: &str = connection_info.scheme();
+    let host: &str = connection_info.host();
+    let path: &str = "/post";
+    let base_url: String = format!("{}://{}{}", scheme, host, path);
+
+    // first build the items
+    let items: Vec<Item> = uposts.iter().map(|upost| {
+        let post: &BlogPost = &upost.post;
+        let categories: Vec<Category> = upost.categories.iter().map(|cat| {
+            Category {
+                name: cat.to_string(),
+                domain: None
+            }
+        }).collect();
+
+        let link: String = format!("{}/{}", base_url, upost.post.id);
+        let guid: Guid = Guid {
+            value: link.to_string(),
+            permalink: true
+        };
+
+        let pub_date: String = to_rfc2822(upost.post.created_timestamp);
+
+        ItemBuilder::default()
+            .title(Some(upost.post.title.to_string()))
+            .link(Some(link))
+            .guid(guid)
+            .pub_date(pub_date)
+            .content(post.get_body_as_html())
+            .categories(categories)
+            .author(post.author_name.to_string())
+            .build()
+    }).collect();
+
+    // Next build the channel
+    let channel: rss::Channel = ChannelBuilder::default()
+        .title("The Matt Payne Journal Feed")
+        .link(base_url.as_str())
+        .description("Latest posts from my blog")
+        .items(items)
+        .build();
+
+    channel.to_string()
+}
+
 
 /* 
  * 

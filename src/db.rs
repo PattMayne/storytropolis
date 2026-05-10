@@ -58,7 +58,7 @@ pub struct User {
     email_verified: i8 // actually a bool but mysql doesn't do "real" bools
 }
 
-
+#[derive(Clone)]
 #[derive(serde::Serialize)]
 pub struct BlogPost {
     pub id: i32,

@@ -51,6 +51,7 @@ async fn main() -> std::io::Result<()> {
             .wrap(from_fn(middleware::login_status_middleware))
             .service(routes::home)
             .service(routes::blog)
+            .service(routes::get_rss)
             .service(routes::view_post)
             .service(routes::dashboard_page)
             .service(routes::error_root)

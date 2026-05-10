@@ -898,11 +898,10 @@ pub async fn logout_post(
 
 
 #[get("/rss")]
-pub async fn rss(
+pub async fn get_rss(
     pool: web::Data<MySqlPool>,
     req: HttpRequest
 ) -> HttpResponse {
-    let user_req_data: auth::UserReqData = auth::get_user_req_data(&req);
 
     // get all non-pinned posts
     // create an rss xml
@@ -925,7 +924,11 @@ pub async fn rss(
         }
     };
 
-    send_to_login()
+    let xml: String = get_rss_from_uposts(&req, &uposts).await;
+
+    HttpResponse::Ok()
+        .content_type("application/rss+xml; charset=utf-8")
+        .body(xml)
 }
 
 

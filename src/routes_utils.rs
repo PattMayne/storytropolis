@@ -841,7 +841,7 @@ pub async fn get_rss_from_uposts(
     let host: &str = connection_info.host();
     let path: &str = "/post";
     let base_url: String = format!("{}://{}", scheme, host);
-    let base_post_url: String = format!("base_url{}", path);
+    let base_post_url: String = format!("{}{}",base_url, path);
 
     // first build the items
     let items: Vec<Item> = uposts.iter().map(|upost| {

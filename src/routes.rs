@@ -1142,7 +1142,7 @@ async fn home(
     let categories_html: String = match insert_categories_template.render() {
         Ok(html) => html,
         Err(e) => {
-            eprintln!("Error retrieving categories: {e}");
+            eprintln!("Error rendering categories: {e}");
             return return_error_page(&req, 404)
         }
     };

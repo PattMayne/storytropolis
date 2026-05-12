@@ -29,8 +29,8 @@ use futures_util::StreamExt;
 use std::fs;
 use std::io::Write;
 
-use crate::db::{UnifiedPost, get_active_categories,
-    get_categories_by_post_id, get_unified_post, get_unified_posts_from_posts};
+use crate::db::{ UnifiedPost, get_active_categories,
+    get_categories_by_post_id, get_unified_post };
 use crate::utils::vec_to_string;
 // local modules, loaded as crates (declared as mods in main.rs)
 use crate::{

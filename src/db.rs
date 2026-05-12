@@ -631,7 +631,6 @@ pub async fn create_primary_admin(pool: &MySqlPool) -> Result<bool, anyhow::Erro
 
     let count: i64 = count_option.unwrap_or(Count{count: 0}).count;
     if count > 0 {
-        println!("Admin already exists.");
         return Ok(false);
     }
 

@@ -22,7 +22,7 @@ use actix_web::{
 };
 use sqlx::{MySqlPool };
 
-use crate::{ auth, db, utils };
+use crate::{ auth, db };
 
 
 pub struct NewJwtObj {

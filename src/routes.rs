@@ -574,8 +574,30 @@ async fn img_upload_post(
 
         match name {
             "filename" => {
-                let bytes = get_bytes_from_field(field).await;
-                filename = Some(String::from_utf8(bytes).unwrap());
+                let bytes: Vec<u8> = get_bytes_from_field(field).await;
+                let string_result: Result<String, std::string::FromUtf8Error> =
+                    String::from_utf8(bytes);
+                let filename_string: String = match string_result {
+                    Ok(fns) => fns,
+                    Err(e) => {
+                        eprintln!("Error: {}", e);
+                        return HttpResponse::Ok().json(FileUploadSuccess {
+                            success: false,
+                            message: "Error extracting filename".to_string(),
+                            filename: None,
+                        })
+                    }
+                };
+
+                if filename_string == "" {
+                    return HttpResponse::Ok().json(FileUploadSuccess {
+                        success: false,
+                        message: "Please enter a filename".to_string(),
+                        filename: None,
+                    })
+                };
+
+                filename = Some(filename_string);
             }
             "img_upload" => {
                 // Get original extension

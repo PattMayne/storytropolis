@@ -602,19 +602,41 @@ async fn img_upload_post(
     // Now combine and save if both fields exist
     if let (Some(name), Some(bytes)) = (filename, file_bytes) {
 
-        let final_filename = if let Some(ext) = original_extension {
+        let final_filename: String = if let Some(ext) = original_extension {
             format!("{}.{}", name, ext)
         } else { name };
 
         let filepath: String = format!("./uploads/{}", final_filename);
-        let mut f: fs::File = fs::File::create(&filepath).unwrap();
-        f.write_all(&bytes).unwrap();
+        let file_result: Result<fs::File, std::io::Error> = fs::File::create(&filepath);
 
-        return HttpResponse::Ok().json(FileUploadSuccess {
-            success: true,
-            message: "File uploaded successfully".to_string(),
-            filename: Some(final_filename),
-        });
+        let mut file: fs::File = match file_result {
+            Ok(f) => f,
+            Err(e) => {
+                eprintln!("Error: {}", e);
+                return HttpResponse::Ok().json(FileUploadSuccess {
+                    success: false,
+                    message: "Error creating file".to_string(),
+                    filename: Some(final_filename),
+                })
+            }
+        };
+
+        match file.write_all(&bytes) {
+            Ok(_) => {
+                return HttpResponse::Ok().json(FileUploadSuccess {
+                    success: true,
+                    message: "File uploaded successfully".to_string(),
+                    filename: Some(final_filename),
+                })
+            }, Err(e) => {
+                eprintln!("Error: {}", e);
+                return HttpResponse::Ok().json(FileUploadSuccess {
+                    success: false,
+                    message: "Error writing file".to_string(),
+                    filename: Some(final_filename),
+                })
+            }
+        };
     }
 
     let failure_json: FileUploadSuccess = FileUploadSuccess {

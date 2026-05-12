@@ -51,7 +51,14 @@ const submit_data = async () => {
     .then(data => {
         // Handle the response data here
         console.log(data)
-        // redirect to the new book's page if successful, otherwise show error message
+        // redirect to the image page if successful, otherwise show error message
+        if (data.success) {
+            window.location = "/admin/view_images"
+        } else {
+            const err_msg = !!data.message ? data.message : "Unknown error"
+            msgs.push(err_msg)
+            show_msg_box()
+        }
     })
     .catch(error => {
         // Handle errors here

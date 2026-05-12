@@ -20,9 +20,10 @@
                 {{ pinned_post | safe }}
             </div>
 
-            {% if categories.len() > 0 %}
+            {% if categories_html != "" %}
             <div class="callout hide-for-small-only">
-                {% include "categories.html" %}
+                <h3>CATEGORIES</h3>
+                {{ categories_html | safe }}
             </div>
             {% endif %}
         </div>
@@ -42,9 +43,10 @@
                 {% endif %}
             </div>
 
-            {% if categories.len() > 0 %}
+            {% if categories_html != "" %}
             <div class="callout show-for-small-only">
-                {% include "categories.html" %}
+                <h3>CATEGORIES</h3>
+                {{ categories_html | safe }}
             </div>
             {% endif %}
         </div>

@@ -396,9 +396,15 @@ pub struct HomeTemplate {
     pub texts: HomeTexts,
     pub user: auth::UserReqData,
     pub uposts: Vec<db::UnifiedPost>,
-    pub categories: Vec<String>,
+    pub categories_html: String,
     pub pinned_post: String,
     pub nav_data: NavData,
+}
+
+#[derive(Template)]
+#[template(path ="insert_categories.html")]
+pub struct InsertCategoriesTemplate {
+    pub categories: Vec<String>,
 }
 
 

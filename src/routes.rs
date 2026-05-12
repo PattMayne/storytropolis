@@ -17,7 +17,7 @@
  */
 
 use actix_web::{
-    web, HttpResponse, HttpRequest, Error,
+    web, HttpResponse, HttpRequest,
     Responder, http::StatusCode, http::header,
     get, post, web::Redirect };
 use actix_web::cookie::{ Cookie };
@@ -39,11 +39,10 @@ use crate::{
     resource_mgr::{
         HomeTexts, LoginTexts, RegisterTexts, AdminTexts, VerifyTexts,
         AgreementTexts, BlogTexts, EditPostTexts, NewPostTexts, UploadTexts,
-        ErrorTexts, DashboardTexts, NewBookTexts, PostTexts, ImagesTexts,
+        ErrorTexts, DashboardTexts, NewBookTexts, PostTexts,
         ReqVerificationTexts, ErrorData
      },
-    routes_utils::{*},
-    email
+    routes_utils::{*}
 };
 
 
@@ -1136,8 +1135,20 @@ async fn home(
         }
     };
 
+    // get categories html so we can print it wherever needed
+    let insert_categories_template: InsertCategoriesTemplate = 
+        InsertCategoriesTemplate { categories };
+
+    let categories_html: String = match insert_categories_template.render() {
+        Ok(html) => html,
+        Err(e) => {
+            eprintln!("Error retrieving categories: {e}");
+            return return_error_page(&req, 404)
+        }
+    };
+
     let home_template: HomeTemplate = HomeTemplate {
-        texts, uposts, categories,
+        texts, uposts, categories_html,
         user: user_req_data,
         pinned_post,
         nav_data: NavData::new( "about".to_string() ),

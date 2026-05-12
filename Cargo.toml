@@ -9,7 +9,7 @@ actix-web = "4"
 jsonwebtoken = { version = "10.2.0", features = ["rust_crypto"] }
 sqlx = { version = "0.8.6", features = ["mysql", "runtime-tokio", "macros", "migrate", "time"] }
 tokio = {version = "1.47.2", features = ["full"]}
-askama = "0.14.0"
+askama = "0.16.0"
 actix-web-httpauth = "0.8.2"
 actix-files = "0.6.8"
 serde = "1.0.228"

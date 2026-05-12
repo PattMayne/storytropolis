@@ -21,7 +21,7 @@
             </div>
 
             {% if categories.len() > 0 %}
-            <div class="callout">
+            <div class="callout hide-for-small-only">
                 {% include "categories.html" %}
             </div>
             {% endif %}
@@ -41,6 +41,12 @@
                     [NONE]
                 {% endif %}
             </div>
+
+            {% if categories.len() > 0 %}
+            <div class="callout show-for-small-only">
+                {% include "categories.html" %}
+            </div>
+            {% endif %}
         </div>
 
     </div> <!-- end of grid-x -->

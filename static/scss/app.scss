@@ -900,6 +900,23 @@ blockquote {
     }
 }
 
+.article p img {
+    width: 200px;
+    max-width: 50%;
+    float: left;
+    margin-right: 7px;
+    margin-top: 4px;
+}
+
+.article p .p_img_right {
+    width: 200px;
+    max-width: 50%;
+    float: right;
+    margin-right: 0px;
+    margin-left: 7px;
+}
+
+
 .cats_box {
     width: auto;
     max-width: 500px;

@@ -377,8 +377,6 @@ async fn new_blog_post(
     // Trim the body string
     blog_post_data.trim_all_strings();
 
-    println!("Categories: {}", blog_post_data.categories);
-
     // Add the post to the database
     let post_succes_obj: BlogPostSuccess = match db::add_post(
         &pool,
@@ -739,9 +737,6 @@ pub async fn update_blog_post(
 
     // Trim the body string
     blog_post_data.trim_all_strings();
-
-
-    println!("Categories: {}", blog_post_data.categories);
 
     // Add the post to the database
     let post_succes_obj: BlogPostSuccess = match db::update_post(

@@ -5,6 +5,9 @@ use actix_files::Files;
 use dotenvy;
 use sqlx::{ MySqlPool };
 use std::io;
+use dashmap::DashMap;
+use std::sync::Arc;
+use std::net::IpAddr;
 
 // Local mods (they can use each other as crates instead of mods)
 mod routes;
@@ -16,6 +19,7 @@ mod resources;
 mod resource_mgr;
 mod routes_utils;
 mod email;
+
 
 
 /**
@@ -43,9 +47,13 @@ async fn main() -> std::io::Result<()> {
 
     db_first_entries(&pool).await;
 
+    // failed attempts to be stored in memory
+    let attempt_store: Arc<DashMap<IpAddr, auth::FailedAttempt>> = Arc::new(DashMap::new());
+
     HttpServer::new(move || {
         App::new()
             .app_data(web::Data::new(pool.clone()))
+            .app_data(web::Data::new(attempt_store.clone()))
             .service(Files::new("/static", "./static"))
             .service(Files::new("/uploads", "./uploads"))
             .wrap(from_fn(middleware::login_status_middleware))

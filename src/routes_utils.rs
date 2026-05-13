@@ -45,7 +45,7 @@ use crate::{
      }
 };
 
-use rss::{ChannelBuilder, ItemBuilder, Item, Guid, Category };
+use rss::{ ChannelBuilder, ItemBuilder, Item, Guid, Category };
 
 /* 
  * 

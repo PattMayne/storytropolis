@@ -29,6 +29,10 @@ use futures_util::StreamExt;
 use std::fs;
 use std::io::Write;
 
+use dashmap::DashMap;
+use std::net::IpAddr;
+use std::sync::Arc;
+
 use crate::db::{ UnifiedPost, get_active_categories,
     get_categories_by_post_id, get_unified_post };
 use crate::utils::vec_to_string;
@@ -300,8 +304,38 @@ async fn req_new_code(
 async fn login_post(
     pool: web::Data<MySqlPool>,
     req: HttpRequest,
-    info: web::Json<LoginCredentials>
+    info: web::Json<LoginCredentials>,
+    attempts: web::Data<auth::AttemptStore>
 ) -> HttpResponse {
+
+    let ip: IpAddr = match auth::get_ip(&req) {
+        Some(ip) => ip,
+        None => {
+            let error: String = "Cannot determine IP.".to_string();
+            return HttpResponse::BadRequest().json(
+                ErrorResponse {
+                error,
+                code: 401
+            });
+        }
+    };
+
+    // Check failed attempts
+    if let Some(entry) = attempts.get(&ip) {
+        let last_attempt:std::time::Duration = entry.last_attempt.elapsed();
+
+        if entry.count >= auth::MAX_ATTEMPTS &&
+            last_attempt < auth::LOCKOUT_DURATION
+        {
+            let error: String = "Too many failed attempts. Try again later.".to_string();
+            return HttpResponse::TooManyRequests().json(
+                ErrorResponse {
+                error,
+                code: 401
+            });
+        }
+    }
+
     let server_error: HttpResponse = get_server_error(&req).await;
 
     // Check for empty fields
@@ -333,7 +367,18 @@ async fn login_post(
             if auth::verify_password(&info.password, user.get_password_hash()) {
                 user
             } else {
-                // Auth clearly failed
+                // AUTH FAILED
+
+                // update map of failures per IP address (prevent brute-force password checks)
+                let now: std::time::Instant = std::time::Instant::now();
+                attempts
+                    .entry(ip)
+                    .and_modify(|entry: &mut auth::FailedAttempt| {
+                        entry.count += 1;
+                        entry.last_attempt = now;
+                    })
+                    .or_insert(auth::FailedAttempt { count: 1, last_attempt: now });
+
                 let code: u16 = 401;
                 let lang: &utils::SupportedLangs = &auth::get_user_req_data(&req).clone_lang();
                 let error: String = get_translation(
@@ -730,6 +775,7 @@ pub async fn update_blog_post(
     mut blog_post_data: web::Json<BlogPostUpdateData>
 ) -> HttpResponse {
     let user_req_data: auth::UserReqData = auth::get_user_req_data(&req);
+
     // check if they're admin
     if let Some(redirect_resp) = redirect_non_admin(&user_req_data, &req) {
         return redirect_resp;

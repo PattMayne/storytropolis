@@ -10,6 +10,10 @@ use argon2::{Argon2, PasswordHasher, PasswordVerifier};
 use rand_core::OsRng;
 use password_hash::{SaltString, PasswordHash};
 
+use dashmap::DashMap;
+use std::net::IpAddr;
+use std::sync::Arc;
+
 use crate::utils::{self, SupportedLangs};
 
 /* 
@@ -146,6 +150,40 @@ pub struct UserReqData {
     pub logged_in: bool,
     pub lang: utils::SupportedLangs,
     pub email_verified: bool,
+}
+
+
+/* 
+ * LLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
+ * LLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
+ * LLLLL                    LLLLL
+ * LLLLL  LOGIN PROTECTION  LLLLL
+ * LLLLL                    LLLLL
+ * LLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
+ * LLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
+ * 
+ *  To prevent brute-force password guessing
+ * 
+*/
+
+/* 
+ *  When somebody failed to login, we'll  store that attempt here,
+ * associated with their IP address in a dashmap
+*/
+pub struct FailedAttempt {
+    pub count: u32,
+    pub last_attempt: std::time::Instant,
+}
+
+// This is where we store the above failed attempt
+pub type AttemptStore = Arc<DashMap<IpAddr, FailedAttempt>>;
+
+// Thresholds
+pub const MAX_ATTEMPTS: u32 = 5;
+pub const LOCKOUT_DURATION: Duration = Duration::seconds(60 * 5); // 5 minutes
+
+pub fn get_ip(req: &HttpRequest) -> Option<IpAddr> {
+    req.peer_addr().map(|addr| addr.ip())
 }
 
 

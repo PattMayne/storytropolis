@@ -5,7 +5,10 @@ use askama::Template;
 
 use crate::{ db, auth };
 
-
+/*
+ * NOT USING THIS MODULE ANY TIME SOON
+ * BUT KEEPING IT IN CASE WE INCORPORATE USERS. 
+ */
 
 #[derive(Template)]
 #[template(path ="verification_email.html")]

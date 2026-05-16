@@ -366,9 +366,8 @@ async fn login_post(
             // Now check the input password against password from DB
             if auth::verify_password(&info.password, user.get_password_hash()) {
                 user
-            } else {
-                // AUTH FAILED
-
+            } else {    // AUTH FAILED
+                
                 // update map of failures per IP address (prevent brute-force password checks)
                 let now: std::time::Instant = std::time::Instant::now();
                 attempts

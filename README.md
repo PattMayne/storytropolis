@@ -1,5 +1,8 @@
 # STORYTROPOLIS
 
+Currently just a simply blog. This is serving as my personal blog at https://blog.pattmayne.com. Eventually I will expand it into what you see below.
+
+
 A blog that's also a webstore.
 Eventually with the ability to link to other similar sites.
 Not fully federated, just sharing RSS feeds of each others' books and articles.
@@ -7,12 +10,8 @@ Not fully federated, just sharing RSS feeds of each others' books and articles.
 ## TO DO
 
 
-- FIRST (and for the foreseeable future) this will just be a blog. I'll turn it into a web store later. That's why Rust is a good idea though: I know it will have the capacity for what I want later.
-
 ## NEAR-TERM (1.0)
 - Mailing list
-- Once moved to PROD, check that rss feed is validated by online validators:
-    - https://validator.w3.org/feed/
 
 ## LATER-TERM (2.0 and beyond)
 - Output posts as PDF or epub
@@ -24,6 +23,8 @@ Not fully federated, just sharing RSS feeds of each others' books and articles.
 - Readers can register and login
 - Readers can comment on things
 - Sell books and put paywall on some posts
+- Post-install setup pages
+- Connect/federate with similar sites.
 
 
 ACTUAL PLAN:
